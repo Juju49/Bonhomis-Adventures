@@ -13,8 +13,11 @@ public class Fenetre extends JFrame {
 		this.setVisible(true);
 		
 		afficheur = new Afficheur();
+		afficheur.start();
+		
 		this.setContentPane(afficheur);
 		this.pack();
 		this.setLocationRelativeTo(null);
+		this.setResizable(false);
 	}
 }
