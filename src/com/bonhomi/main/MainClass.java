@@ -9,5 +9,6 @@ public class MainClass {
 
 	public static void main(String[] args) {
 		Fenetre fenetre = new Fenetre();
+		System.out.println("CA MARCHE ?");
 	}
 }
