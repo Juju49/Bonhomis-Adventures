@@ -19,5 +19,6 @@ public class Fenetre extends JFrame {
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
+		//banane toto
 	}
 }
