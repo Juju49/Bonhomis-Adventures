@@ -1,11 +1,11 @@
-package com.bonhomi.game;
+package com.bonhomi.menu;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 
 import com.bonhomi.main.Loopable;
 
-public class GameManager implements Loopable {
+public class MainMenu implements Loopable {
 
 	private boolean initialized = false;
 	
@@ -28,7 +28,6 @@ public class GameManager implements Loopable {
 	@Override
 	public void terminate() {
 		initialized = false;
-		
 	}
 
 }

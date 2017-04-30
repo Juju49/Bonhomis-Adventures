@@ -8,22 +8,26 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import com.bonhomi.game.GameManager;
+import com.bonhomi.menu.MainMenu;
+import com.bonhomi.menu.PauseMenu;
 
 public class Afficheur extends JPanel implements Runnable {
 	
 	private Graphics2D graphics;
 	private boolean running = false;
 	private Thread thread;
-	private long frames = 0;
+	private float frames = 0;
 	
 	private GameManager gameManager;
+	private MainMenu mainMenu;
+	private PauseMenu pauseMenu;
 
 	public Afficheur()
 	{
 		this.setPreferredSize(new Dimension(Core.WIDTH, Core.HEIGHT));
 		this.setDoubleBuffered(true);
 		
-		gameManager = new GameManager();
+		mainMenu = new MainMenu();
 	}
 	
 	public synchronized void start()
@@ -35,22 +39,70 @@ public class Afficheur extends JPanel implements Runnable {
 		thread = new Thread(this);
 		thread.start();
 		
-		gameManager.init();
+
+		mainMenu.init();
 	}
 	
+	/**
+	 * Updates game according to states.
+	 * Fired at each frame, he updates his children too.
+	 */
 	public void update()
 	{
 		switch (Core.gameState)
 		{
 			case MENU:
+				//load mainMenu
+				if(mainMenu == null) {
+					mainMenu = new MainMenu();
+					mainMenu.init();
+					
+				//shuting game down entirely
+				} else if ((gameManager != null) || (pauseMenu != null)) {
+					gameManager.terminate();
+					pauseMenu.terminate();
+					gameManager = null;
+					pauseMenu = null;
+					
+				//update mainMenu
+				} else {
+					mainMenu.update();
+				}
+				break;
 				
+			case PAUSE:
+				/*can only be invoked from GAME state,
+				nothing must unload now.*/
+				if(pauseMenu == null) {
+					pauseMenu = new PauseMenu();
+					pauseMenu.init();
+					
+				} else {
+					pauseMenu.update();
+				}
 				break;
+				
 			case GAME:
-				gameManager.update();
+				/* closing mainMenu;
+				 * pauseMenu is not unloaded,
+				 * it might serve under short notice*/
+				if(mainMenu != null) {
+					mainMenu.terminate();
+					mainMenu = null;
+					
+				//start game
+				} else if(gameManager == null){
+					gameManager = new GameManager();
+					gameManager.init();
+					
+				//update game
+				} else {
+					gameManager.update();
+				}
 				break;
+				
 			default:
-				Core.out("ERREUR");
-				break;
+				throw new Error("invalid gameState");
 		}
 	}
 	
@@ -63,14 +115,22 @@ public class Afficheur extends JPanel implements Runnable {
 		switch (Core.gameState)
 		{
 			case MENU:
-				
+				mainMenu.draw(graphics);
+				break;
+			case PAUSE:
+				pauseMenu.draw(graphics);
 				break;
 			case GAME:
 				gameManager.draw(graphics);
 				break;
 			default:
-				Core.out("ERREUR");
-				break;
+				throw new Error("invalid gameState");
+		}
+		if(MainClass.getDebugLvl() > 0) {
+			
+		}
+		if(MainClass.getDisplayFps()) {
+			graphics.drawString(String.valueOf(frames), 4, 10);
 		}
 	}
 	
@@ -81,7 +141,9 @@ public class Afficheur extends JPanel implements Runnable {
 	
 	public void paintComponent(Graphics g)
 	{
+		super.paintComponent(g);
 		draw(g);
+		//Core.draw();
 	}
 
 	@Override
@@ -104,14 +166,13 @@ public class Afficheur extends JPanel implements Runnable {
 			
 			timeElapsed = (double) System.currentTimeMillis() - nowTime;
 			
-			System.out.printf("%.2f \n", 
-					(float) (1000 / (1000 / WANTED_FPS) - (timeElapsed)));
+			frames = (float) (1000 / (1000 / WANTED_FPS) - (timeElapsed));
 			
 			if ((1000 / WANTED_FPS) > (timeElapsed))
 			{
 				try {
 					Thread.sleep(
-							(long) ((1000 / WANTED_FPS) - (timeElapsed)));
+							(long) (frames * 1000));
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

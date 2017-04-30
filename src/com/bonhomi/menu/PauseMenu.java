@@ -1,12 +1,12 @@
-package com.bonhomi.game;
+package com.bonhomi.menu;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 
 import com.bonhomi.main.Loopable;
 
-public class GameManager implements Loopable {
-
+public class PauseMenu implements Loopable {
+	
 	private boolean initialized = false;
 	
 	@Override
@@ -17,7 +17,6 @@ public class GameManager implements Loopable {
 	@Override
 	public void update() {
 		if(!initialized) return;
-		
 	}
 
 	@Override
@@ -28,7 +27,5 @@ public class GameManager implements Loopable {
 	@Override
 	public void terminate() {
 		initialized = false;
-		
 	}
-
 }

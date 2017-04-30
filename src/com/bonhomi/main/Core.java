@@ -1,24 +1,51 @@
 package com.bonhomi.main;
 
+//import javax.swing.text.JTextComponent;
+
 public class Core 
 {
 	public static double deltaTime = 0d;
-	public static GameState gameState = GameState.GAME;
+	public static GameState gameState = GameState.MENU;
+	
+	//private static JTextComponent debugTextBlock;
+	
 	public static final int WIDTH = 1024;
 	public static final int HEIGHT = 576;
+
 	
 	public enum GameState
 	{
 		MENU,
-		GAME
+		GAME,
+		PAUSE
 	}
 	
-	public static void out(Object o)
+	/*private static JTextComponent getDebugTextBlock()
+	 {
+		if(debugTextBlock == null) {
+			//debugTextBlock = new JTextComponent();
+		}
+		return debugTextBlock;
+	 }*/
+	
+	public static void out(Object... o)
 	{
 		System.out.println(o);
 	}
-	private static void debugPrint(Object[] printed )
+	
+	/**
+	 * Prints output following severity settings.
+	 * 
+	 * 
+	 * @param severity int specifies priority of the message 0=info; 1=warning; 2=error.
+	 */
+	public static void debugPrint(int severity, Object... printed )
 	{
-		System.out.printf("");
-	};
+		if(severity >= MainClass.getDebugLvl()) {
+			
+		System.out.printf("", printed);
+		}
+	}
+	
+	
 }

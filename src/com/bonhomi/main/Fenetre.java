@@ -2,9 +2,12 @@ package com.bonhomi.main;
 
 import javax.swing.JFrame;
 
+import com.bonhomi.sounds.SoundSystemMaster;
+
 public class Fenetre extends JFrame {
 	
 	private Afficheur afficheur;
+	private SoundSystemMaster soundSystem;
 	
 	public Fenetre()
 	{
@@ -19,6 +22,18 @@ public class Fenetre extends JFrame {
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
-		//banane toto
+		
+		if(MainClass.getHasSound()) {
+			soundSystem = new SoundSystemMaster();
+			soundSystem.start();
+		}
+	}
+	
+	public SoundSystemMaster getSoundSystem() {
+		return soundSystem;
+	}
+	
+	public Afficheur getAfficheur() {
+		return afficheur;
 	}
 }
