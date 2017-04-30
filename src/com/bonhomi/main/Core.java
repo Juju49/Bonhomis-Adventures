@@ -6,6 +6,7 @@ public class Core
 	public static GameState gameState = GameState.GAME;
 	public static final int WIDTH = 1024;
 	public static final int HEIGHT = 576;
+	public static final double WANTED_FPS = 60d;
 	
 	public enum GameState
 	{
