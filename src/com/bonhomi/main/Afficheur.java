@@ -14,6 +14,8 @@ import javax.swing.JPanel;
 import javax.xml.crypto.dsig.keyinfo.KeyInfo;
 
 import com.bonhomi.game.GameManager;
+import com.bonhomi.menu.MainMenu;
+import com.bonhomi.menu.PauseMenu;
 
 /**
  * Cette classe gère l'affichage et 
@@ -24,11 +26,17 @@ public class Afficheur extends JPanel implements Runnable
 	private Graphics2D graphics;
 	private boolean running = false;
 	private Thread thread;
+<<<<<<< HEAD
 	private long frames = 0;
 	private Timer keyTimer;
+=======
+	private float frames = 0;
+>>>>>>> refs/heads/juju-br
 	
 	// "écrans" à charger
 	private GameManager gameManager;
+	private MainMenu mainMenu;
+	private PauseMenu pauseMenu;
 
 	// Constructeur
 	public Afficheur()
@@ -36,7 +44,7 @@ public class Afficheur extends JPanel implements Runnable
 		this.setPreferredSize(new Dimension(Core.WIDTH, Core.HEIGHT));
 		this.setDoubleBuffered(true);
 		
-		gameManager = new GameManager();
+		mainMenu = new MainMenu();
 	}
 	
 	// Lancement du thread
@@ -49,23 +57,74 @@ public class Afficheur extends JPanel implements Runnable
 		thread = new Thread(this);
 		thread.start();
 		
-		gameManager.init();
+
+		mainMenu.init();
 	}
 	
+<<<<<<< HEAD
 	// Mise à jour
+=======
+	/**
+	 * Updates game according to states.
+	 * Fired at each frame, he updates his children too.
+	 */
+>>>>>>> refs/heads/juju-br
 	public void update()
 	{
 		switch (Core.gameState)
 		{
 			case MENU:
+				//load mainMenu
+				if(mainMenu == null) {
+					mainMenu = new MainMenu();
+					mainMenu.init();
+					
+				//shuting game down entirely
+				} else if ((gameManager != null) || (pauseMenu != null)) {
+					gameManager.terminate();
+					pauseMenu.terminate();
+					gameManager = null;
+					pauseMenu = null;
+					
+				//update mainMenu
+				} else {
+					mainMenu.update();
+				}
+				break;
 				
+			case PAUSE:
+				/*can only be invoked from GAME state,
+				nothing must unload now.*/
+				if(pauseMenu == null) {
+					pauseMenu = new PauseMenu();
+					pauseMenu.init();
+					
+				} else {
+					pauseMenu.update();
+				}
 				break;
+				
 			case GAME:
-				gameManager.update();
+				/* closing mainMenu;
+				 * pauseMenu is not unloaded,
+				 * it might serve under short notice*/
+				if(mainMenu != null) {
+					mainMenu.terminate();
+					mainMenu = null;
+					
+				//start game
+				} else if(gameManager == null){
+					gameManager = new GameManager();
+					gameManager.init();
+					
+				//update game
+				} else {
+					gameManager.update();
+				}
 				break;
+				
 			default:
-				Core.out("ERREUR");
-				break;
+				throw new Error("invalid gameState");
 		}
 	}
 	
@@ -79,14 +138,23 @@ public class Afficheur extends JPanel implements Runnable
 		switch (Core.gameState)
 		{
 			case MENU:
-				
+				mainMenu.draw(graphics);
+				break;
+			case PAUSE:
+				pauseMenu.draw(graphics);
 				break;
 			case GAME:
 				gameManager.draw(graphics);
 				break;
 			default:
-				Core.out("ERREUR");
-				break;
+				throw new Error("invalid gameState");
+		}
+		if(MainClass.getDebugLvl() > 0) {
+			
+		}
+		if(MainClass.getDisplayFps()) {
+			graphics.setColor(Color.green);
+			graphics.drawString(String.valueOf(frames), 4, 10);
 		}
 	}
 	
@@ -99,7 +167,9 @@ public class Afficheur extends JPanel implements Runnable
 	// Permet de "dessiner" sur le JPanel
 	public void paintComponent(Graphics g)
 	{
+		super.paintComponent(g);
 		draw(g);
+		//Core.draw();
 	}
 
 	// Boucle de jeu
@@ -124,14 +194,22 @@ public class Afficheur extends JPanel implements Runnable
 			
 			timeElapsed = (double) System.currentTimeMillis() - nowTime;
 			
+<<<<<<< HEAD
 			// System.out.printf("%.2f \n", 
 			// (float) (1000 / (1000 / Core.WANTED_FPS) - (timeElapsed)));
+=======
+			frames = (float) (1000 / (1000 / WANTED_FPS) - (timeElapsed));
+>>>>>>> refs/heads/juju-br
 			
 			if ((1000 / Core.WANTED_FPS) > (timeElapsed))
 			{
 				try {
 					Thread.sleep(
+<<<<<<< HEAD
 							(long) ((1000 / Core.WANTED_FPS) - (timeElapsed)));
+=======
+							(long) (frames * 1000));
+>>>>>>> refs/heads/juju-br
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
