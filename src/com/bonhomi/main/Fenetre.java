@@ -35,6 +35,7 @@ public class Fenetre extends JFrame
 		
 		afficheur = new Afficheur();
 		afficheur.start();
+		afficheur.setIgnoreRepaint(true);
 		
 		setContentPane(afficheur);
 		pack();

@@ -36,8 +36,8 @@ public class Afficheur extends JPanel implements Runnable
 	// Constructeur
 	public Afficheur()
 	{
-		this.setPreferredSize(new Dimension(Core.WIDTH, Core.HEIGHT));
-		this.setDoubleBuffered(true);
+		setPreferredSize(new Dimension(Core.WIDTH, Core.HEIGHT));
+		setDoubleBuffered(true);
 		
 		mainMenu = new MainMenu();
 	}
@@ -145,7 +145,7 @@ public class Afficheur extends JPanel implements Runnable
 		if(MainClass.getDisplayFps()) {
 			graphics.setColor(Color.blue);
 			graphics.drawString("FPS  : " + String.valueOf(frames), 4, 10);
-			graphics.drawString("Keys : [" + InputManager.getKeySetasString() + "]", 4, 20);
+			graphics.drawString(("Keys : [" + InputManager.getKeySetasString() + "]"), 4, 20);
 		}
 	}
 	
@@ -191,7 +191,7 @@ public class Afficheur extends JPanel implements Runnable
 			{
 				try {
 					Thread.sleep(
-							(long) (frames * 1000));
+							(long) (frames));
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

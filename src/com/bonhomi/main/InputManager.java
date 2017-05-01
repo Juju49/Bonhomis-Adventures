@@ -17,8 +17,10 @@ public class InputManager implements KeyListener
 			str.append("; ");
 			
 		}
-		System.out.println(str.length());
-		return str.toString();
+		
+		String final_s = str.toString();
+		System.out.println(final_s);
+		return final_s;
 	}
 	
 	public static boolean isKeyDown(int k)
