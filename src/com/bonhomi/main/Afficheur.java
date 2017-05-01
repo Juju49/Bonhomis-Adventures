@@ -18,7 +18,7 @@ import com.bonhomi.menu.MainMenu;
 import com.bonhomi.menu.PauseMenu;
 
 /**
- * Cette classe gère l'affichage et 
+ * Cette classe gï¿½re l'affichage et 
  * la boucle de jeu
  */
 public class Afficheur extends JPanel implements Runnable 
@@ -26,14 +26,9 @@ public class Afficheur extends JPanel implements Runnable
 	private Graphics2D graphics;
 	private boolean running = false;
 	private Thread thread;
-<<<<<<< HEAD
-	private long frames = 0;
-	private Timer keyTimer;
-=======
 	private float frames = 0;
->>>>>>> refs/heads/juju-br
 	
-	// "écrans" à charger
+	// "ï¿½crans" ï¿½ charger
 	private GameManager gameManager;
 	private MainMenu mainMenu;
 	private PauseMenu pauseMenu;
@@ -61,14 +56,11 @@ public class Afficheur extends JPanel implements Runnable
 		mainMenu.init();
 	}
 	
-<<<<<<< HEAD
-	// Mise à jour
-=======
+
 	/**
 	 * Updates game according to states.
 	 * Fired at each frame, he updates his children too.
 	 */
->>>>>>> refs/heads/juju-br
 	public void update()
 	{
 		switch (Core.gameState)
@@ -188,93 +180,23 @@ public class Afficheur extends JPanel implements Runnable
 			Core.deltaTime = nowTime - lastTime;
 			lastTime = nowTime;
 			
-			// Mise à jour + affichage
+			// Mise ï¿½ jour + affichage
 			update();
 			this.repaint();
 			
 			timeElapsed = (double) System.currentTimeMillis() - nowTime;
 			
-<<<<<<< HEAD
-			// System.out.printf("%.2f \n", 
-			// (float) (1000 / (1000 / Core.WANTED_FPS) - (timeElapsed)));
-=======
-			frames = (float) (1000 / (1000 / WANTED_FPS) - (timeElapsed));
->>>>>>> refs/heads/juju-br
+			frames = (float) (1000 / (1000 / Core.WANTED_FPS) - (timeElapsed));
 			
 			if ((1000 / Core.WANTED_FPS) > (timeElapsed))
 			{
 				try {
 					Thread.sleep(
-<<<<<<< HEAD
-							(long) ((1000 / Core.WANTED_FPS) - (timeElapsed)));
-=======
 							(long) (frames * 1000));
->>>>>>> refs/heads/juju-br
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
 		}
-	}
-	
-	// Touche enfoncée
-	public void keyIsDown(KeyEvent e)
-	{
-		switch (Core.gameState)
-		{
-			case MENU:
-				
-				break;
-			case GAME:
-				gameManager.keyIsDown(e);
-				break;
-			default:
-				Core.out("ERREUR");
-				break;
-		}
-	}
-	
-	// Touche relâchée
-	public void keyIsUp(KeyEvent e)
-	{
-		switch (Core.gameState)
-		{
-			case MENU:
-				
-				break;
-			case GAME:
-				gameManager.keyIsUp(e);
-				break;
-			default:
-				Core.out("ERREUR");
-				break;
-		}
-	}
-	
-	// 
-	public void keyPressed(KeyEvent e)
-	{
-		if (keyTimer == null)
-		{
-			keyTimer = new Timer();
-			keyTimer.scheduleAtFixedRate(new TimerTask() 
-			{
-				@Override
-				public void run() 
-				{
-					keyIsDown(e);
-				}
-			}, 0, (long) (1000 / Core.WANTED_FPS));
-		}
-	}
-	
-	public void keyReleased(KeyEvent e)
-	{
-		Core.out(e);
-		if (keyTimer != null)
-			keyTimer.cancel();
-		
-		keyTimer = null;
-		keyIsUp(e);
 	}
 }

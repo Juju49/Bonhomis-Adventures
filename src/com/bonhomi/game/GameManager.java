@@ -11,44 +11,25 @@ import com.bonhomi.main.Dessin;
 >>>>>>> refs/heads/juju-br
 import com.bonhomi.main.Loopable;
 
-<<<<<<< HEAD
+
 /**
- * Cette classe gère le jeu en lui même, le joueur,
+ * Cette classe gere le jeu en lui meme, le joueur,
  * les enemis, les niveaux...
  */
-public class GameManager implements Loopable 
-{
-	// Constructeur
-	public GameManager()
-	{
-		
-	}
-	
-	// Initialisation
-=======
 public class GameManager implements Loopable {
 
 	private boolean initialized = false;
 	
->>>>>>> refs/heads/juju-br
-	@Override
-<<<<<<< HEAD
-	public void init() 
+	// Constructeur
+	public GameManager()
 	{
-		
-=======
+		this.init();
+	}
+	
+	
+	@Override
 	public void init() {
 		initialized = true;
->>>>>>> refs/heads/juju-br
-	}
-
-	// Mise à jour
-	@Override
-<<<<<<< HEAD
-	public void update() 
-	{
-		if (InputManager.isKeyDown('e') && InputManager.isKeyDown('a'))
-			Core.out("EEEEEEEEE");
 	}
 
 	// Affichage
@@ -58,21 +39,26 @@ public class GameManager implements Loopable {
 		Dessin.clear(g, Color.white);
 	}
 
-	// Touche enfoncée
+	// Touche enfoncee
 	@Override
 	public void keyIsDown(KeyEvent e) 
 	{
 		
-=======
+	}
+		
+	/**
+	 * mise a jour.
+	 */
 	public void update() {
 		if(!initialized) {
-			Core.debugPrint(2, "Class Updated before Init!");
-			assert false;
+			throw new IllegalStateException("Class Updated before Init!");
 		}
->>>>>>> refs/heads/juju-br
+		if (InputManager.isKeyDown('e') && InputManager.isKeyDown('a'))
+			Core.out("EEEEEEEEE");
+		
 	}
 
-	// Touche relâchée
+	// Touche relï¿½chï¿½e
 	@Override
 	public void keyIsUp(KeyEvent e) 
 	{

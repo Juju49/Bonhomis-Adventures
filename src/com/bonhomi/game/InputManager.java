@@ -9,37 +9,37 @@ public class InputManager implements KeyListener
 {
 	public static Set<Character> keysDown = new HashSet<Character>();
 	
+	
+	
 	public static boolean isKeyDown(char k)
 	{
-		if (keysDown.contains(k))
-			return true;
-		
-		return false;
+		return keysDown.contains(k);
 	}
+	
 	
 	public static boolean isKeyUp(char k)
 	{
-		if (!isKeyDown(k))
-			return true;
-		
-		return false;
+		return (!isKeyDown(k));
 	}
 
+	
 	@Override
 	public void keyPressed(KeyEvent e) 
 	{
 		keysDown.add(e.getKeyChar());
 	}
-
+	
+	
 	@Override
 	public void keyReleased(KeyEvent e) 
 	{
 		keysDown.remove(e.getKeyChar());
 	}
-
+	
+	
 	@Override
 	public void keyTyped(KeyEvent e) 
 	{
-		// Non utilisé
+		// Non utilise
 	}
 }

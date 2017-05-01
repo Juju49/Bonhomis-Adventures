@@ -2,6 +2,7 @@ package com.bonhomi.menu;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 
 import com.bonhomi.main.Loopable;
 
@@ -27,5 +28,17 @@ public class PauseMenu implements Loopable {
 	@Override
 	public void terminate() {
 		initialized = false;
+	}
+
+	@Override
+	public void keyIsDown(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyIsUp(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

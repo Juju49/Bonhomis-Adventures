@@ -1,19 +1,13 @@
 package com.bonhomi.main;
 
-<<<<<<< HEAD
+//import javax.swing.text.JTextComponent;
+
 /**
- * Cette classe possède des fonctions
+ * Cette classe possï¿½de des fonctions
  * et variables statiques utilisable
  * dans l'ensemble des fichiers
  */
-public class Core 
-=======
-import java.io.PrintStream;
-
-//import javax.swing.text.JTextComponent;
-
 public final class Core 
->>>>>>> refs/heads/juju-br
 {
 	public static double deltaTime = 0d;
 	public static GameState gameState = GameState.MENU;
@@ -23,11 +17,8 @@ public final class Core
 	
 	public static final int WIDTH = 1024;
 	public static final int HEIGHT = 576;
-<<<<<<< HEAD
 	public static final double WANTED_FPS = 60d;
-=======
 
->>>>>>> refs/heads/juju-br
 	
 	public enum GameState
 	{

@@ -1,17 +1,6 @@
 package com.bonhomi.main;
 
-import java.awt.Dimension;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 public class MainClass {
-<<<<<<< HEAD
-
-	// Fonction main, début du programme
-	public static void main(String[] args) {
-		// Création de la fenetre
-=======
 	
 	private static int debug_lvl = 2;
 	private static boolean has_sound = true;
@@ -32,7 +21,6 @@ public class MainClass {
 	public static void main(String... args) {
 		parseCmdArgs(args);
 		Core.gameState = Core.gameState.MENU;
->>>>>>> refs/heads/juju-br
 		Fenetre fenetre = new Fenetre();
 	}
 	
