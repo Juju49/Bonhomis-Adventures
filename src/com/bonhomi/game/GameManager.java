@@ -5,10 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
 import com.bonhomi.main.Core;
-<<<<<<< HEAD
 import com.bonhomi.main.Dessin;
-=======
->>>>>>> refs/heads/juju-br
 import com.bonhomi.main.Loopable;
 
 
