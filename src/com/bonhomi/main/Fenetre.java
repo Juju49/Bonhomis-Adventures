@@ -25,8 +25,8 @@ public class Fenetre extends JFrame
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
-		
-		this.addWindowListener(new WindowAdapter() 
+    
+    this.addWindowListener(new WindowAdapter() 
 		{
 			public void windowOpened(WindowEvent e) 
 			{ 
@@ -36,5 +36,5 @@ public class Fenetre extends JFrame
 		
 		inputManager = new InputManager();
 		this.addKeyListener(inputManager);
-	}
+  }
 }
