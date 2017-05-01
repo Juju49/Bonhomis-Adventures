@@ -1,10 +1,16 @@
 package com.bonhomi.main;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.JFrame;
 
-public class Fenetre extends JFrame {
-	
+import com.bonhomi.game.InputManager;
+
+public class Fenetre extends JFrame
+{
 	private Afficheur afficheur;
+	private InputManager inputManager;
 	
 	public Fenetre()
 	{
@@ -19,6 +25,16 @@ public class Fenetre extends JFrame {
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
-		//banane toto
-	}
+    
+    this.addWindowListener(new WindowAdapter() 
+		{
+			public void windowOpened(WindowEvent e) 
+			{ 
+				requestFocus();	
+			}
+		});
+		
+		inputManager = new InputManager();
+		this.addKeyListener(inputManager);
+  }
 }

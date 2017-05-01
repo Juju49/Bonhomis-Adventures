@@ -1,11 +1,17 @@
 package com.bonhomi.main;
 
+/**
+ * Cette classe possède des fonctions
+ * et variables statiques utilisable
+ * dans l'ensemble des fichiers
+ */
 public class Core 
 {
 	public static double deltaTime = 0d;
 	public static GameState gameState = GameState.GAME;
 	public static final int WIDTH = 1024;
 	public static final int HEIGHT = 576;
+	public static final double WANTED_FPS = 60d;
 	
 	public enum GameState
 	{
