@@ -3,6 +3,7 @@ package com.bonhomi.game;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import com.bonhomi.main.Core;
 import com.bonhomi.main.Loopable;
 
 public class GameManager implements Loopable {
@@ -16,8 +17,10 @@ public class GameManager implements Loopable {
 
 	@Override
 	public void update() {
-		if(!initialized) return;
-		
+		if(!initialized) {
+			Core.debugPrint(2, "Class Updated before Init!");
+			assert false;
+		}
 	}
 
 	@Override

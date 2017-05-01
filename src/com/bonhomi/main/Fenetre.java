@@ -1,5 +1,6 @@
 package com.bonhomi.main;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import com.bonhomi.sounds.SoundSystemMaster;
@@ -13,6 +14,8 @@ public class Fenetre extends JFrame {
 	{
 		this.setTitle("Bonhomi's Adventure");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		ImageIcon img = new ImageIcon("/src/Sprites/Icons/winIcon.png");//this.Class.getResource("winIcon.png"));//
+		this.setIconImage(img.getImage());
 		this.setVisible(true);
 		
 		afficheur = new Afficheur();

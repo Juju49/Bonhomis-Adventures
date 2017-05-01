@@ -130,6 +130,7 @@ public class Afficheur extends JPanel implements Runnable {
 			
 		}
 		if(MainClass.getDisplayFps()) {
+			graphics.setColor(Color.green);
 			graphics.drawString(String.valueOf(frames), 4, 10);
 		}
 	}

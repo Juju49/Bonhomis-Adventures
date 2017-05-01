@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 public class MainClass {
 	
-	private static int debug_lvl = 0;
+	private static int debug_lvl = 2;
 	private static boolean has_sound = true;
 	private static boolean display_fps = false;
 	
@@ -47,7 +47,7 @@ public class MainClass {
 					boolean assertsEnabled = false;
 					assert assertsEnabled = true;
 					if (!assertsEnabled) {
-							throw new RuntimeException("Asserts must be enabled!!!");
+							throw new RuntimeException("Asserts must be enabled in debug mode!!!");
 					}
 					break;
 					

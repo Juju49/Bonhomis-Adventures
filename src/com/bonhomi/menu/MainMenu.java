@@ -23,6 +23,7 @@ public class MainMenu implements Loopable {
 	@Override
 	public void draw(Graphics2D g) {
 		g.setColor(Color.black);
+		//g.drawImage(img, 0, 0, observer);
 	}
 
 	@Override

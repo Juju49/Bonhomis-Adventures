@@ -1,11 +1,14 @@
 package com.bonhomi.main;
 
+import java.io.PrintStream;
+
 //import javax.swing.text.JTextComponent;
 
-public class Core 
+public final class Core 
 {
 	public static double deltaTime = 0d;
 	public static GameState gameState = GameState.MENU;
+	
 	
 	//private static JTextComponent debugTextBlock;
 	
@@ -42,8 +45,7 @@ public class Core
 	public static void debugPrint(int severity, Object... printed )
 	{
 		if(severity >= MainClass.getDebugLvl()) {
-			
-		System.out.printf("", printed);
+			System.out.println(printed);
 		}
 	}
 	
