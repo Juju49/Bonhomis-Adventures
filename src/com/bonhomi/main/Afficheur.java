@@ -15,17 +15,22 @@ import javax.xml.crypto.dsig.keyinfo.KeyInfo;
 
 import com.bonhomi.game.GameManager;
 
+/**
+ * Cette classe gère l'affichage et 
+ * la boucle de jeu
+ */
 public class Afficheur extends JPanel implements Runnable 
 {
-	
 	private Graphics2D graphics;
 	private boolean running = false;
 	private Thread thread;
 	private long frames = 0;
 	private Timer keyTimer;
 	
+	// "écrans" à charger
 	private GameManager gameManager;
 
+	// Constructeur
 	public Afficheur()
 	{
 		this.setPreferredSize(new Dimension(Core.WIDTH, Core.HEIGHT));
@@ -34,6 +39,7 @@ public class Afficheur extends JPanel implements Runnable
 		gameManager = new GameManager();
 	}
 	
+	// Lancement du thread
 	public synchronized void start()
 	{
 		if (running)
@@ -46,6 +52,7 @@ public class Afficheur extends JPanel implements Runnable
 		gameManager.init();
 	}
 	
+	// Mise à jour
 	public void update()
 	{
 		switch (Core.gameState)
@@ -62,6 +69,7 @@ public class Afficheur extends JPanel implements Runnable
 		}
 	}
 	
+	// Affichage
 	public void draw(Graphics g)
 	{
 		graphics = (Graphics2D) g;
@@ -82,19 +90,23 @@ public class Afficheur extends JPanel implements Runnable
 		}
 	}
 	
+	// Retourne le graphics2D (pour l'affichage)
 	public Graphics2D getGraphics()
 	{
 		return graphics;
 	}
 	
+	// Permet de "dessiner" sur le JPanel
 	public void paintComponent(Graphics g)
 	{
 		draw(g);
 	}
 
+	// Boucle de jeu
 	@Override
 	public void run() 
 	{
+		// Variable de temps
 		double lastTime = (double) System.currentTimeMillis();
 		double nowTime = (double) System.currentTimeMillis();
 		double timeElapsed = 0d;
@@ -106,6 +118,7 @@ public class Afficheur extends JPanel implements Runnable
 			Core.deltaTime = nowTime - lastTime;
 			lastTime = nowTime;
 			
+			// Mise à jour + affichage
 			update();
 			this.repaint();
 			
@@ -126,6 +139,7 @@ public class Afficheur extends JPanel implements Runnable
 		}
 	}
 	
+	// Touche enfoncée
 	public void keyIsDown(KeyEvent e)
 	{
 		switch (Core.gameState)
@@ -142,6 +156,7 @@ public class Afficheur extends JPanel implements Runnable
 		}
 	}
 	
+	// Touche relâchée
 	public void keyIsUp(KeyEvent e)
 	{
 		switch (Core.gameState)
@@ -158,6 +173,7 @@ public class Afficheur extends JPanel implements Runnable
 		}
 	}
 	
+	// 
 	public void keyPressed(KeyEvent e)
 	{
 		if (keyTimer == null)
@@ -170,12 +186,13 @@ public class Afficheur extends JPanel implements Runnable
 				{
 					keyIsDown(e);
 				}
-			}, 0, (long) (1000 / Core.WANTED_FPS) / 2);
+			}, 0, (long) (1000 / Core.WANTED_FPS));
 		}
 	}
 	
 	public void keyReleased(KeyEvent e)
 	{
+		Core.out(e);
 		if (keyTimer != null)
 			keyTimer.cancel();
 		

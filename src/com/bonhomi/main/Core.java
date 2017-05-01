@@ -1,5 +1,10 @@
 package com.bonhomi.main;
 
+/**
+ * Cette classe possède des fonctions
+ * et variables statiques utilisable
+ * dans l'ensemble des fichiers
+ */
 public class Core 
 {
 	public static double deltaTime = 0d;

@@ -1,9 +1,7 @@
-package com.bonhomi.game;
+package com.bonhomi.main;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-
-import com.bonhomi.main.Core;
 
 public class Dessin 
 {
