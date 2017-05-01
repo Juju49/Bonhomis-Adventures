@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 
 import com.bonhomi.main.Core;
 import com.bonhomi.main.Dessin;
+import com.bonhomi.main.InputManager;
 import com.bonhomi.main.Loopable;
 
 
@@ -36,29 +37,14 @@ public class GameManager implements Loopable {
 		Dessin.clear(g, Color.white);
 	}
 
-	// Touche enfoncee
-	@Override
-	public void keyIsDown(KeyEvent e) 
-	{
-		
-	}
-		
 	/**
 	 * mise a jour.
 	 */
 	public void update() {
-		if(!initialized) {
-			throw new IllegalStateException("Class Updated before Init!");
-		}
+		if(!initialized) throw new IllegalStateException("Class Updated before Init!");
+		
 		if (InputManager.isKeyDown('e') && InputManager.isKeyDown('a'))
 			Core.out("EEEEEEEEE");
-		
-	}
-
-	// Touche rel�ch�e
-	@Override
-	public void keyIsUp(KeyEvent e) 
-	{
 		
 	}
 

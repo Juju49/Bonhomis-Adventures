@@ -124,9 +124,7 @@ public class Afficheur extends JPanel implements Runnable
 	public void draw(Graphics g)
 	{
 		graphics = (Graphics2D) g;
-		graphics.setColor(Color.white);
-		graphics.fillRect(0, 0, this.getWidth(), this.getHeight());
-		
+		System.out.println("Draw call");
 		switch (Core.gameState)
 		{
 			case MENU:
@@ -141,12 +139,13 @@ public class Afficheur extends JPanel implements Runnable
 			default:
 				throw new Error("invalid gameState");
 		}
-		if(MainClass.getDebugLvl() > 0) {
+		if(MainClass.getDebugLvl() < 3) {
 			
 		}
 		if(MainClass.getDisplayFps()) {
-			graphics.setColor(Color.green);
-			graphics.drawString(String.valueOf(frames), 4, 10);
+			graphics.setColor(Color.blue);
+			graphics.drawString("FPS  : " + String.valueOf(frames), 4, 10);
+			graphics.drawString("Keys : [" + InputManager.getKeySetasString() + "]", 4, 20);
 		}
 	}
 	
@@ -161,7 +160,6 @@ public class Afficheur extends JPanel implements Runnable
 	{
 		super.paintComponent(g);
 		draw(g);
-		//Core.draw();
 	}
 
 	// Boucle de jeu
@@ -180,9 +178,10 @@ public class Afficheur extends JPanel implements Runnable
 			Core.deltaTime = nowTime - lastTime;
 			lastTime = nowTime;
 			
-			// Mise � jour + affichage
+			// Mise a jour + affichage
 			update();
-			this.repaint();
+			repaint();
+			System.out.println("Clock tick");
 			
 			timeElapsed = (double) System.currentTimeMillis() - nowTime;
 			

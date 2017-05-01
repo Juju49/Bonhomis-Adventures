@@ -17,7 +17,7 @@ public class MainMenu implements Loopable {
 
 	@Override
 	public void update() {
-		if(!initialized) return;
+		if(!initialized) throw new IllegalStateException("Class Updated before Init!");
 		
 	}
 
@@ -31,17 +31,4 @@ public class MainMenu implements Loopable {
 	public void terminate() {
 		initialized = false;
 	}
-
-	@Override
-	public void keyIsDown(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyIsUp(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

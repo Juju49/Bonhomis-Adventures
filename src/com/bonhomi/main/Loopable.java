@@ -31,7 +31,4 @@ public interface Loopable
 	 */
 	public void terminate();
 
-	public void keyIsDown(KeyEvent e);
-	public void keyIsUp(KeyEvent e);
-
 }

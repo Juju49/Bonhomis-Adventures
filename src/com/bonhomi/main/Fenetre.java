@@ -1,13 +1,12 @@
 package com.bonhomi.main;
 
+import java.awt.KeyboardFocusManager;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import com.bonhomi.sounds.SoundSystemMaster;
-
-import com.bonhomi.game.InputManager;
 
 public class Fenetre extends JFrame
 {
@@ -17,30 +16,34 @@ public class Fenetre extends JFrame
 	
 	public Fenetre()
 	{
-		this.setTitle("Bonhomi's Adventure");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		ImageIcon img = new ImageIcon("/src/Sprites/Icons/winIcon.png");//this.Class.getResource("winIcon.png"));//
-		this.setIconImage(img.getImage());
-		this.setVisible(true);
+		setTitle("Bonhomi's Adventure");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setVisible(true);
+		setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
+		
+	    addWindowListener(new WindowAdapter() 
+		{	
+	    	public void windowOpened(WindowEvent e) 
+			{ 
+				requestFocus();
+			}
+		});
+
+	    inputManager = new InputManager();
+		addKeyListener(inputManager);	
 		
 		afficheur = new Afficheur();
 		afficheur.start();
 		
-		this.setContentPane(afficheur);
-		this.pack();
-		this.setLocationRelativeTo(null);
-		this.setResizable(false);
+		setContentPane(afficheur);
+		pack();
+		ImageIcon img = new ImageIcon("src/Sprites/Icons/winIcon.png");
+		setIconImage(img.getImage());
+		setLocationRelativeTo(null);
+		setResizable(false);
 
-	    this.addWindowListener(new WindowAdapter() 
-		{	
-	    	public void windowOpened(WindowEvent e) 
-			{ 
-				requestFocus();	
-			}
-		});
-		
-		inputManager = new InputManager();
-		this.addKeyListener(inputManager);
+
 
 		if(MainClass.getHasSound()) {
 			soundSystem = new SoundSystemMaster();
