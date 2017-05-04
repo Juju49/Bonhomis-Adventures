@@ -10,7 +10,7 @@ package com.bonhomi.main;
 public final class Core 
 {
 	public static double deltaTime = 0d;
-	public static GameState gameState = GameState.MENU;
+	public static GameState gameState = GameState.GAME;
 	
 	
 	//private static JTextComponent debugTextBlock;

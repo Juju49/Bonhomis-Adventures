@@ -1,25 +1,45 @@
 package com.bonhomi.main;
 
+import java.awt.MouseInfo;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.HashSet;
 import java.util.Set;
 
-public class InputManager implements KeyListener
+public class InputManager implements KeyListener, MouseListener, MouseMotionListener
 {
 	protected static Set<Integer> keysDown = new HashSet<Integer>();
+	protected static boolean leftClicked, rightClicked;
+	
+	public static int mouseX, mouseY;
     
-	static String getKeySetasString(){
+	public static String getMouseSetAsString(){
 		StringBuilder str = new StringBuilder();
+		str.append("Mouse: RC ");
+		str.append(String.valueOf(rightClicked));
+		str.append(" ; LC ");
+		str.append(String.valueOf(leftClicked));
+		str.append(" ;x ");
+		str.append(String.valueOf(mouseX));
+		str.append(" :y ");
+		
+		String final_s = str.toString();
+		return final_s;
+	}
+	
+	public static String getKeySetAsString(){
+		StringBuilder str = new StringBuilder();
+		
 		for(int key : new HashSet<Integer>(keysDown)){
 			
 			str.append(KeyEvent.getKeyText(key));
 			str.append("; ");
-			
 		}
 		
 		String final_s = str.toString();
-		System.out.println(final_s);
 		return final_s;
 	}
 	
@@ -28,19 +48,26 @@ public class InputManager implements KeyListener
 		return keysDown.contains(k);
 	}
 	
-	
 	public static boolean isKeyUp(int k)
 	{
 		return (!isKeyDown(k));
 	}
+	
+	public static boolean mouseLeftCliked()
+	{
+		return leftClicked;
+	}
 
+	public static boolean mouseRightCliked()
+	{
+		return rightClicked;
+	}
 	
 	@Override
 	public void keyPressed(KeyEvent e) 
 	{
 		keysDown.add(e.getKeyCode());
 	}
-	
 	
 	@Override
 	public void keyReleased(KeyEvent e) 
@@ -53,5 +80,62 @@ public class InputManager implements KeyListener
 	public void keyTyped(KeyEvent e) 
 	{
 		// Non utilise
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) 
+	{
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) 
+	{
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) 
+	{
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) 
+	{
+		if (e.getButton() == MouseEvent.BUTTON1)
+		{
+			leftClicked = true;
+		}
+		else if (e.getButton() == MouseEvent.BUTTON3)
+		{
+			rightClicked = true;
+		}
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) 
+	{
+		if (e.getButton() == MouseEvent.BUTTON1)
+		{
+			leftClicked = false;
+		}
+		else if (e.getButton() == MouseEvent.BUTTON3)
+		{
+			rightClicked = false;
+		}
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) 
+	{
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) 
+	{
+		mouseX = e.getX();
+		mouseY = e.getY();
 	}
 }

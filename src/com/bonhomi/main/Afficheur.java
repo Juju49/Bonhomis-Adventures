@@ -32,6 +32,10 @@ public class Afficheur extends JPanel implements Runnable
 	private GameManager gameManager;
 	private MainMenu mainMenu;
 	private PauseMenu pauseMenu;
+	
+	private InputManager inputManager;
+	private String debug_keys;
+	private String debug_mouse;
 
 	// Constructeur
 	public Afficheur()
@@ -39,7 +43,8 @@ public class Afficheur extends JPanel implements Runnable
 		setPreferredSize(new Dimension(Core.WIDTH, Core.HEIGHT));
 		setDoubleBuffered(true);
 		
-		mainMenu = new MainMenu();
+		//inputManager = new InputManager();
+		//addMouseMotionListener(inputManager);
 	}
 	
 	// Lancement du thread
@@ -51,9 +56,6 @@ public class Afficheur extends JPanel implements Runnable
 		running = true;
 		thread = new Thread(this);
 		thread.start();
-		
-
-		mainMenu.init();
 	}
 	
 
@@ -66,20 +68,22 @@ public class Afficheur extends JPanel implements Runnable
 		switch (Core.gameState)
 		{
 			case MENU:
-				//load mainMenu
-				if(mainMenu == null) {
+				// Chargement mainMenu
+				if(mainMenu == null) 
+				{
 					mainMenu = new MainMenu();
 					mainMenu.init();
-					
-				//shuting game down entirely
-				} else if ((gameManager != null) || (pauseMenu != null)) {
+				} 
+				else if ((gameManager != null) || (pauseMenu != null)) 
+				{
 					gameManager.terminate();
 					pauseMenu.terminate();
 					gameManager = null;
 					pauseMenu = null;
-					
-				//update mainMenu
-				} else {
+				}
+				// Update mainMenu
+				else 
+				{
 					mainMenu.update();
 				}
 				break;
@@ -100,17 +104,18 @@ public class Afficheur extends JPanel implements Runnable
 				/* closing mainMenu;
 				 * pauseMenu is not unloaded,
 				 * it might serve under short notice*/
-				if(mainMenu != null) {
+				if(mainMenu != null) 
+				{
 					mainMenu.terminate();
 					mainMenu = null;
-					
-				//start game
-				} else if(gameManager == null){
+				} 
+				else if(gameManager == null)
+				{
 					gameManager = new GameManager();
 					gameManager.init();
-					
-				//update game
-				} else {
+				} 
+				else 
+				{
 					gameManager.update();
 				}
 				break;
@@ -118,13 +123,17 @@ public class Afficheur extends JPanel implements Runnable
 			default:
 				throw new Error("invalid gameState");
 		}
+		if(MainClass.getDisplayFps()) 
+		{
+			debug_keys = InputManager.getKeySetAsString();
+			debug_mouse = InputManager.getMouseSetAsString();
+		}
 	}
 	
 	// Affichage
 	public void draw(Graphics g)
 	{
 		graphics = (Graphics2D) g;
-		System.out.println("Draw call");
 		switch (Core.gameState)
 		{
 			case MENU:
@@ -144,8 +153,9 @@ public class Afficheur extends JPanel implements Runnable
 		}
 		if(MainClass.getDisplayFps()) {
 			graphics.setColor(Color.blue);
-			graphics.drawString("FPS  : " + String.valueOf(frames), 4, 10);
-			graphics.drawString(("Keys : [" + InputManager.getKeySetasString() + "]"), 4, 20);
+			graphics.drawString("FPS  : " + String.valueOf(1000/frames), 4, 10);
+			graphics.drawString(("Keys : [" + debug_keys + "]"), 4, 20);
+			graphics.drawString(("Mouse : [" + debug_mouse + "]"), 4, 30);
 		}
 	}
 	
@@ -181,11 +191,12 @@ public class Afficheur extends JPanel implements Runnable
 			// Mise a jour + affichage
 			update();
 			repaint();
-			System.out.println("Clock tick");
 			
 			timeElapsed = (double) System.currentTimeMillis() - nowTime;
 			
-			frames = (float) (1000 / (1000 / Core.WANTED_FPS) - (timeElapsed));
+			frames = 
+					(float) ((float) (1000 / Core.WANTED_FPS) - 
+							(timeElapsed));
 			
 			if ((1000 / Core.WANTED_FPS) > (timeElapsed))
 			{

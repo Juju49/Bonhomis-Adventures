@@ -32,10 +32,12 @@ public class Fenetre extends JFrame
 
 	    inputManager = new InputManager();
 		addKeyListener(inputManager);	
+		addMouseListener(inputManager);
 		
 		afficheur = new Afficheur();
 		afficheur.start();
 		afficheur.setIgnoreRepaint(true);
+		afficheur.addMouseMotionListener(inputManager);
 		
 		setContentPane(afficheur);
 		pack();
@@ -43,8 +45,6 @@ public class Fenetre extends JFrame
 		setIconImage(img.getImage());
 		setLocationRelativeTo(null);
 		setResizable(false);
-
-
 
 		if(MainClass.getHasSound()) {
 			soundSystem = new SoundSystemMaster();

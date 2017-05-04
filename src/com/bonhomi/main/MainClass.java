@@ -1,5 +1,7 @@
 package com.bonhomi.main;
 
+import com.bonhomi.main.Core.GameState;
+
 public class MainClass {
 	
 	private static int debug_lvl = 2;
@@ -20,7 +22,7 @@ public class MainClass {
 	
 	public static void main(String... args) {
 		parseCmdArgs(args);
-		Core.gameState = Core.gameState.MENU;
+		Core.gameState = GameState.GAME;
 		Fenetre fenetre = new Fenetre();
 	}
 	

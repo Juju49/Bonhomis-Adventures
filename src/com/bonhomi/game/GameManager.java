@@ -41,10 +41,13 @@ public class GameManager implements Loopable {
 	 * mise a jour.
 	 */
 	public void update() {
-		if(!initialized) throw new IllegalStateException("Class Updated before Init!");
+		if(!initialized) 
+			throw new IllegalStateException("Class Updated before Init!");
 		
-		if (InputManager.isKeyDown('e') && InputManager.isKeyDown('a'))
-			Core.out("EEEEEEEEE");
+		if (InputManager.mouseLeftCliked())
+			System.out.println("G");
+		if (InputManager.mouseRightCliked())
+			System.out.println("D");
 		
 	}
 
