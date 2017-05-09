@@ -19,8 +19,8 @@ public class Fenetre extends JFrame
 		setTitle("Bonhomi's Adventure");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-		setFocusable(true);
         setFocusTraversalKeysEnabled(false);
+        setFocusable(true);
 		
 	    addWindowListener(new WindowAdapter() 
 		{	
@@ -31,13 +31,14 @@ public class Fenetre extends JFrame
 		});
 
 	    inputManager = new InputManager();
-		addKeyListener(inputManager);	
-		addMouseListener(inputManager);
+	    addKeyListener(inputManager);	
 		
 		afficheur = new Afficheur();
 		afficheur.start();
 		afficheur.setIgnoreRepaint(true);
+		afficheur.setFocusable(true);
 		afficheur.addMouseMotionListener(inputManager);
+		afficheur.addMouseListener(inputManager);
 		
 		setContentPane(afficheur);
 		pack();

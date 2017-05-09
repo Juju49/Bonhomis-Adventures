@@ -26,7 +26,8 @@ public class GameManager implements Loopable {
 	
 	
 	@Override
-	public void init() {
+	public void init() 
+	{
 		initialized = true;
 	}
 
@@ -40,15 +41,14 @@ public class GameManager implements Loopable {
 	/**
 	 * mise a jour.
 	 */
-	public void update() {
+	public void update() 
+	{
 		if(!initialized) 
 			throw new IllegalStateException("Class Updated before Init!");
-		
+		if (InputManager.isKeyDown(KeyEvent.VK_A))
+			System.out.println("BLBLBLBL");
 		if (InputManager.mouseLeftCliked())
-			System.out.println("G");
-		if (InputManager.mouseRightCliked())
-			System.out.println("D");
-		
+			System.out.println("RERERERERE");
 	}
 
 	@Override

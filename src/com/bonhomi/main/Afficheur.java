@@ -18,7 +18,7 @@ import com.bonhomi.menu.MainMenu;
 import com.bonhomi.menu.PauseMenu;
 
 /**
- * Cette classe g�re l'affichage et 
+ * Cette classe gere l'affichage et 
  * la boucle de jeu
  */
 public class Afficheur extends JPanel implements Runnable 
@@ -42,9 +42,6 @@ public class Afficheur extends JPanel implements Runnable
 	{
 		setPreferredSize(new Dimension(Core.WIDTH, Core.HEIGHT));
 		setDoubleBuffered(true);
-		
-		//inputManager = new InputManager();
-		//addMouseMotionListener(inputManager);
 	}
 	
 	// Lancement du thread
@@ -148,21 +145,10 @@ public class Afficheur extends JPanel implements Runnable
 			default:
 				throw new Error("invalid gameState");
 		}
-		if(MainClass.getDebugLvl() < 3) {
+		if(MainClass.getDebugLvl() < 3) 
+		{
 			
 		}
-		if(MainClass.getDisplayFps()) {
-			graphics.setColor(Color.blue);
-			graphics.drawString("FPS  : " + String.valueOf(1000/frames), 4, 10);
-			graphics.drawString(("Keys : [" + debug_keys + "]"), 4, 20);
-			graphics.drawString(("Mouse : [" + debug_mouse + "]"), 4, 30);
-		}
-	}
-	
-	// Retourne le graphics2D (pour l'affichage)
-	public Graphics2D getGraphics()
-	{
-		return graphics;
 	}
 	
 	// Permet de "dessiner" sur le JPanel
@@ -170,6 +156,14 @@ public class Afficheur extends JPanel implements Runnable
 	{
 		super.paintComponent(g);
 		draw(g);
+		
+		if(MainClass.getDisplayFps()) 
+		{
+			g.setColor(Color.blue);
+			g.drawString("FPS  : " + String.valueOf(1000/frames), 4, 10);
+			g.drawString(("Keys : [" + debug_keys + "]"), 4, 20);
+			g.drawString(("Mouse : [" + debug_mouse + "]"), 4, 30);
+		}
 	}
 
 	// Boucle de jeu
@@ -200,10 +194,12 @@ public class Afficheur extends JPanel implements Runnable
 			
 			if ((1000 / Core.WANTED_FPS) > (timeElapsed))
 			{
-				try {
-					Thread.sleep(
-							(long) (frames));
-				} catch (InterruptedException e) {
+				try 
+				{
+					Thread.sleep((long) (frames));
+				} 
+				catch (InterruptedException e) 
+				{
 					e.printStackTrace();
 				}
 			}

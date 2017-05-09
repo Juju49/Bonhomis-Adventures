@@ -18,13 +18,14 @@ public class InputManager implements KeyListener, MouseListener, MouseMotionList
     
 	public static String getMouseSetAsString(){
 		StringBuilder str = new StringBuilder();
-		str.append("Mouse: RC ");
-		str.append(String.valueOf(rightClicked));
-		str.append(" ; LC ");
+		str.append("Mouse: LC ");
 		str.append(String.valueOf(leftClicked));
-		str.append(" ;x ");
+		str.append(" ; RC ");
+		str.append(String.valueOf(rightClicked));
+		str.append(" ; x : ");
 		str.append(String.valueOf(mouseX));
-		str.append(" :y ");
+		str.append(" ; y : ");
+		str.append(String.valueOf(mouseY));
 		
 		String final_s = str.toString();
 		return final_s;
@@ -36,7 +37,7 @@ public class InputManager implements KeyListener, MouseListener, MouseMotionList
 		for(int key : new HashSet<Integer>(keysDown)){
 			
 			str.append(KeyEvent.getKeyText(key));
-			str.append("; ");
+			str.append(" ; ");
 		}
 		
 		String final_s = str.toString();
