@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 
@@ -13,17 +14,26 @@ public class Animation
 	protected String spritePath;
 	protected String name;
 	protected boolean animated;
+	protected boolean repeat;
 	protected long delay;
 	
 	protected ArrayList<BufferedImage> images;
+	protected int actualIndex;
 	protected Timer animationTimer;
 	
-	public Animation(String spritePath, String name, boolean animated, long delay)
+	public Animation(
+			String spritePath, 
+			String name, 
+			boolean animated, 
+			boolean repeat,
+			long delay)
 	{
 		this.spritePath = spritePath;
 		this.name = name;
 		this.animated = animated;
+		this.repeat = repeat;
 		this.delay = delay;
+		this.actualIndex = 0;
 		
 		images = new ArrayList<BufferedImage>();
 		animationTimer = new Timer();
@@ -69,17 +79,40 @@ public class Animation
 	
 	public void start()
 	{
-		
+		if (animated == true)
+		{
+			animationTimer = new Timer();
+			
+			actualIndex = 0;
+			
+			animationTimer.scheduleAtFixedRate(
+				new TimerTask() 
+				{
+					@Override
+					public void run() 
+					{
+						actualIndex++;
+						if (actualIndex > images.size() - 1)
+						{
+							actualIndex = 0;
+							if (repeat == false)
+								stop();
+						}
+					}
+				}, 0, this.delay
+			);
+		}
 	}
 	
 	public void stop()
 	{
-		
+		animationTimer.cancel();
+		animationTimer = null;
 	}
 	
-	public void reset()
+	public BufferedImage getActualImage()
 	{
-		
+		return images.get(actualIndex);
 	}
 	
 	protected ArrayList<String> searchAnimation(
