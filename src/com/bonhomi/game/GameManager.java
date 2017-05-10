@@ -21,7 +21,7 @@ public class GameManager implements Loopable {
 	// Constructeur
 	public GameManager()
 	{
-		this.init();
+		init();
 	}
 	
 	
@@ -35,7 +35,8 @@ public class GameManager implements Loopable {
 	@Override
 	public void draw(Graphics2D g) 
 	{
-		Dessin.clear(g, Color.white);
+		//inutile, déjà nettoyé par le paintComponent de Afficheur.
+		//Dessin.clear(g, Color.white);
 	}
 
 	/**
@@ -45,6 +46,7 @@ public class GameManager implements Loopable {
 	{
 		if(!initialized) 
 			throw new IllegalStateException("Class Updated before Init!");
+		
 		if (InputManager.isKeyDown(KeyEvent.VK_A))
 			System.out.println("BLBLBLBL");
 		if (InputManager.mouseLeftCliked())

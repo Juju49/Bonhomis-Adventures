@@ -4,38 +4,56 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 
-public class Animation 
+public class SpriteLoader 
 {
 	protected String spritePath;
 	protected String name;
 	protected boolean animated;
-	protected boolean repeat;
 	protected long delay;
 	
 	protected ArrayList<BufferedImage> images;
-	protected int actualIndex;
 	protected Timer animationTimer;
 	
-	public Animation(
-			String spritePath, 
-			String name, 
-			boolean animated, 
-			boolean repeat,
-			long delay)
+	/**
+	 * Constructeur pour le chargement d'images.
+	 * 
+	 * 
+	 * @param spritePath  String: Chemin du dossier ou se trouve le dessin.
+	 * @param name        String: Nom de l'imaga sans extension.
+	 * @param animated    boolean: L'image contient d'autres frame?
+	 * @param delay       long: temps en ms entre chaque frame.
+	 */
+	public SpriteLoader(String spritePath, String name, boolean animated, long delay)
 	{
 		this.spritePath = spritePath;
 		this.name = name;
 		this.animated = animated;
-		this.repeat = repeat;
 		this.delay = delay;
-		this.actualIndex = 0;
 		
-		images = new ArrayList<BufferedImage>();
+		animationTimer = new Timer();
+		
+		load();
+	}
+	
+	/**
+	 * Constructeur pour le chargement d'images.
+	 * 
+	 * 
+	 * @param spritePath  String: Chemin du dossier ou se trouve le dessin.
+	 * @param name        String: Nom de l'imaga sans extension.
+	 */
+	public SpriteLoader(String spritePath, String name)
+	{
+		this.spritePath = spritePath;
+		this.name = name;
+		this.animated = false;
+		this.delay = 1;
+		
 		animationTimer = new Timer();
 		
 		load();
@@ -48,12 +66,14 @@ public class Animation
 			ArrayList<String> files = 
 					searchAnimation(name, this.findFiles(spritePath));
 			
-			for (int i = 0; i < files.size(); i++)
+			images = new ArrayList<BufferedImage>(files.size());
+			
+			for (String file: files)
 			{
 				BufferedImage img = null;
 				try 
 				{
-					img = ImageIO.read(new File(files.get(i)));
+					img = ImageIO.read(new File(file));
 				} 
 				catch (IOException e) 
 				{
@@ -79,40 +99,17 @@ public class Animation
 	
 	public void start()
 	{
-		if (animated == true)
-		{
-			animationTimer = new Timer();
-			
-			actualIndex = 0;
-			
-			animationTimer.scheduleAtFixedRate(
-				new TimerTask() 
-				{
-					@Override
-					public void run() 
-					{
-						actualIndex++;
-						if (actualIndex > images.size() - 1)
-						{
-							actualIndex = 0;
-							if (repeat == false)
-								stop();
-						}
-					}
-				}, 0, this.delay
-			);
-		}
+		
 	}
 	
 	public void stop()
 	{
-		animationTimer.cancel();
-		animationTimer = null;
+		
 	}
 	
-	public BufferedImage getActualImage()
+	public void reset()
 	{
-		return images.get(actualIndex);
+		
 	}
 	
 	protected ArrayList<String> searchAnimation(
@@ -121,15 +118,15 @@ public class Animation
 	{
 		ArrayList<String> newFiles = new ArrayList<String>();
 		
-		for (int i = 0; i < files.size(); i++)
+		for (String file: files)
 		{
-			String actualFile = files.get(i);
+			String actualFile = file;
 			String[] tab1 = actualFile.split(".");
 			actualFile = tab1[0];
 			String[] tab2 = actualFile.split("_");
 			if (tab2[0].equals(aName))
 			{
-				newFiles.add(spritePath + files.get(i));
+				newFiles.add(spritePath + file);
 			}
 		}
 		
@@ -159,9 +156,9 @@ public class Animation
 		else
 		{
 			File[] subFiles = directory.listFiles();
-			for(int i = 0 ; i < subFiles.length; i++)
+			for(File sub_file : subFiles)
 			{
-				filesName.add(subFiles[i].getName());
+				filesName.add(sub_file.getName());
 			}
 		}
 		

@@ -10,6 +10,11 @@ public class PauseMenu implements Loopable {
 	
 	private boolean initialized = false;
 	
+	public PauseMenu()
+	{
+		init();
+	}
+	
 	@Override
 	public void init() {
 		initialized = true;
