@@ -45,7 +45,10 @@ public class MainMenu implements Loopable {
 
 	@Override
 	public void draw(Graphics2D g) {
+		g.setColor(Color.MAGENTA);
+		g.fillRect(60, 100, 100, 50);
 		mainImg.draw(g);
+		g.fillRect(200, 300, 80, 80);
 	}
 
 	@Override

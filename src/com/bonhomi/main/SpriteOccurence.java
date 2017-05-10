@@ -1,5 +1,7 @@
 package com.bonhomi.main;
 
+import java.awt.AlphaComposite;
+import java.awt.Composite;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
@@ -112,25 +114,28 @@ public class SpriteOccurence
 	{
 		this.g = g;
 	}
-	
-	public void draw() throws Exception
-	{
-		if (g == null) throw new Exception("Pas de contexte de dessin pour le Sprite");
-		g.drawImage(image, transf, null);
-	}
-	
+
 	public void draw(Graphics2D g)
 	{
+		//fait des trous la ou l'image est transparente:
+		Composite comp = 
+				AlphaComposite.getInstance(AlphaComposite.SRC_OVER);
+		
+		//permet de recuperer la composition initiale:
+		Composite restore_composite = g.getComposite();
+		
+		g.setComposite(comp);
+		/*on dessine avec la nouvelle coposition 
+		avant de remettre celle par defaut */
 		g.drawImage(image, transf, null);
+		g.setComposite(restore_composite);
 	}
 	
 	public void main(String... args)
 	{
-		try {
-			draw();
-		} catch (Exception e) {
-			Core.out("no graphics!");
-			e.printStackTrace();
-		}
+		if (g == null) 
+			throw new Error("Pas de contexte de dessin pour le Sprite");
+		draw(g);
+	
 	}
 }
