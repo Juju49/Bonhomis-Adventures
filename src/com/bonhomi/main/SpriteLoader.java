@@ -4,11 +4,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Timer;
 
 import javax.imageio.ImageIO;
 
-public class Animation 
+public class SpriteLoader 
 {
 	protected String spritePath;
 	protected String name;
@@ -18,14 +19,41 @@ public class Animation
 	protected ArrayList<BufferedImage> images;
 	protected Timer animationTimer;
 	
-	public Animation(String spritePath, String name, boolean animated, long delay)
+	/**
+	 * Constructeur pour le chargement d'images.
+	 * 
+	 * 
+	 * @param spritePath  String: Chemin du dossier ou se trouve le dessin.
+	 * @param name        String: Nom de l'imaga sans extension.
+	 * @param animated    boolean: L'image contient d'autres frame?
+	 * @param delay       long: temps en ms entre chaque frame.
+	 */
+	public SpriteLoader(String spritePath, String name, boolean animated, long delay)
 	{
 		this.spritePath = spritePath;
 		this.name = name;
 		this.animated = animated;
 		this.delay = delay;
 		
-		images = new ArrayList<BufferedImage>();
+		animationTimer = new Timer();
+		
+		load();
+	}
+	
+	/**
+	 * Constructeur pour le chargement d'images.
+	 * 
+	 * 
+	 * @param spritePath  String: Chemin du dossier ou se trouve le dessin.
+	 * @param name        String: Nom de l'imaga sans extension.
+	 */
+	public SpriteLoader(String spritePath, String name)
+	{
+		this.spritePath = spritePath;
+		this.name = name;
+		this.animated = false;
+		this.delay = 1;
+		
 		animationTimer = new Timer();
 		
 		load();
@@ -38,12 +66,14 @@ public class Animation
 			ArrayList<String> files = 
 					searchAnimation(name, this.findFiles(spritePath));
 			
-			for (int i = 0; i < files.size(); i++)
+			images = new ArrayList<BufferedImage>(files.size());
+			
+			for (String file: files)
 			{
 				BufferedImage img = null;
 				try 
 				{
-					img = ImageIO.read(new File(files.get(i)));
+					img = ImageIO.read(new File(file));
 				} 
 				catch (IOException e) 
 				{
@@ -88,15 +118,15 @@ public class Animation
 	{
 		ArrayList<String> newFiles = new ArrayList<String>();
 		
-		for (int i = 0; i < files.size(); i++)
+		for (String file: files)
 		{
-			String actualFile = files.get(i);
+			String actualFile = file;
 			String[] tab1 = actualFile.split(".");
 			actualFile = tab1[0];
 			String[] tab2 = actualFile.split("_");
 			if (tab2[0].equals(aName))
 			{
-				newFiles.add(spritePath + files.get(i));
+				newFiles.add(spritePath + file);
 			}
 		}
 		
@@ -115,20 +145,20 @@ public class Animation
 		if (!directory.exists())
 		{
 			System.out.println(
-					"Le fichier/répertoire '" + directoryPath + "' n'existe pas");
+					"Le fichier/repertoire '" + directoryPath + "' n'existe pas");
 		}
 		else if (!directory.isDirectory())
 		{
 			System.out.println(
 					"Le chemin '" + directoryPath + 
-					"' correspond à un fichier et non à un répertoire");
+					"' correspond a un fichier et non a un repertoire");
 		}
 		else
 		{
 			File[] subFiles = directory.listFiles();
-			for(int i = 0 ; i < subFiles.length; i++)
+			for(File sub_file : subFiles)
 			{
-				filesName.add(subFiles[i].getName());
+				filesName.add(sub_file.getName());
 			}
 		}
 		

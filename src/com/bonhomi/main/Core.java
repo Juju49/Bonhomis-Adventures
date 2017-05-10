@@ -37,7 +37,7 @@ public final class Core
 	
 	public static void out(Object... o)
 	{
-		System.out.println(o);
+		System.out.println(o.toString());
 	}
 	
 	/**
@@ -49,7 +49,7 @@ public final class Core
 	public static void debugPrint(int severity, Object... printed )
 	{
 		if(severity >= MainClass.getDebugLvl()) {
-			System.out.println(printed);
+			System.out.println(printed.toString());
 		}
 	}
 	

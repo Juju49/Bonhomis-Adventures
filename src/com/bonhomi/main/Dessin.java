@@ -11,6 +11,11 @@ public class Dessin
 		g.fillRect(x, y, width, height);
 	}
 	
+	/**
+	 * fonction inutile qui dessine un gros rectangle sur un ecran propre...
+	 * @param g      Graphics2D utilise pour l'afficheur
+	 * @param color  Color      du background...
+	 */
 	public static void clear(Graphics2D g, Color color)
 	{
 		g.setColor(color);

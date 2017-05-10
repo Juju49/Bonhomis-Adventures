@@ -69,7 +69,6 @@ public class Afficheur extends JPanel implements Runnable
 				if(mainMenu == null) 
 				{
 					mainMenu = new MainMenu();
-					mainMenu.init();
 				} 
 				else if ((gameManager != null) || (pauseMenu != null)) 
 				{
@@ -90,7 +89,6 @@ public class Afficheur extends JPanel implements Runnable
 				nothing must unload now.*/
 				if(pauseMenu == null) {
 					pauseMenu = new PauseMenu();
-					pauseMenu.init();
 					
 				} else {
 					pauseMenu.update();
@@ -109,7 +107,6 @@ public class Afficheur extends JPanel implements Runnable
 				else if(gameManager == null)
 				{
 					gameManager = new GameManager();
-					gameManager.init();
 				} 
 				else 
 				{
@@ -120,6 +117,7 @@ public class Afficheur extends JPanel implements Runnable
 			default:
 				throw new Error("invalid gameState");
 		}
+		//affichage de debug:
 		if(MainClass.getDisplayFps()) 
 		{
 			debug_keys = InputManager.getKeySetAsString();
@@ -134,12 +132,15 @@ public class Afficheur extends JPanel implements Runnable
 		switch (Core.gameState)
 		{
 			case MENU:
+				if (mainMenu != null)
 				mainMenu.draw(graphics);
 				break;
 			case PAUSE:
+				if (pauseMenu != null)
 				pauseMenu.draw(graphics);
 				break;
 			case GAME:
+				if (gameManager != null)
 				gameManager.draw(graphics);
 				break;
 			default:
