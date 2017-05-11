@@ -92,6 +92,7 @@ public class SpriteLoader
 					public void run() 
 					{
 						actualIndex++;
+						System.out.println(actualIndex + "   " + (images.size() - 1));
 						if (actualIndex > images.size() - 1)
 						{
 							actualIndex = 0;
@@ -124,7 +125,7 @@ public class SpriteLoader
 		for (int i = 0; i < files.size(); i++)
 		{
 			String actualFile = files.get(i);
-			String[] tab1 = actualFile.split(".");
+			String[] tab1 = actualFile.split("\\.");
 			actualFile = tab1[0];
 			String[] tab2 = actualFile.split("_");
 			if (tab2[0].equals(aName))

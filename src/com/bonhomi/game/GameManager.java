@@ -31,8 +31,9 @@ public class GameManager implements Loopable {
 	{
 		initialized = true;
 		
-		monSprite = new SpriteOccurence(null, 300, 300, 3.14, 50, 50, 0, 0);
-		animation1 = new SpriteLoader("src/Sprites/Icons/", "winIcon", true, true, 250);
+		monSprite = new SpriteOccurence(null, 300, 300, 0, 5, 5, 0, 0);
+		animation1 = new SpriteLoader("src/Sprites/Icons/", "winProjet", true, true, 250);
+		animation1.start();
 	}
 
 	// Affichage
