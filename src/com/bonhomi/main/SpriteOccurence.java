@@ -45,7 +45,7 @@ public class SpriteOccurence
 		this.ancre_x = ancre_x;
 		this.ancre_y = ancre_y;
 		transf = new AffineTransform(ech_x, 0, 0, ech_y, coord_x, coord_y);
-		transf.setToRotation(rotation, ancre_x, ancre_y);
+		transf.rotate(-rotation, ancre_x, ancre_y);
 	}
 	
 	/**
@@ -92,7 +92,12 @@ public class SpriteOccurence
 		this.ancre_x = ancre_x;
 		this.ancre_y = ancre_y;
 		transf = new AffineTransform(ech_x, 0, 0, ech_y, coord_x, coord_y);
-		transf.setToRotation(rotation, ancre_x, ancre_y);
+		transf.rotate(-rotation, ancre_x, ancre_y);
+	}
+	
+	public void setImage(Image newImage)
+	{
+		image = newImage;
 	}
 	
 	public void newTransforms(
@@ -102,7 +107,7 @@ public class SpriteOccurence
 			double ancre_x, double ancre_y)
 	{
 		transf.setTransform(ech_x, 0, 0, ech_y, coord_x, coord_y);
-		transf.setToRotation(rotation, ancre_x, ancre_y);
+		transf.rotate(-rotation, ancre_x, ancre_y);
 	}
 	
 	public AffineTransform getTransforms()

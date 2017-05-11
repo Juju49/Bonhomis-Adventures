@@ -1,13 +1,12 @@
 package com.bonhomi.game;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
-import com.bonhomi.main.Core;
-import com.bonhomi.main.Dessin;
 import com.bonhomi.main.InputManager;
 import com.bonhomi.main.Loopable;
+import com.bonhomi.main.SpriteLoader;
+import com.bonhomi.main.SpriteOccurence;
 
 
 /**
@@ -17,6 +16,8 @@ import com.bonhomi.main.Loopable;
 public class GameManager implements Loopable {
 
 	private boolean initialized = false;
+	private SpriteOccurence monSprite;
+	private SpriteLoader animation1;
 	
 	// Constructeur
 	public GameManager()
@@ -29,14 +30,16 @@ public class GameManager implements Loopable {
 	public void init() 
 	{
 		initialized = true;
+		
+		monSprite = new SpriteOccurence(null, 300, 300, 3.14, 50, 50, 0, 0);
+		animation1 = new SpriteLoader("src/Sprites/Icons/", "winIcon", true, true, 250);
 	}
 
 	// Affichage
 	@Override
 	public void draw(Graphics2D g) 
 	{
-		//inutile, déjà nettoyé par le paintComponent de Afficheur.
-		//Dessin.clear(g, Color.white);
+		monSprite.draw(g);
 	}
 
 	/**
@@ -47,14 +50,12 @@ public class GameManager implements Loopable {
 		if(!initialized) 
 			throw new IllegalStateException("Class Updated before Init!");
 		
-		if (InputManager.isKeyDown(KeyEvent.VK_A))
-			System.out.println("BLBLBLBL");
-		if (InputManager.mouseLeftCliked())
-			System.out.println("RERERERERE");
+		monSprite.setImage(animation1.getActualImage());
 	}
 
 	@Override
-	public void terminate() {
+	public void terminate() 
+	{
 		initialized = false;
 		
 	}

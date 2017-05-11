@@ -17,12 +17,14 @@ public class MainMenu implements Loopable {
 	private boolean initialized = false;
 	private SpriteOccurence mainImg;
 	
-	public MainMenu() {
+	public MainMenu() 
+	{
 		init();
 	}
 	
 	@Override
-	public void init() {
+	public void init() 
+	{
 		mainImg = new SpriteOccurence(new ImageIcon("src/Sprites/UI/bonhomiTitle/Title.png").getImage(),
 				200, 100,
 				0d,
