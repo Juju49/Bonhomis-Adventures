@@ -29,9 +29,11 @@ public class Fenetre extends JFrame
 				requestFocus();
 			}
 		});
-
+	    
+	    getContentPane().setLayout(null);
+	    
 	    inputManager = new InputManager();
-	    addKeyListener(inputManager);	
+	    addKeyListener(inputManager);
 		
 		afficheur = new Afficheur();
 		afficheur.start();
@@ -41,6 +43,7 @@ public class Fenetre extends JFrame
 		afficheur.addMouseListener(inputManager);
 		
 		setContentPane(afficheur);
+		
 		pack();
 		ImageIcon img = new ImageIcon("src/Sprites/Icons/winIcon.png");
 		setIconImage(img.getImage());
@@ -51,6 +54,11 @@ public class Fenetre extends JFrame
 			soundSystem = new SoundSystemMaster();
 			soundSystem.start();
 		}
+		/*if(MainClass.getDebugLvl() > 2)
+		{
+			Core.DebOut = new DebugOutput(3);
+			getLayeredPane().add(Core.DebOut, 2);
+		}*/
 	}
 	
 	public SoundSystemMaster getSoundSystem() {

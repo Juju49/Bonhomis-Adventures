@@ -12,9 +12,9 @@ import java.util.Set;
 public class InputManager implements KeyListener, MouseListener, MouseMotionListener
 {
 	protected static Set<Integer> keysDown = new HashSet<Integer>();
-	protected static boolean leftClicked, rightClicked;
+	private static boolean leftClicked, rightClicked;
 	
-	public static int mouseX, mouseY;
+	private static int mouseX, mouseY;
     
 	public static String getMouseSetAsString(){
 		StringBuilder str = new StringBuilder();

@@ -21,6 +21,26 @@ public class SpriteLoader
 	protected int actualIndex;
 	protected Timer animationTimer;
 	
+	/**
+	 * Charge des images et les transforme en animation a partir du system de fichiers.
+	 * <p>
+	 * Les chemins commencent à "src/Sprites/" et le nom doit etre precise sans extension.
+	 * Le format *.png est supporte.
+	 * <p>
+	 * lorsque repeat est active, l'animation est jouee en boucle. Le nombre d'images 
+	 * est calculé automatiquement. Delay est le temps d'affichage de chaque image a 
+	 * l'écran lors de l'animation en milllisecondes.
+	 * <p>
+	 * Les animations doivent etre au format <code>nom_index.png</code> 
+	 * dans les hierarchies.
+	 * 
+	 * 
+	 * @param spritePath chemin du dossier avec un slash a la fin.
+	 * @param name       nom sans extension de l'image.
+	 * @param animated   rechercher les animations ?
+	 * @param repeat     boucler les animations ?
+	 * @param delay      temps d'affichage par image.
+	 */
 	public SpriteLoader(
 			String spritePath, 
 			String name, 
@@ -28,7 +48,7 @@ public class SpriteLoader
 			boolean repeat,
 			long delay)
 	{
-		this.spritePath = spritePath;
+		this.spritePath = "src/Sprites/" + spritePath; //tous les sprites sont dans src/sprites/
 		this.name = name;
 		this.animated = animated;
 		this.repeat = repeat;
@@ -83,32 +103,42 @@ public class SpriteLoader
 		{
 			animationTimer = new Timer();
 			
-			actualIndex = 0;
-			
 			animationTimer.scheduleAtFixedRate(
 				new TimerTask() 
 				{
 					@Override
 					public void run() 
 					{
-						actualIndex++;
-						System.out.println(actualIndex + "   " + (images.size() - 1));
-						if (actualIndex > images.size() - 1)
+						//Core.out.println(actualIndex + "   " + (images.size() - 1));
+						if (actualIndex == images.size() - 1)
 						{
 							actualIndex = 0;
 							if (repeat == false)
-								stop();
+								stop(true);
 						}
+						else
+							actualIndex++;
 					}
 				}, 0, this.delay
 			);
 		}
 	}
 	
-	public void stop()
+	/**
+	 * Stop anim execution.
+	 * 
+	 * @param reset resets anim to frame 0.
+	 */
+	public void stop(boolean reset)
 	{
 		animationTimer.cancel();
 		animationTimer = null;
+		actualIndex = (reset ? 0 : actualIndex);
+	}
+	
+	public boolean isPlaying()
+	{
+		return (animationTimer == null ? false : true);
 	}
 	
 	public BufferedImage getActualImage()

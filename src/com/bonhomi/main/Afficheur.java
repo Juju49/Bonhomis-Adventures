@@ -28,7 +28,7 @@ public class Afficheur extends JPanel implements Runnable
 	private Thread thread;
 	private float frames = 0;
 	
-	// "�crans" � charger
+	// "ecrans" a charger
 	private GameManager gameManager;
 	private MainMenu mainMenu;
 	private PauseMenu pauseMenu;
@@ -96,6 +96,7 @@ public class Afficheur extends JPanel implements Runnable
 				break;
 				
 			case GAME:
+				
 				/* closing mainMenu;
 				 * pauseMenu is not unloaded,
 				 * it might serve under short notice*/
@@ -118,10 +119,12 @@ public class Afficheur extends JPanel implements Runnable
 				throw new Error("invalid gameState");
 		}
 		//affichage de debug:
-		if(MainClass.getDisplayFps()) 
+		if((MainClass.getDebugLvl() >= 3) && (Core.DebOut != null)) 
 		{
-			debug_keys = InputManager.getKeySetAsString();
-			debug_mouse = InputManager.getMouseSetAsString();
+			/*Core.DebOut.inputLabel(0, ("FPS   :  " + String.valueOf(1000/frames)));
+			Core.DebOut.inputLabel(1, ("Keys  : [" + InputManager.getKeySetAsString() + "]"));
+			Core.DebOut.inputLabel(2, ("Mouse : [" + InputManager.getMouseSetAsString() + "]"));
+			Core.DebOut.update();*/
 		}
 	}
 	
@@ -146,10 +149,6 @@ public class Afficheur extends JPanel implements Runnable
 			default:
 				throw new Error("invalid gameState");
 		}
-		if(MainClass.getDebugLvl() < 3) 
-		{
-			
-		}
 	}
 	
 	// Permet de "dessiner" sur le JPanel
@@ -158,12 +157,12 @@ public class Afficheur extends JPanel implements Runnable
 		super.paintComponent(g);
 		draw(g);
 		
-		if(MainClass.getDisplayFps()) 
+		if(MainClass.getDebugLvl() >= 3) 
 		{
 			g.setColor(Color.blue);
 			g.drawString("FPS  : " + String.valueOf(1000/frames), 4, 10);
-			g.drawString(("Keys : [" + debug_keys + "]"), 4, 20);
-			g.drawString(("Mouse : [" + debug_mouse + "]"), 4, 30);
+			g.drawString(("Keys : [" + InputManager.getKeySetAsString() + "]"), 4, 20);
+			g.drawString(("Mouse : [" + InputManager.getMouseSetAsString() + "]"), 4, 30);
 		}
 	}
 

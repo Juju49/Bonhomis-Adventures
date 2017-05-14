@@ -18,10 +18,12 @@ public class GameManager implements Loopable {
 	private boolean initialized = false;
 	private SpriteOccurence monSprite;
 	private SpriteLoader animation1;
+	protected Player player1;
 	
 	// Constructeur
 	public GameManager()
 	{
+		this.player1 = new Player();
 		init();
 	}
 	
@@ -29,11 +31,13 @@ public class GameManager implements Loopable {
 	@Override
 	public void init() 
 	{
-		initialized = true;
-		
-		monSprite = new SpriteOccurence(null, 300, 300, 0, 5, 5, 0, 0);
-		animation1 = new SpriteLoader("src/Sprites/Icons/", "winProjet", true, true, 250);
+		monSprite = new SpriteOccurence(null, null, 300, 300, 0, 5, 5, 0, 0);
+		animation1 = new SpriteLoader("Icons/", "winIcon", true, true, 250);
 		animation1.start();
+		
+		player1.init();
+		
+		initialized = true;
 	}
 
 	// Affichage
@@ -41,6 +45,7 @@ public class GameManager implements Loopable {
 	public void draw(Graphics2D g) 
 	{
 		monSprite.draw(g);
+		player1.draw(g);
 	}
 
 	/**
@@ -51,14 +56,16 @@ public class GameManager implements Loopable {
 		if(!initialized) 
 			throw new IllegalStateException("Class Updated before Init!");
 		
+		player1.update();
 		monSprite.setImage(animation1.getActualImage());
 	}
 
 	@Override
 	public void terminate() 
 	{
-		initialized = false;
+		player1.terminate();
 		
+		initialized = false;
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.bonhomi.main;
 
+import java.io.PrintStream;
+
 //import javax.swing.text.JTextComponent;
 
 /**
@@ -9,11 +11,10 @@ package com.bonhomi.main;
  */
 public final class Core 
 {
+	public static DebugOutput DebOut;
 	public static double deltaTime = 0d;
 	public static GameState gameState = GameState.GAME;
 	
-	
-	//private static JTextComponent debugTextBlock;
 	
 	public static final int WIDTH = 1024;
 	public static final int HEIGHT = 576;
@@ -27,18 +28,7 @@ public final class Core
 		PAUSE
 	}
 	
-	/*private static JTextComponent getDebugTextBlock()
-	 {
-		if(debugTextBlock == null) {
-			//debugTextBlock = new JTextComponent();
-		}
-		return debugTextBlock;
-	 }*/
-	
-	public static void out(Object... o)
-	{
-		System.out.println(o.toString());
-	}
+	public static PrintStream out = DebOut.debugOutputPS;
 	
 	/**
 	 * Prints output following severity settings.
@@ -49,7 +39,7 @@ public final class Core
 	public static void debugPrint(int severity, Object... printed )
 	{
 		if(severity >= MainClass.getDebugLvl()) {
-			System.out.println(printed.toString());
+			out.println(printed.toString());
 		}
 	}
 	

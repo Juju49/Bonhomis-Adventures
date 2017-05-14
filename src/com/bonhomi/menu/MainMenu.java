@@ -3,7 +3,11 @@ package com.bonhomi.menu;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import com.bonhomi.main.Core;
@@ -25,11 +29,22 @@ public class MainMenu implements Loopable {
 	@Override
 	public void init() 
 	{
-		mainImg = new SpriteOccurence(new ImageIcon("src/Sprites/UI/bonhomiTitle/Title.png").getImage(),
-				200, 100,
-				0d,
-				0.5d, 0.5d,
-				0d, 0d);
+		try {
+			mainImg = new SpriteOccurence(null, 
+					(BufferedImage) ImageIO.read(new File("src/Sprites/UI/bonhomiTitle/Title.png")),
+					200, 100,
+					0d,
+					0.5d, 0.5d,
+					0, 0);
+		} catch (IOException e) {
+			mainImg = new SpriteOccurence(null, 
+					null,
+					200, 100,
+					0d,
+					0.5d, 0.5d,
+					0, 0);
+			e.printStackTrace();
+		}
 		
 		initialized = true;
 	}
@@ -47,10 +62,7 @@ public class MainMenu implements Loopable {
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.setColor(Color.MAGENTA);
-		g.fillRect(60, 100, 100, 50);
 		mainImg.draw(g);
-		g.fillRect(200, 300, 80, 80);
 	}
 
 	@Override
