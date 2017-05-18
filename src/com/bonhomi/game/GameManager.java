@@ -23,7 +23,7 @@ public class GameManager implements Loopable {
 	// Constructeur
 	public GameManager()
 	{
-		this.player1 = new Player();
+		this.player1 = new Player(300, 300, 2);
 		init();
 	}
 	
@@ -31,7 +31,7 @@ public class GameManager implements Loopable {
 	@Override
 	public void init() 
 	{
-		monSprite = new SpriteOccurence(null, null, 300, 300, 0, 5, 5, 0, 0);
+		monSprite = new SpriteOccurence(null, null, 100, 100, 0, 5, 5, 0, 0);
 		animation1 = new SpriteLoader("Icons/", "winIcon", true, true, 250);
 		animation1.start();
 		
@@ -57,6 +57,12 @@ public class GameManager implements Loopable {
 			throw new IllegalStateException("Class Updated before Init!");
 		
 		player1.update();
+		
+		if (player1.intersects(monSprite))
+		{
+			player1.perdreVie();
+		}
+		
 		monSprite.setImage(animation1.getActualImage());
 	}
 

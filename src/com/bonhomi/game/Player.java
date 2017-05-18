@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
+import com.bonhomi.main.Core;
 import com.bonhomi.main.InputManager;
 import com.bonhomi.main.Loopable;
 import com.bonhomi.main.SpriteLoader;
@@ -21,9 +22,36 @@ public final class Player extends Rectangle implements Loopable {
 
 	private boolean initialized = false;
 	
+	private int life = 3;
+	
 	private SpriteOccurence bonhomi;
-	private SpriteLoader[] anims = new SpriteLoader[2];
+	private SpriteLoader[] anims = new SpriteLoader[3];
 	private int actual_anim;
+	private double scale;
+	
+	public Player(int x, int y, double scale)
+	{
+		this.scale = scale;
+		this.x = x;
+		this.y = y;
+	}
+	
+	void perdreVie()
+	{
+		if (life > 0) 
+		{
+			this.life--;
+		}
+		else
+		{
+			Core.out.println("Bonhomi est mort!");
+		}
+	}
+	
+	void extraVie()
+	{
+		this.life = 3;
+	}
 	
 	/* (non-Javadoc)
 	 * @see com.bonhomi.main.Loopable#init()
@@ -31,13 +59,16 @@ public final class Player extends Rectangle implements Loopable {
 	@Override
 	public void init() {
 		
-		bonhomi = new SpriteOccurence(null, x, y, 0, 2, 2, 32, 32);
+		bonhomi = new SpriteOccurence(null, x, y, 0, scale, scale, 32, 32);
 		this.setBounds(this.bonhomi);
 		
-		anims[0] = new SpriteLoader("Characters/bonhomi/", "avant", true, true, 250);
-		anims[1] = new SpriteLoader("Characters/bonhomi/", "avant", true, true, 250);
+		anims[0] = new SpriteLoader("Characters/bonhomi/", "avant", 
+				true, true, 100);
+		anims[1] = new SpriteLoader("Characters/bonhomi/", "gauche", 
+				true, true, 100);
+		anims[2] = new SpriteLoader("Characters/bonhomi/", "mort");
 		
-		initialized = true;
+		initialized = (bonhomi != null ? true : false);
 	}
 
 	/* (non-Javadoc)
@@ -83,11 +114,18 @@ public final class Player extends Rectangle implements Loopable {
 			if(!anims[actual_anim].isPlaying()) anims[actual_anim].start();
 		}
 		
+		if(this.life <= 0)
+		{
+			delta_x = 0;
+			delta_y = 0;
+			bonhomi.setFlipX(false);
+			bonhomi.setFlipY(false);
+			actual_anim = 2;
+		}
 		
-		bonhomi.newTransforms(x + delta_x, y + delta_y, 0, 2, 2, 32, 32);
+		bonhomi.newTransforms(x + delta_x, y + delta_y, 0, scale, scale, 32, 32);
 		bonhomi.setImage(anims[actual_anim].getActualImage());
 		this.setBounds(this.bonhomi);
-		
 	}
 
 	/* (non-Javadoc)

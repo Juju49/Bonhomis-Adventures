@@ -56,10 +56,33 @@ public class SpriteLoader
 		this.actualIndex = 0;
 		
 		images = new ArrayList<BufferedImage>();
-		animationTimer = new Timer();
 		
 		load();
 	}
+	
+	/**
+	 * Constructeur sans animation.
+	 * 
+	 *
+	 * @param spritePath
+	 * @param name
+	 */
+	public SpriteLoader(
+			String spritePath, 
+			String name)
+	{
+		this.spritePath = "src/Sprites/" + spritePath; //tous les sprites sont dans src/sprites/
+		this.name = name;
+		this.animated = false;
+		this.repeat = false;
+		this.delay = 1;
+		this.actualIndex = 0;
+		
+		images = new ArrayList<BufferedImage>();
+		
+		load();
+	}
+	
 	
 	protected void load()
 	{
