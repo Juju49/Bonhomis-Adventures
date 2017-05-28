@@ -2,8 +2,6 @@ package com.bonhomi.menu;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
-
 import com.bonhomi.main.Loopable;
 
 public class PauseMenu implements Loopable {

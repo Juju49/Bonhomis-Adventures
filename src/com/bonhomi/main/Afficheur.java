@@ -4,15 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.security.Key;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import javax.swing.JPanel;
-import javax.xml.crypto.dsig.keyinfo.KeyInfo;
-
 import com.bonhomi.game.GameManager;
 import com.bonhomi.menu.MainMenu;
 import com.bonhomi.menu.PauseMenu;

@@ -2,7 +2,7 @@ package com.bonhomi.main;
 
 import java.io.PrintStream;
 
-//import javax.swing.text.JTextComponent;
+import com.bonhomi.sounds.SoundSystemMaster;
 
 /**
  * Cette classe poss�de des fonctions
@@ -11,7 +11,8 @@ import java.io.PrintStream;
  */
 public final class Core 
 {
-	public static DebugOutput DebOut;
+	public static DebugOutput DebOut;	
+	
 	public static double deltaTime = 0d;
 	public static GameState gameState = GameState.GAME;
 	

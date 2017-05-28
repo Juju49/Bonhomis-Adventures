@@ -1,15 +1,11 @@
 package com.bonhomi.menu;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-
 import com.bonhomi.main.Core;
 import com.bonhomi.main.Core.GameState;
 import com.bonhomi.main.InputManager;

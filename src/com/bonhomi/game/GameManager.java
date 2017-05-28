@@ -1,15 +1,13 @@
 package com.bonhomi.game;
 
 import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.bonhomi.main.Core;
-import com.bonhomi.main.InputManager;
 import com.bonhomi.main.Loopable;
 import com.bonhomi.main.SpriteLoader;
 import com.bonhomi.main.SpriteOccurence;
+import com.bonhomi.sounds.SoundSystemMaster;
 
 
 /**
@@ -55,19 +53,25 @@ public class GameManager implements Loopable {
 		//gestion des degats avec un chronometre qui inflige toutes les 0.5s
 		damageTimer = new Timer();
 		damageTimer.scheduleAtFixedRate(
-			new TimerTask() 
+			new TimerTask()
 			{
 				@Override
 				public void run() 
 				{
-					if (player1.intersects(monSprite))
+					/* on retire des point de vie au joueur si il touche un
+					 * ennmis et qu'il lui reste des vies
+					 */
+					if (player1.intersects(monSprite) && (player1.getVie() > 0))
+					{
 						player1.perdreVie();
+						SoundSystemMaster.getInstance().ouille();
+					}
 					/*else
 						damageTimer.cancel();*/
 				}
 			},
 			0,
-			200
+			300
 		);
 		
 		initialized = true;

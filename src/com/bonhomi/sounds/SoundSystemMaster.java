@@ -5,53 +5,69 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
+
+import com.bonhomi.main.Loopable;
  
 
-public class SoundSystemMaster implements Runnable  {
+public class SoundSystemMaster  {
 
-	private boolean running = false;
-	private Thread thread;
+	private static ArrayList<AudioClip> loaded_sounds = new ArrayList<AudioClip>();
 	
-
-	public static void main(String[] args) {
-		File fichier = new File("sfx/explosion.wav");
-		URI uri = fichier.toURI();
+	private SoundSystemMaster()
+	{
+		
+	}
+	
+	//gestion de la classe comme singleton
+	private static class soundSysHolder
+	{
+		private static final SoundSystemMaster son = new SoundSystemMaster();
+	}
+	public static SoundSystemMaster getInstance()
+	{
+		return soundSysHolder.son;
+	}
+	
+	private int addSound(String name)
+	{
+		
+		URI uri = new File("src/Sounds/" + name + ".wav").toURI();
 		URL url = null;
 		try {
 			url = uri.toURL();
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
+		
 		AudioClip ac = Applet.newAudioClip(url);
-		ac.play();
-	 
+		
+		if(!loaded_sounds.contains(ac))
+			loaded_sounds.add(ac);
+		
+		//jamais '-1' car le son est forcement charge a cet endroit
+		return loaded_sounds.indexOf(ac);
+		
 	}
-	@Override
-	public void run() 
+	
+	public void ouille()
 	{
-		while(running) {
-			update();
-		}
+		//sons a utiliser
+		int[] son = {
+				addSound("sfx/ouille_0"),
+				addSound("sfx/ouille_1"),
+		};
+		
+		//nombre possibles 0 et 1
+		int nombre_aleat = ThreadLocalRandom.current().nextInt(0, 2);
+		
+		loaded_sounds.get(son[nombre_aleat]).play();
 	}
 	
-	public synchronized void start()
-	{
-		if (running)
-			return;
-		
-		running = true;
-		thread = new Thread(this);
-		thread.start();
-		
-		this.init();
-	}
-	
-	
-	private void init() {
-		
-	}
-	
-	public void update() {
+	public void terminate() {
 
 	}
 }

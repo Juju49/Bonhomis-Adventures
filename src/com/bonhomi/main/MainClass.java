@@ -3,6 +3,7 @@ package com.bonhomi.main;
 import com.bonhomi.main.Core.GameState;
 
 public class MainClass {
+	protected static Fenetre fenetre;
 	
 	private static int debug_lvl = 2;
 	private static boolean has_sound = true;
@@ -19,13 +20,11 @@ public class MainClass {
 	}
 	
 	
-	
 	public static void main(String... args) {
 		parseCmdArgs(args);
 		Core.gameState = GameState.MENU;
-		Fenetre fenetre = new Fenetre();
+		fenetre = new Fenetre();
 	}
-	
 	
 	
 	private final static void parseCmdArgs(String[] args) {

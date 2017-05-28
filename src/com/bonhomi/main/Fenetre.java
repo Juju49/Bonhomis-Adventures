@@ -8,13 +8,12 @@ import javax.swing.JFrame;
 
 import com.bonhomi.sounds.SoundSystemMaster;
 
-public class Fenetre extends JFrame
+class Fenetre extends JFrame
 {
 	private Afficheur afficheur;
 	private InputManager inputManager;
-	private SoundSystemMaster soundSystem;
 	
-	public Fenetre()
+	Fenetre()
 	{
 		setTitle("Bonhomi's Adventure");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,10 +49,6 @@ public class Fenetre extends JFrame
 		setLocationRelativeTo(null);
 		setResizable(false);
 
-		if(MainClass.getHasSound()) {
-			soundSystem = new SoundSystemMaster();
-			soundSystem.start();
-		}
 		/*if(MainClass.getDebugLvl() > 2)
 		{
 			Core.DebOut = new DebugOutput(3);
@@ -61,11 +56,7 @@ public class Fenetre extends JFrame
 		}*/
 	}
 	
-	public SoundSystemMaster getSoundSystem() {
-		return soundSystem;
-	}
-	
-	public Afficheur getAfficheur() {
+	private Afficheur getAfficheur() {
 		return afficheur;
 	}
 }
