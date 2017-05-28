@@ -2,7 +2,10 @@ package com.bonhomi.game;
 
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import com.bonhomi.main.Core;
 import com.bonhomi.main.InputManager;
 import com.bonhomi.main.Loopable;
 import com.bonhomi.main.SpriteLoader;
@@ -16,14 +19,22 @@ import com.bonhomi.main.SpriteOccurence;
 public class GameManager implements Loopable {
 
 	private boolean initialized = false;
+	
 	private SpriteOccurence monSprite;
 	private SpriteLoader animation1;
+	
 	protected Player player1;
+	private Timer damageTimer;
+	
+	protected GameUI GUI;
 	
 	// Constructeur
 	public GameManager()
 	{
 		this.player1 = new Player(300, 300, 2);
+		this.GUI = new GameUI();
+		damageTimer = new Timer();
+		
 		init();
 	}
 	
@@ -36,6 +47,28 @@ public class GameManager implements Loopable {
 		animation1.start();
 		
 		player1.init();
+		GUI.init();
+		
+		//on selectionne le joueur 1 comme celui a surveiller
+		GUI.setPlayerFocus(player1);
+		
+		//gestion des degats avec un chronometre qui inflige toutes les 0.5s
+		damageTimer = new Timer();
+		damageTimer.scheduleAtFixedRate(
+			new TimerTask() 
+			{
+				@Override
+				public void run() 
+				{
+					if (player1.intersects(monSprite))
+						player1.perdreVie();
+					/*else
+						damageTimer.cancel();*/
+				}
+			},
+			0,
+			200
+		);
 		
 		initialized = true;
 	}
@@ -46,8 +79,9 @@ public class GameManager implements Loopable {
 	{
 		monSprite.draw(g);
 		player1.draw(g);
+		GUI.draw(g);
 	}
-
+	
 	/**
 	 * mise a jour.
 	 */
@@ -57,18 +91,15 @@ public class GameManager implements Loopable {
 			throw new IllegalStateException("Class Updated before Init!");
 		
 		player1.update();
-		
-		if (player1.intersects(monSprite))
-		{
-			player1.perdreVie();
-		}
-		
+		GUI.update();
+	
 		monSprite.setImage(animation1.getActualImage());
 	}
 
 	@Override
 	public void terminate() 
 	{
+		GUI.terminate();
 		player1.terminate();
 		
 		initialized = false;

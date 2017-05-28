@@ -19,11 +19,11 @@ public class SpriteOccurence extends Rectangle
 	protected AffineTransform transf = new AffineTransform();
 	
 	//decalage du centre de rotation:
-    double ancre_x = 0;
-    double ancre_y = 0;
+	protected double ancre_x = 0;
+    protected double ancre_y = 0;
     
     //mirroir x et y
-    byte[] flip = {1, 1};
+    protected byte[] flip = {1, 1};
 	
     
 	/**
@@ -108,7 +108,7 @@ public class SpriteOccurence extends Rectangle
 	public void setImage(BufferedImage newImage)
 	{
 		image = newImage;
-		setSize(image.getWidth(null), image.getHeight(null));
+		comRect();
 	}
 	
 	/**
@@ -183,7 +183,7 @@ public class SpriteOccurence extends Rectangle
 		
 		g.setComposite(comp);
 		
-		//on inverse fait un mirroir x y sur l'image et on la deplace
+		//on inverse: fait un mirroir x y sur l'image et on la deplace
 		AffineTransform temptransform = AffineTransform.getScaleInstance(
 				(int) flip[0], 
 				(int) flip[1]);
@@ -201,9 +201,12 @@ public class SpriteOccurence extends Rectangle
 		
 		//on restaure la composition des graphics2D
 		g.setComposite(restore_composite);
+		
+		if(MainClass.getDebugLvl() > 2)
+			g.draw(this);
 	}
 	
-	public void main(String... args)
+	public void drawAutonome()
 	{
 		if (g == null) 
 			throw new Error("Pas de contexte de dessin pour le Sprite");

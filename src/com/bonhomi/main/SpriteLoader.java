@@ -142,7 +142,9 @@ public class SpriteLoader
 						else
 							actualIndex++;
 					}
-				}, 0, this.delay
+				},
+				0, 
+				this.delay
 			);
 		}
 	}

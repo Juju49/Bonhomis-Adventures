@@ -22,11 +22,10 @@ public final class Player extends Rectangle implements Loopable {
 
 	private boolean initialized = false;
 	
-	private int life = 3;
+	private int life;
 	
 	private SpriteOccurence bonhomi;
 	private SpriteLoader[] anims = new SpriteLoader[3];
-	private int actual_anim;
 	private double scale;
 	
 	public Player(int x, int y, double scale)
@@ -34,6 +33,13 @@ public final class Player extends Rectangle implements Loopable {
 		this.scale = scale;
 		this.x = x;
 		this.y = y;
+		this.life = Core.MAX_VIE;
+	}
+	
+	
+	int getVie()
+	{
+		return life;
 	}
 	
 	void perdreVie()
@@ -46,11 +52,12 @@ public final class Player extends Rectangle implements Loopable {
 		{
 			Core.out.println("Bonhomi est mort!");
 		}
+
 	}
 	
 	void extraVie()
 	{
-		this.life = 3;
+		this.life = Core.MAX_VIE;
 	}
 	
 	/* (non-Javadoc)
@@ -59,15 +66,18 @@ public final class Player extends Rectangle implements Loopable {
 	@Override
 	public void init() {
 		
+		//on charge un gestionnaire d'affichage pour les sprites
 		bonhomi = new SpriteOccurence(null, x, y, 0, scale, scale, 32, 32);
-		this.setBounds(this.bonhomi);
+		this.setBounds(this.bonhomi); //colecte des dimensions et coordonnees
 		
+		//on charge les sprites utilises pour le joueur
 		anims[0] = new SpriteLoader("Characters/bonhomi/", "avant", 
 				true, true, 100);
 		anims[1] = new SpriteLoader("Characters/bonhomi/", "gauche", 
 				true, true, 100);
 		anims[2] = new SpriteLoader("Characters/bonhomi/", "mort");
 		
+		//l'initialisation est termine si le gestionnaire de sprites est charge
 		initialized = (bonhomi != null ? true : false);
 	}
 
@@ -79,6 +89,7 @@ public final class Player extends Rectangle implements Loopable {
 		if(!initialized) 
 			throw new IllegalStateException("Class Updated before Init!");
 		
+		int actual_anim = 0;
 		int delta_x = 0;
 		int delta_y = 0;
 		
