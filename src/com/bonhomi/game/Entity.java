@@ -201,9 +201,16 @@ abstract class Entity extends Rectangle implements Loopable {
 	 */
 	public Shape ObsComp()
 	{
+		/*
+		 * on fait en sorte qu'il reste une marge de sécu plus grande que
+		 * speed*1.1 pour être sûr que les fonctions de collision ne 
+		 * fasse pas entrer les entités mouvantes avec elles-même.
+		 */
+		double hauteur = height - 2 * ((0.15*height) + (speed*1.1));
+		
 		return new Rectangle2D.Double(
-				getCenterX() - 0.75*width/2, getCenterY() - 0.75*height,
-				0.75*width, 0.75*height);
+				getCenterX() - 0.7*width/2, getCenterY() - hauteur/2,
+				0.7*width, hauteur);
 	}
 	
 	/* (non-Javadoc)

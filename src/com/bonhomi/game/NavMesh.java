@@ -73,7 +73,7 @@ class NavMesh implements Shape {
 			collision_xy[1] = false; /*la forme est toujours dans le nav_mesh, 
 		le mouvement est autorisé*/
 		
-		Core.out.println("collision state: /n x:" + collision_xy[0] + "; y:" + collision_xy[1]);
+		//Core.out.println("collision state: x:" + collision_xy[0] + "; y:" + collision_xy[1]);
 		
 		return collision_xy;
 	}
@@ -91,6 +91,7 @@ class NavMesh implements Shape {
 		if (!nav_shape.contains(rect))
 		{
 			nav_shape.add(rect);
+			comAire();
 		}
 	}
 	
@@ -107,7 +108,7 @@ class NavMesh implements Shape {
 		{
 			addNav(rects[i]);
 		}
-		
+		comAire();
 	}
 
 	/**
@@ -135,6 +136,7 @@ class NavMesh implements Shape {
 		if (!obstacle_shape.contains(rect))
 		{
 			obstacle_shape.add(rect);
+			comAire();
 		}
 	}
 	
@@ -151,7 +153,7 @@ class NavMesh implements Shape {
 		{
 			addObs(rects[i]);
 		}
-		
+		comAire();
 	}
 
 	/**
@@ -249,6 +251,7 @@ class NavMesh implements Shape {
 	}
 	
 	public boolean isEmpty() {
+		comAire();
 		return (nav_shape.isEmpty() && aire.isEmpty());
 	}
 
@@ -278,18 +281,21 @@ class NavMesh implements Shape {
 		//vidange de l'aire
 		aire.reset();
 		
-		//dessin de l'aire
-		for (Shape s : nav_shape)
-		{
-			aire.add(new Area(s));
+		synchronized (nav_shape) {
+			//dessin de l'aire
+			for (Shape s : nav_shape)
+			{
+				aire.add(new Area(s));
+			}
 		}
-		
-		//poinconnage des obstacle sur le nav_mesh
-		for (Shape s : obstacle_shape)
-		{
-			aire.subtract(new Area(s));
+
+		synchronized (obstacle_shape) {
+			//poinconnage des obstacle sur le nav_mesh
+			for (Shape s : obstacle_shape)
+			{
+				aire.subtract(new Area(s));
+			}
 		}
-		
 	}
 
 }

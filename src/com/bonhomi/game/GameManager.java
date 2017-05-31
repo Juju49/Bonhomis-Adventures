@@ -6,6 +6,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -52,9 +54,17 @@ public class GameManager implements Loopable {
 			//porte gauche 3
 			new Rectangle(0, Core.HEIGHT/2 - widthPortes/2, offsetMurs, widthPortes)
 			.getBounds2D(),
-			//porte basse 4
+			//porte droite 4
 			new Rectangle(Core.WIDTH-offsetMurs, Core.HEIGHT/2 - widthPortes/2, offsetMurs, widthPortes)
-			.getBounds2D()
+			.getBounds2D(),
+	};
+			
+	private static final Shape[] compo_obstacle = {
+			//pillier central 0
+			new RoundRectangle2D.Double(
+					Core.WIDTH/2 - widthPortes, Core.HEIGHT/2 - widthPortes, 
+					widthPortes*2, widthPortes*2, 
+					widthPortes*2, widthPortes*2)
 	};
 	
 	// Constructeur
@@ -111,6 +121,7 @@ public class GameManager implements Loopable {
 
 		//on ajoute le tout au nav_mesh
 		nav_mesh.addNav(compo_navigation);
+		nav_mesh.addObs(compo_obstacle);
 		
 		//on selectionne le joueur 1 en tant qu'entité a surveiller avec l'UI
 		GUI.setPlayerFocus(player1);
@@ -135,6 +146,15 @@ public class GameManager implements Loopable {
 	@Override
 	public void draw(Graphics2D g) 
 	{
+		if( MainClass.getDebugLvl() > 2)
+		{
+			g.setColor(Color.yellow);
+			g.fill(nav_mesh);
+			g.setColor(Color.orange);
+			g.draw(nav_mesh);
+
+		}
+		
 		g.setColor(Color.red);
 		for(BadGuys b_g : ennemis)
 		{
@@ -144,11 +164,7 @@ public class GameManager implements Loopable {
 		g.setColor(Color.green);
 		player1.draw(g);
 		
-		if( MainClass.getDebugLvl() > 2)
-		{
-			g.setColor(Color.orange);
-			g.draw(nav_mesh);
-		}
+
 		
 		g.setColor(Color.blue);
 		GUI.draw(g);
@@ -163,12 +179,13 @@ public class GameManager implements Loopable {
 			throw new IllegalStateException("Class Updated before Init!");
 		
 		player1.update();
-		nav_mesh.addObs(player1.ObsComp());
-		
+
 		//on purge le nav_mesh ici pour que les ennemis puisse toucher le joueur.
 		nav_mesh.purge();
-		//on ajoute le tout au nav_mesh
+		//on ajoute le tout au nav_mesh et la case obstacle du joueur
 		nav_mesh.addNav(compo_navigation);
+		nav_mesh.addObs(compo_obstacle);
+		nav_mesh.addObs(player1.ObsComp());
 		
 		GUI.update();
 		
@@ -177,6 +194,9 @@ public class GameManager implements Loopable {
 			//les ennemis sont dans la fenetre de jeu avant traitement
 			if (window.contains(NavMesh.getNavPoint(b_g)))
 			{
+				//on fait en sorte que les ennemis ne se supperposent pas
+				nav_mesh.addObs(b_g.ObsComp());
+				
 				Point suivre_joueur = new Point((int) player1.getCenterX(), (int) player1.getCenterY());
 				
 				if (b_g.Cible != null)
@@ -184,12 +204,9 @@ public class GameManager implements Loopable {
 				else
 					b_g.Cible = suivre_joueur;
 				
-				//on fait en sorte que les ennemis ne se supperposent pas
 				b_g.update();
-				nav_mesh.addObs(b_g.ObsComp());
 			}
 			else
-				//Core.out.println("b_g stopped");
 				b_g.Cible = null;
 		}
 	}
