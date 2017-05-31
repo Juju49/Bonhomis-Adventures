@@ -1,13 +1,17 @@
 package com.bonhomi.game;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.geom.GeneralPath;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import com.bonhomi.main.Core;
 import com.bonhomi.main.Loopable;
+import com.bonhomi.main.MainClass;
 import com.bonhomi.main.SpriteLoader;
 import com.bonhomi.main.SpriteOccurence;
 import com.bonhomi.sounds.SoundSystemMaster;
@@ -19,14 +23,39 @@ import com.bonhomi.sounds.SoundSystemMaster;
  */
 public class GameManager implements Loopable {
 
-	private boolean initialized = false;
+	static private boolean initialized = false;
+	static final Rectangle window = new Rectangle(0, 0, Core.WIDTH, Core.HEIGHT);
 
-	protected Player player1;
-	protected BadGuys[] ennemis;
-	protected NavMesh nav_mesh;
-	private Timer damageTimer;
+	static Player player1;
+	static BadGuys[] ennemis;
+	static NavMesh nav_mesh;
 	
-	protected GameUI GUI;
+	static private Timer damageTimer;
+	
+	static GameUI GUI;
+	
+	//création d'un nav_mesh pour le niveau
+	private static final int offsetMurs = 100;
+	private static final int widthPortes = 75;
+	private static final Shape[] compo_navigation = {
+			//salle 0
+			new Rectangle(offsetMurs, offsetMurs, Core.WIDTH-2*offsetMurs, Core.HEIGHT-2*offsetMurs)
+			.getBounds2D(),
+			
+			//porte haute 1
+			new Rectangle(Core.WIDTH/2 - widthPortes/2, 0, widthPortes, offsetMurs)
+			.getBounds2D(),
+			//porte basse 2
+			new Rectangle(Core.WIDTH/2 - widthPortes/2, Core.HEIGHT-offsetMurs, widthPortes, offsetMurs)
+			.getBounds2D(),
+			
+			//porte gauche 3
+			new Rectangle(0, Core.HEIGHT/2 - widthPortes/2, offsetMurs, widthPortes)
+			.getBounds2D(),
+			//porte basse 4
+			new Rectangle(Core.WIDTH-offsetMurs, Core.HEIGHT/2 - widthPortes/2, offsetMurs, widthPortes)
+			.getBounds2D()
+	};
 	
 	// Constructeur
 	public GameManager()
@@ -34,12 +63,15 @@ public class GameManager implements Loopable {
 		this.GUI = new GameUI();
 		damageTimer = new Timer("GestionDegats");
 		nav_mesh = new NavMesh();
-		nav_mesh.add( new Rectangle(100, 100, Core.WIDTH-100, Core.HEIGHT-100).getBounds2D());
 		
 		init();
 	}
 	
-	private void playerDamage(Rectangle ennemi)
+	/**
+	 * Procedure gerant les degats sur le joueur avec un chronometre et des 
+	 * frames d'invincibilite.
+	 */
+	private void playerDamage()
 	{
 		//gestion des degats avec un chronometre qui inflige toutes les 0.3s
 		damageTimer.scheduleAtFixedRate(
@@ -48,16 +80,17 @@ public class GameManager implements Loopable {
 				@Override
 				public void run() 
 				{
-					/* on retire des point de vie au joueur si il touche un
-					 * ennmis et qu'il lui reste des vies
-					 */
-					if (player1.intersects(ennemi) && (player1.getVie() > 0))
+					for (BadGuys ennemi : ennemis)
 					{
-						player1.perdreVie();
-						SoundSystemMaster.getInstance().ouille();
+						/* on retire des point de vie au joueur si il touche un
+						 * ennmis et qu'il lui reste des vies
+						 */
+						if (player1.intersects(ennemi) && (player1.getVie() > 0))
+						{
+							player1.perdreVie();
+							SoundSystemMaster.getInstance().ouille();
+						}
 					}
-					else
-						this.cancel();
 				}
 			},
 			0,
@@ -66,25 +99,34 @@ public class GameManager implements Loopable {
 	}
 	
 	@Override
-	public void init() 
+	public void init()
 	{
-		player1 = new Player(500, 400, 2);
+		player1 = new Player(200, 300, 1);
 		
+		//initialisations...
 		player1.init();
 		GUI.init();
 		damageTimer.purge();
+		nav_mesh.purge();
+
+		//on ajoute le tout au nav_mesh
+		nav_mesh.addNav(compo_navigation);
 		
-		//on selectionne le joueur 1 comme celui a surveiller
+		//on selectionne le joueur 1 en tant qu'entité a surveiller avec l'UI
 		GUI.setPlayerFocus(player1);
 		
-		ennemis = new BadGuys[1];
-		ennemis[0] = new BadGuys(100, 100, 2);
+		//on cree les ennemis sur le terrain
+		ennemis = new BadGuys[2];
+		ennemis[0] = new BadGuys(200, 110, 1);
+		ennemis[1] = new BadGuys(400, 110, 1);
 		
 		for(BadGuys b_g : ennemis)
 		{
 			b_g.init();
-			playerDamage(b_g);
 		}
+		
+		//on lance le fil d'execution gerant les degats:
+		playerDamage();
 		
 		initialized = true;
 	}
@@ -93,13 +135,23 @@ public class GameManager implements Loopable {
 	@Override
 	public void draw(Graphics2D g) 
 	{
-		player1.draw(g);
-		GUI.draw(g);
-		
+		g.setColor(Color.red);
 		for(BadGuys b_g : ennemis)
 		{
 			b_g.draw(g);
 		}
+		
+		g.setColor(Color.green);
+		player1.draw(g);
+		
+		if( MainClass.getDebugLvl() > 2)
+		{
+			g.setColor(Color.orange);
+			g.draw(nav_mesh);
+		}
+		
+		g.setColor(Color.blue);
+		GUI.draw(g);
 	}
 	
 	/**
@@ -111,18 +163,30 @@ public class GameManager implements Loopable {
 			throw new IllegalStateException("Class Updated before Init!");
 		
 		player1.update();
+		nav_mesh.addObs(player1.ObsComp());
+		
+		//on purge le nav_mesh ici pour que les ennemis puisse toucher le joueur.
+		nav_mesh.purge();
+		//on ajoute le tout au nav_mesh
+		nav_mesh.addNav(compo_navigation);
+		
 		GUI.update();
 		
 		for(BadGuys b_g : ennemis)
 		{
 			//les ennemis sont dans la fenetre de jeu avant traitement
-			if (nav_mesh.contains(b_g.npc.getTrackingPoint()))
+			if (window.contains(NavMesh.getNavPoint(b_g)))
 			{
+				Point suivre_joueur = new Point((int) player1.getCenterX(), (int) player1.getCenterY());
+				
 				if (b_g.Cible != null)
-					b_g.Cible.setLocation(player1.getCenterX(), player1.getCenterY());
+					b_g.Cible.setLocation(suivre_joueur);
 				else
-					b_g.Cible = new Point((int) player1.getCenterX(), (int) player1.getCenterY());
+					b_g.Cible = suivre_joueur;
+				
+				//on fait en sorte que les ennemis ne se supperposent pas
 				b_g.update();
+				nav_mesh.addObs(b_g.ObsComp());
 			}
 			else
 				//Core.out.println("b_g stopped");

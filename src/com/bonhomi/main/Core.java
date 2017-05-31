@@ -38,7 +38,7 @@ public final class Core
 	 * en terme de degats et de vie.
 	 */
 	public static final double DIFFICULTE = 1.5; //
-	public static final int DELAIS_INVULNERABILITE = 300; //en millisecondes
+	public static final int DELAIS_INVULNERABILITE = 600; //en millisecondes
 	
 	public enum GameState
 	{
