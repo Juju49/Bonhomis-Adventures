@@ -18,6 +18,7 @@ import com.bonhomi.main.SpriteOccurence;
  *
  */
 public final class Player extends Rectangle implements Loopable {
+	
 	private static final long serialVersionUID = 1L;
 
 	private boolean initialized = false;
@@ -36,7 +37,7 @@ public final class Player extends Rectangle implements Loopable {
 		this.y = y;
 	}
 	
-	void perdreVie()
+	public void perdreVie()
 	{
 		if (life > 0) 
 		{
@@ -48,7 +49,7 @@ public final class Player extends Rectangle implements Loopable {
 		}
 	}
 	
-	void extraVie()
+	public void extraVie()
 	{
 		this.life = 3;
 	}
