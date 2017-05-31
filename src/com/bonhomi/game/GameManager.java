@@ -61,7 +61,6 @@ public class GameManager implements Loopable {
 			throw new IllegalStateException("Class Updated before Init!");
 		
 		player1.update();
-		niveau1.printMap();
 		
 		if (player1.intersects(monSprite))
 		{
