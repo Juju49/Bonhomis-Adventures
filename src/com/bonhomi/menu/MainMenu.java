@@ -26,19 +26,17 @@ public class MainMenu implements Loopable {
 	public void init() 
 	{
 		try {
-			mainImg = new SpriteOccurence(null, 
+			mainImg = new SpriteOccurence(
 					(BufferedImage) ImageIO.read(new File("src/Sprites/UI/bonhomiTitle/Title.png")),
 					200, 100,
 					0d,
-					0.5d, 0.5d,
-					0, 0);
+					0.5d, 0.5d);
 		} catch (IOException e) {
-			mainImg = new SpriteOccurence(null, 
+			mainImg = new SpriteOccurence(
 					null,
 					200, 100,
 					0d,
-					0.5d, 0.5d,
-					0, 0);
+					0.5d, 0.5d);
 			e.printStackTrace();
 		}
 		

@@ -44,7 +44,7 @@ class Fenetre extends JFrame
 		setContentPane(afficheur);
 		
 		pack();
-		ImageIcon img = new ImageIcon("src/Sprites/Icons/winIcon.png");
+		ImageIcon img = new ImageIcon("src/Sprites/Icons/winIcon_0.png");
 		setIconImage(img.getImage());
 		setLocationRelativeTo(null);
 		setResizable(false);

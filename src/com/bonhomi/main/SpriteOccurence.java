@@ -12,15 +12,26 @@ import java.awt.image.BufferedImage;
 
 public class SpriteOccurence extends Rectangle
 {
-	protected Graphics2D g = null; //ref vers les graphics de l'afficheur
 	protected BufferedImage image = null;
 	
 	//transformations matricielles
 	protected AffineTransform transf = new AffineTransform();
 	
+	/**
+	 * types d'ancre de rotation et de suivi possible parmis:
+	 * ORIGIN : point au coin superieur gauche
+	 * CENTRE : point au centre du rectangle
+	 * CUSTOM : le point n'est mis a jour que par l'utilisateur
+	 */
+	public enum TYPE_ANCRE
+	{
+		ORIGIN,
+		CENTRE,
+		CUSTOM
+	}
 	//decalage du centre de rotation:
-	protected double ancre_x = 0;
-    protected double ancre_y = 0;
+	protected TYPE_ANCRE type_ancre = TYPE_ANCRE.CENTRE;
+	protected Point ancre = new Point(0, 0);
     
     //mirroir x et y
     protected byte[] flip = {1, 1};
@@ -37,45 +48,15 @@ public class SpriteOccurence extends Rectangle
 	 * @param rotation en radians autour du centre
 	 * @param ech_x
 	 * @param ech_y
-	 * @param ancre_x position du centre
-	 * @param ancre_y
-	 */
-	public SpriteOccurence(Graphics2D g, BufferedImage image, 
-			int coord_x, int coord_y, 
-			double rotation,
-			double ech_x, double ech_y,
-			int ancre_x, int ancre_y)
-	{
-		this(g, image, 
-				new AffineTransform(ech_x, 0, 0, ech_y, coord_x, coord_y), 
-				new Point(ancre_x, ancre_y));
-		this.transf.rotate(-rotation, ancre_x*ech_x, ancre_y*ech_y);
-	}
-	
-	/**
-	 * Construit une occurence d'une image et garde l'objet en memoire.
-	 * 
-	 * 
-	 * @param image Image à afficher
-	 * @param coord_x double
-	 * @param coord_y double
-	 * @param rotation double en degre autour du centre
-	 * @param ech_x double
-	 * @param ech_y double
-	 * @param ancre_x double position du centre
-	 * @param ancre_y double
 	 */
 	public SpriteOccurence(BufferedImage image, 
 			int coord_x, int coord_y, 
 			double rotation,
-			double ech_x, double ech_y,
-			int ancre_x, int ancre_y)
+			double ech_x, double ech_y)
 	{
-		this(null, image, 
-				coord_x, coord_y, 
-				rotation,
-				ech_x, ech_y,
-				ancre_x, ancre_y);
+		this(image, 
+			new AffineTransform(ech_x, 0, 0, ech_y, coord_x, coord_y));
+		this.transf.rotate(-rotation, ancre.getX(), ancre.getY());
 	}
 	
 	/**
@@ -86,19 +67,40 @@ public class SpriteOccurence extends Rectangle
 	 * @param g       Graphics2D de l'afficheur.
 	 * @param image   Image.
 	 * @param transf  AffineTransform de l'image.
-	 * @param ancre   Point position du centre.
 	 */
-	public SpriteOccurence(Graphics2D g, BufferedImage image, 
-			AffineTransform transf, Point ancre)
+	public SpriteOccurence(BufferedImage image, 
+			AffineTransform transf)
 	{
-		this.g = g;
 		this.image = image;
-		this.ancre_x = ancre.getX();
-		this.ancre_y = ancre.getY();
 		this.transf = transf;;
 		this.comRect();
 	}
 
+	/**
+	 * assigne une nouvelle ancre a l'occurence
+	 * 
+	 * @param nvx_ancre  Valeur d'enum du type de centre
+	 * 
+	 * @see com.bonhomi.main.SpriteOccurence#TYPE_ANCRE
+	 */
+	public void setAncre(TYPE_ANCRE nvx_ancre)
+	{
+		type_ancre = nvx_ancre;
+	}
+	
+	/**
+	 * assigne une nouvelle ancre a l'occurence
+	 * 
+	 * @param nvx_ancre  Point ou se trouve l'ancre sur l'image
+	 * 
+	 * @see com.bonhomi.main.SpriteOccurence#TYPE_ANCRE
+	 */
+	public void setAncre(Point nvx_ancre)
+	{
+		ancre = nvx_ancre;
+		type_ancre = TYPE_ANCRE.CUSTOM;
+	}
+	
 	
 	/**
 	 * Change l'image affichee par l'occurence de Sprite.
@@ -121,18 +123,15 @@ public class SpriteOccurence extends Rectangle
 	 * @param rotation double ; en radians dans le sens trigonmetrique
 	 * @param ech_x double ; 1.0 pour ne pas appliquer de transformation
 	 * @param ech_y double ; 1.0 pour ne pas appliquer de transformation
-	 * @param ancre_x double; centre de rotation à partir du coin sup' gauche
-	 * @param ancre_y double; centre de rotation à partir du coin sup' gauche
 	 */
 	public void newTransforms(
 			int coord_x, int coord_y,
 			double rotation,
-			double ech_x, double ech_y,
-			double ancre_x, double ancre_y)
+			double ech_x, double ech_y)
 	{
 		transf.setTransform(ech_x, 0, 0, ech_y, coord_x, coord_y);
-		transf.rotate(-rotation, ancre_x*ech_x, ancre_y*ech_y);
 		comRect();
+		transf.rotate(-rotation, ancre.getX(), ancre.getY());
 	}
 	
 	/**
@@ -147,16 +146,18 @@ public class SpriteOccurence extends Rectangle
 	}
 	
 	/**
-	 * Assigne un nouvel objet Graphics2D pour que l'occurence dessine.
+	 * Retourne les coordonnes de l'ancre transposees dans le repere de l'occurence.
 	 * 
 	 * 
-	 * @param g Graphics2D sur lequel dessiner
+	 * @return Point
 	 */
-	public void setGraphicsContext(Graphics2D g)
+	public Point getTrackingPoint()
 	{
-		this.g = g;
+		Point TrackingPoint = new Point(ancre);
+		TrackingPoint.translate(x, y);
+		
+		return TrackingPoint;
 	}
-	
 	
 	public void setFlipX(boolean flip)
 	{
@@ -191,9 +192,10 @@ public class SpriteOccurence extends Rectangle
 				(flip[0] < 0 ? -image.getWidth(null)  : 0), 
 				(flip[1] < 0 ? -image.getHeight(null) : 0));
 		
-		//on cree une nouvelle image retournee
+		//on fabrique l'operation a effectuer sur l'image
 		AffineTransformOp op = new AffineTransformOp(temptransform, 
 				AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+		//on cree une nouvelle image retournee
 		Image disp_image = op.filter(image, null);
 		
 		//on affiche la nouvelle image
@@ -206,22 +208,14 @@ public class SpriteOccurence extends Rectangle
 			g.draw(this);
 	}
 	
-	public void drawAutonome()
-	{
-		if (g == null) 
-			throw new Error("Pas de contexte de dessin pour le Sprite");
-		draw(g);
-	
-	}
-	
 	protected void comRect()
 	{
 		if(image != null)
 		{
-		setRect(transf.getTranslateX(), 
-				transf.getTranslateY(), 
-				image.getWidth(null)*transf.getScaleX(), 
-				image.getHeight(null)*transf.getScaleY());
+			setRect(transf.getTranslateX(), 
+					transf.getTranslateY(), 
+					image.getWidth(null)*transf.getScaleX(), 
+					image.getHeight(null)*transf.getScaleY());
 		}
 		else
 		{
@@ -229,6 +223,23 @@ public class SpriteOccurence extends Rectangle
 					transf.getTranslateY(), 
 					0, 
 					0);
+		}
+		
+		switch(type_ancre)
+		{
+		case ORIGIN :
+			ancre.setLocation(0, 0);
+			break;
+		
+		case CUSTOM :
+			//ne rien faire car l'utilsateur veut avoir un controle total
+			break;
+			
+		case CENTRE :
+			
+		default :
+			ancre.setLocation((width/2), (height/2));
+			break;
 		}
 	}
 }

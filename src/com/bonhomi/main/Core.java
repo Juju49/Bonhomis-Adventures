@@ -5,23 +5,40 @@ import java.io.PrintStream;
 import com.bonhomi.sounds.SoundSystemMaster;
 
 /**
- * Cette classe poss�de des fonctions
- * et variables statiques utilisable
- * dans l'ensemble des fichiers
+ * Cette classe possede des fonctions
+ * et variables statiques utilisables
+ * dans l'ensemble des fichiers du jeu
  */
 public final class Core 
 {
-	public static DebugOutput DebOut;	
+	public static DebugOutput DebOut;//sortie des appels a print
 	
-	public static double deltaTime = 0d;
-	public static GameState gameState = GameState.GAME;
+	public static double deltaTime = 0d; //temps depuis dernier update
+	public static GameState gameState = GameState.GAME; //phase du jeu en cours
 	
-	
+	//taille de la fenetre:
 	public static final int WIDTH = 1024;
 	public static final int HEIGHT = 576;
+	//taux de raffrraichissement max:
 	public static final double WANTED_FPS = 60d;
-	public static final int MAX_VIE = 3;
-
+	
+	//reglage du gameplay:
+	/**
+	 * Points de vie max du joueur.
+	 * Cela sert de parametre d'entree pour les ennemis aussi.
+	 * 
+	 * 
+	 * @see com.bonhomi.main.Core#DIFFICULTE
+	 */
+	public static final int MAX_VIE = 3; //vie du joueur
+	/**
+	 * Multiplicateur des vies et attaques ennemies.
+	 * C'est un ajustement par rapport aux statistiques du joueur:
+	 * avec difficulte de 2.0 , les ennemis sont x2 plus forts que le joueur
+	 * en terme de degats et de vie.
+	 */
+	public static final double DIFFICULTE = 1.5; //
+	public static final int DELAIS_INVULNERABILITE = 300; //en millisecondes
 	
 	public enum GameState
 	{

@@ -45,7 +45,7 @@ class GameUI implements Loopable {
 		for(int i = 0; i < Core.MAX_VIE; i++)
 		{
 			sante_display[i] = new SpriteOccurence(sante_sprites[1].getActualImage(), 
-					coord_x_coeurs, coord_y_coeurs, 0, 2.8125, 2.8125, 0, 0);
+					coord_x_coeurs, coord_y_coeurs, 0, 2.8125, 2.8125);
 			coord_x_coeurs -= 58;
 			
 			//on verifie que les coeurs ne sortent pas de l'ecran a gauche
@@ -57,7 +57,7 @@ class GameUI implements Loopable {
 		
 		//on dispose le visage de bonhomi sur l'ecran
 		face_display = new SpriteOccurence(face_sprites[0].getActualImage(), 
-				898, 20, 0, 2.71875, 2.71875, 44, 44);
+				898, 20, 0, 2.71875, 2.71875);
 		
 		//on demarre les animations
 		for(SpriteLoader sprites : sante_sprites) sprites.start();

@@ -67,7 +67,7 @@ public final class Player extends Rectangle implements Loopable {
 	public void init() {
 		
 		//on charge un gestionnaire d'affichage pour les sprites
-		bonhomi = new SpriteOccurence(null, x, y, 0, scale, scale, 32, 32);
+		bonhomi = new SpriteOccurence(null, x, y, 0, scale, scale);
 		this.setBounds(this.bonhomi); //colecte des dimensions et coordonnees
 		
 		//on charge les sprites utilises pour le joueur
@@ -134,7 +134,7 @@ public final class Player extends Rectangle implements Loopable {
 			actual_anim = 2;
 		}
 		
-		bonhomi.newTransforms(x + delta_x, y + delta_y, 0, scale, scale, 32, 32);
+		bonhomi.newTransforms(x + delta_x, y + delta_y, 0, scale, scale);
 		bonhomi.setImage(anims[actual_anim].getActualImage());
 		this.setBounds(this.bonhomi);
 	}
