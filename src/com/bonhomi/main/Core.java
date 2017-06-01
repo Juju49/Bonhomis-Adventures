@@ -22,8 +22,8 @@ public final class Core
 	//taux de raffrraichissement max:
 	public static final double WANTED_FPS = 60d;
 	
-	public static final int MAP_WIDTH = 8;
-	public static final int MAP_HEIGHT = 8;
+	public static final int MAP_WIDTH = 4;
+	public static final int MAP_HEIGHT = 4;
 
 	
 	//reglage du gameplay:
@@ -35,6 +35,7 @@ public final class Core
 	 * @see com.bonhomi.main.Core#DIFFICULTE
 	 */
 	public static final int MAX_VIE = 5; //vie du joueur
+	
 	/**
 	 * Multiplicateur des vies et attaques ennemies.
 	 * C'est un ajustement par rapport aux statistiques du joueur:

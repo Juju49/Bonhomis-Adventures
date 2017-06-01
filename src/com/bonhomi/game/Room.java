@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.bonhomi.main.Core;
@@ -26,6 +27,7 @@ public class Room implements DoorsPosition, Loopable
 	private final SpriteLoader doorSprite;
 	
 	private final ArrayList<Entity> entites;
+	private ThreadLocalRandom randGen = ThreadLocalRandom.current();
 	
 	Room()
 	{
@@ -74,21 +76,20 @@ public class Room implements DoorsPosition, Loopable
 		//right door
 		doorOccurences[RIGHT].newTransforms(Core.WIDTH - OFFSET_MURS, Core.HEIGHT/2 - widthPortes/2,
 				Math.PI/2, 1.0, 1.0);
-		doorOccurences[RIGHT].setFlipX(true);
+		//doorOccurences[RIGHT].setFlipX(true);
 		
 		//création des ennemis
 		entites.clear();
-		int maxEnnemies = ThreadLocalRandom.current().nextInt(0, (int) (1*Core.DIFFICULTE));
+		
+		int maxEnnemies = randGen.nextInt(1, (int) (Core.DIFFICULTE) +1 );
 		
 		for (int i = 0; i < maxEnnemies; i++) 
 		{
-			int x = ThreadLocalRandom.current().nextInt(OFFSET_MURS, Core.WIDTH  - OFFSET_MURS - 128);
-			int y =	ThreadLocalRandom.current().nextInt(OFFSET_MURS, Core.HEIGHT - OFFSET_MURS - 128);
+			int x = randGen.nextInt( OFFSET_MURS, Core.WIDTH  - OFFSET_MURS*2 - 128);
+			int y =	randGen.nextInt( OFFSET_MURS, Core.HEIGHT - OFFSET_MURS*2 - 128);
 			
-			entites.add(new BadGuys(x, y, 1.5));
+			entites.add(new BadGuys(x, y, 1));
 		}
-		
-		
 		
 		
 		for (Entity e : entites)
@@ -100,66 +101,143 @@ public class Room implements DoorsPosition, Loopable
 	@Override
 	public void update()
 	{
-		//utilisation du sol
+		//navigation sol
 		final Shape[] compo_navigation = new Shape[5];
 		compo_navigation[0] = new Rectangle(
 				OFFSET_MURS, OFFSET_MURS, 
 				Core.WIDTH  - OFFSET_MURS*2, Core.HEIGHT - OFFSET_MURS*2)
 				.getBounds2D();
 		
-		//utilisation des portes
+		//navigation portes
 		for (int i=1; i < doors.length; i++)
 		{
 			if (doors[i] == OPENED)
+			{
 				compo_navigation[i] = (doorOccurences[i].getBounds2D());
+			}
 		}
 		
 		//on ajoute le tout au nav_mesh
 		GameManager.nav_mesh.addNav(compo_navigation);
 		
+		//on récupère la position du joueur pour usage ultérieur
+		Point posJoueur = new Point(
+				(int) GameManager.player1.getCenterX(), 
+				(int) GameManager.player1.getCenterY());
 		
+		
+		
+		//gestion des ennemis et obstacles
 		for (Entity e : entites)
 		{
 			//colisions des entités
 			GameManager.nav_mesh.addObs(e.ObsComp());
 			
+			//poursuite du joueur par des ennemis
 			if(e.isEnnemy())
 			{
 				BadGuys b_g = (BadGuys) e;
 				
-				Point suivre_joueur = new Point(
-						(int) GameManager.player1.getCenterX(), 
-						(int) GameManager.player1.getCenterY());
-				
 				if (b_g.Cible != null)
-					b_g.Cible.setLocation(suivre_joueur);
+					b_g.Cible.setLocation(posJoueur);
 				else
-					b_g.Cible = suivre_joueur;
+					b_g.Cible = posJoueur;
 			}
 			
 			e.update();
 		}
+		
+		
+		
+		
+		//passage des portes
+		playerPassDoor(posJoueur);
+		
+	}
+
+	public void setPlayerAtDoor(Player player, int door)
+	{
+		Point locJoueur = doorOccurences[door].getLocation();
+		Rectangle rectJoueur = player.getBounds();
+		
+		switch(door)
+		{
+			case TOP:
+				locJoueur.x -= rectJoueur.height;
+				break;
+				
+			case BOT:
+				locJoueur.x += rectJoueur.height;
+				break;
+				
+			case LEFT:
+				locJoueur.y -= rectJoueur.width;
+				break;
+				
+			case RIGHT:
+				locJoueur.y += rectJoueur.width;
+				break;
+				
+			default:
+				break;
+		}
 	}
 	
-
-
-
+	
+	public void playerPassDoor(Point posJoueur)
+	{
+		for (int i=1; i < doors.length; i++)
+		{
+			if (doors[i] == OPENED && doorOccurences[i].contains(posJoueur))
+			{
+				int new_x = location.x;
+				int new_y = location.y;
+				
+				switch(i)
+				{
+					case TOP:
+						new_y--;
+						break;
+						
+					case BOT:
+						new_y++;
+						break;
+						
+					case LEFT:
+						new_x--;
+						break;
+						
+					case RIGHT:
+						new_x++;
+						break;
+						
+					default:
+						break;
+				}
+				
+				GameManager.niveau1.changementSalle(new_x, new_y, Niveau.invertWall(i));
+			}
+		}
+	}
+	
+	
 	@Override
 	public void draw(Graphics2D g) 
 	{
 
 		salleOccurence.draw(g);
 		
+		g.setColor(Color.white);
 		for (int i=0; i < doors.length; i++)
 		{
 			if (doors[i] == OPENED)
-				g.setColor(Color.white);
 				doorOccurences[i].draw(g);
 		}
 		
+		g.setColor(Color.red);
 		for (Entity e : entites)
 		{
-			g.setColor(Color.red);
+			
 			e.draw(g);
 		}
 	}
@@ -225,10 +303,7 @@ public class Room implements DoorsPosition, Loopable
 		
 		for (int i = 0; i < doors.length; i++)
 		{
-			if (doors[i] == OPENED)
-			{
-				n++;
-			}
+			if (doors[i] == OPENED) n++;
 		}
 		
 		return n;

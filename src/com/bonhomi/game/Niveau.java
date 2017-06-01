@@ -1,8 +1,6 @@
 package com.bonhomi.game;
 
 import java.awt.Graphics2D;
-import java.awt.Point;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -11,247 +9,244 @@ import com.bonhomi.main.Loopable;
 
 public class Niveau implements DoorsPosition, Loopable
 {
-	private Room[][] map;
+	static private Room[][] map;
 	private ArrayList<Room> rooms;
+	private boolean[] roomsUsed;
 	
-	private int actualRoom;
-	private boolean isMapFinished;
-	private final int roomsCount;
-	
-	private final Thread generationNiveau;
+	private Room actualRoom;
+	private boolean finished;
+	private int roomsCount;
 	
 	Niveau()
 	{
-		map = new Room[Core.MAP_WIDTH][Core.MAP_HEIGHT];
-		
-		actualRoom = 0;
+		map = new Room[Core.MAP_HEIGHT][Core.MAP_WIDTH];
+		finished = false;
 		roomsCount = Core.MAP_HEIGHT * Core.MAP_WIDTH;
-		rooms = new ArrayList<Room>(roomsCount);
-		isMapFinished = false;
 		
-		NivGen ng = new NivGen();
-		generationNiveau = new Thread(ng, "LevelGenerator");
-	}
-	
-	public void startLoading()
-	{
-		if (!generationNiveau.isAlive() && !isMapFinished)
-			generationNiveau.start();
-	}
-	public boolean isLoading()
-	{
-		return generationNiveau.isAlive();
-	}
-	public boolean isLoaded()
-	{
-		return isMapFinished;
+		rooms = new ArrayList<Room>(roomsCount);
+		roomsUsed = new boolean[roomsCount];
+		
+		for (int i = 0; i < Core.MAP_HEIGHT; i++)
+		{
+			for (int j = 0; j < Core.MAP_WIDTH; j++)
+			{
+				map[i][j] = null;
+			}
+		}
+		
+		creerNiveau();
 	}
 	
 	@Override
-	public void init()
-	{
-		if(!isMapFinished) return;
-		
-		for( Room room : rooms)
-			room.init();
+	public void init() {
+		for (int i = 0; i < Core.MAP_HEIGHT; i++)
+		{
+			for (int j = 0; j < Core.MAP_WIDTH; j++)
+			{
+				map[i][j].init();
+			}
+		}
 	}
 	
-	public Room getActualRoom()
-	{
-		if(!isMapFinished) return null;
-			
-		if (rooms.get(actualRoom) == null)
-			actualRoom = 0;
-		
-		return rooms.get(actualRoom);
-		
-	}
 	@Override
 	public void update()
 	{
-		if(!isMapFinished) return;
-		
-		if (rooms.get(actualRoom) == null)
-			actualRoom = 0;
-		
-		rooms.get(actualRoom).update();
+		if (actualRoom == null)
+		{
+			actualRoom = map[Core.MAP_HEIGHT/2][Core.MAP_WIDTH/2];
+		}
+		actualRoom.update();
 	}
 	
 	@Override
 	public void draw(Graphics2D g)
 	{
-		if(!isMapFinished) return;
-		
-		Core.out.println("actual room: " + rooms.get(actualRoom));
-		if (rooms.get(actualRoom) != null)
+		Core.out.println("actual room: " + actualRoom);
+		if (actualRoom != null)
 		{
-			rooms.get(actualRoom).draw(g);
+			actualRoom.draw(g);
 		}
 	}
 	
-	private class NivGen implements Runnable
-	{
-
-		@Override
-		public void run() {
-			creerNiveau();
-			return;
+	@Override
+	public void terminate() {
+		for (int i = 0; i < Core.MAP_HEIGHT; i++)
+		{
+			for (int j = 0; j < Core.MAP_WIDTH; j++)
+			{
+				map[i][j].terminate();
+			}
 		}
 		
-		private void creerNiveau()
+	}
+	
+	
+	
+	
+	
+	
+	public Room getActualRoom() {
+		return actualRoom;
+	}
+	
+	public void changementSalle(int j, int i, int appearFrom)
+	{
+		actualRoom = map[i][j];
+		map[i][j].setPlayerAtDoor(GameManager.player1, appearFrom);
+	}
+	
+	private void creerNiveau()
+	{
+		finished = false;
+		
+		while (!finished)
 		{
-			for (int y = 0; y < Core.MAP_HEIGHT; y++)
-			{
-				for (int x = 0; x < Core.MAP_WIDTH; x++)
-				{
-					map[x][y] = null;
-				}
-			}
-			rooms.clear();
-			isMapFinished = false;
-			
-			for(;rooms.size() < roomsCount;)
-			{
-				creerSalle();
-			}
+			creerSalle();
+		}
+		
+	}
+	
+	private void creerSalle()
+	{	
+		boolean ratioSallesFaite = rooms.size() >= roomsCount*0.1;
+		
+		if (rooms.size() >= roomsCount)
+		{
+			finished = true;
 			assert rooms.size() == roomsCount;
 			
-			placerItemsVictoire();
-			
-			isMapFinished = true;
+			Core.out.println("---------------- FINISHED ----------------");
+			return;
 		}
-		
-		private void placerItemsVictoire()
-		{
-			int nbItems = 0;
-			
-			Random rand = new Random();
-			ArrayList<Integer> nombresExclus = new ArrayList<Integer>();
-			Room room;
-			
-			nombresExclus.add(0);
-			
-			while(nbItems < 4)
-			{
-				int hasard = rand.nextInt(roomsCount);
-				
-				if(nombresExclus.contains(hasard))
-					continue;
-				
-				room = rooms.get(hasard);
-				if(room.getNDoorsOpened() == 1)
-				{
-					//TODO victory
-					//e = VictoryItem(nbItems);
-					//room.newEntity(e);
-					nbItems++;
-				}
-				
-				nombresExclus.add(hasard);
-				
-			}
-		}
-		
-		private void creerSalle()
-		{	
 
-	
-			Random rand = new Random();
-			
-			Room room = new Room();
-			
-			if (rooms.size() != 0)
+		
+		Random rand = new Random();
+		Room room = new Room();
+		
+		if (rooms.size() != 0)
+		{
+			if (!ratioSallesFaite)
 			{
 				int choice = 0;
 				choice = rand.nextInt(rooms.size());
+				
+				Core.out.println("room n°" + choice);
 				room = rooms.get(choice);
 			}
 			else
 			{
-				room.setLocation(rand.nextInt(Core.MAP_WIDTH), rand.nextInt(Core.MAP_HEIGHT));
-			}
-			
-			boolean canCreate = false;
-			int wall = 0;
-			
-			if (room.getNDoorsOpened() == 4)
-				return;
-			
-			while (!canCreate)
-			{
-				wall = rand.nextInt(4);
-				
-				assert ((wall >= 0) && (wall <= 4));
-				
-				if (room.isDoorOpened(wall) == CLOSED)
-					canCreate = true;
-			}
-			
-			Point roomPos = room.getLocation();
-			
-			switch(wall)
-			{
-				case TOP:
-					roomPos.y--;
-					break;
+				for(int k = 0; k < rooms.size(); k++)
+				{
+					room = rooms.get(k);
 					
-				case LEFT:
-					roomPos.x--;
-					break;
-					
-				case BOT:
-					roomPos.y++;
-					break;
-	
-				case RIGHT:
-					roomPos.x++;
-					break;
-					
-				default:
-			}
-			
-			if (canCreateRoom(roomPos) == true)
-			{
-				Room newRoom = new Room();
-				newRoom.setLocation(roomPos);
-				
-				room.setDoorOpened(wall, OPENED);
-				newRoom.setDoorOpened(invertWall(wall), OPENED);
-				
-				rooms.add(newRoom);
-				map[roomPos.x][roomPos.y] = newRoom;
+					if(roomsUsed[k])
+					{
+						continue;
+					}
+					else
+						roomsUsed[k] = true;
+						Core.out.println("room n°" + k);
+						break;
+				}
+				Core.out.println("---------------- EPUISE ----------------");
+				Core.out.println(rooms.size());
 			}
 		}
-		
-		public boolean canCreateRoom(Point p)
+		else
 		{
-			//évite d'utiliser un try/catch hors des limites
-			if (((p.y < 0) || (p.y >= Core.MAP_HEIGHT)) ||
-					((p.x < 0) || (p.x >= Core.MAP_WIDTH)))
-				return false;
-	
-			if (map[p.x][p.y] == null)
-				return true;
-			
-			return false;
+			room.setLocation(rand.nextInt(Core.MAP_HEIGHT), rand.nextInt(Core.MAP_WIDTH));
+			Core.out.println("room n°0");
 		}
 		
+		boolean canCreate = false;
+		int wall = 0;
+		
+		if (room.getNDoorsOpened() >= 4)
+			return;
+		
+		while (!canCreate)
+		{
+			if (!ratioSallesFaite)
+				wall = rand.nextInt(4);
+			else if(wall < 4) 
+				wall++;
+			else
+				break;
+			
+			if (room.isDoorOpened(wall) == CLOSED)
+				canCreate = true;
+		}
+		
+		int ni = room.getLocation().y;
+		int nj = room.getLocation().x;
+		Core.out.println("Original room x: " + nj + " y: " + ni);
+		
+		
+		switch(wall)
+		{
+			case TOP:
+				ni--;
+				break;
+			case BOT:
+				ni++;
+				break;
+			case LEFT:
+				nj--;
+				break;
+			case RIGHT:
+				nj++;
+				break;
+			default:
+				break;
+		}
+		
+		//nouvelle salle
+		if (canCreateRoom(ni, nj))
+		{
+			Room newRoom = new Room();
+			newRoom.setLocation(ni, nj);
+			
+			room.setDoorOpened(wall, OPENED);
+			newRoom.setDoorOpened(invertWall(wall), OPENED);
+			
+			rooms.add(newRoom);
+			map[ni][nj] = newRoom;
+			Core.out.println("--> Created room x: " + nj + " y: " + ni);
+		}
 	}
+	
+	public boolean canCreateRoom(int i, int j)
+	{
+		boolean can = false;
+		
+		if (i < 0 || i >= Core.MAP_HEIGHT ||
+				j < 0 || j >= Core.MAP_WIDTH)
+		{
+			can = false;
+			return can;
+		}
+
+		if (map[i][j] == null)
+			can = true;
+		
+		//System.out.println(map[i][j]);
+		
+		return can;
+	}
+	
 	public void printMap()
 	{
-		if(!isMapFinished) return;
-		
-		for (int y = 0; y < Core.MAP_HEIGHT; y++)
+		for (int i = 0; i < Core.MAP_HEIGHT; i++)
 		{
-			for (int x = 0; x < Core.MAP_WIDTH; x++)
+			for (int j = 0; j < Core.MAP_WIDTH; j++)
 			{
-				if (map[x][y] == null)
+				if (map[i][j] == null)
 				{
 					System.out.print("x");
 				}
 				else
 				{
-					Room room = map[x][y];
+					Room room = map[i][j];
 					if (room.isDoorOpened(TOP) == OPENED)
 					{
 						System.out.print("t");
@@ -276,33 +271,37 @@ public class Niveau implements DoorsPosition, Loopable
 		}
 	}
 	
-	private int invertWall(int wall)
+	protected static int invertWall(int wall)
 	{
-		switch (wall)
+		if (wall == TOP)
 		{
-		case TOP:
 			return BOT;
-
-		case BOT :
+		}
+		else if (wall == BOT)
+		{
 			return TOP;
-
-		case LEFT :
+		}
+		else if (wall == LEFT)
+		{
 			return RIGHT;
-
-		case RIGHT :
+		}
+		else if (wall == RIGHT)
+		{
 			return LEFT;
-
-		default :
-			Core.out.println("erreur de wall invalide");
+		}
+		else
+		{
+			Core.out.println("erreur");
 		}
 		
-		return -1;
+		return 0;
 	}
-	@Override
-	public void terminate() {
-		if(!isMapFinished) return;
-		
-		for( Room room : rooms)
-			room.terminate();
+
+//compatibilité avec "Niveau2"
+	public boolean isLoaded() {
+		return true;
+	}
+
+	public void startLoading() {
 	}
 }
