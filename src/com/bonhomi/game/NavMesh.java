@@ -1,8 +1,14 @@
 package com.bonhomi.game;
 
+import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Composite;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.PathIterator;
@@ -12,6 +18,7 @@ import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
 
 import com.bonhomi.main.Core;
+import com.bonhomi.main.MainClass;
 
 class NavMesh implements Shape {
 	private ArrayList<Shape> nav_shape;
@@ -285,6 +292,8 @@ class NavMesh implements Shape {
 			//dessin de l'aire
 			for (Shape s : nav_shape)
 			{
+				if (s == null)
+					continue;
 				aire.add(new Area(s));
 			}
 		}
@@ -293,9 +302,43 @@ class NavMesh implements Shape {
 			//poinconnage des obstacle sur le nav_mesh
 			for (Shape s : obstacle_shape)
 			{
+				if (s == null)
+					continue;
 				aire.subtract(new Area(s));
 			}
 		}
+	}
+
+	public void draw(Graphics2D g) 
+	{
+		if( MainClass.getDebugLvl() > 2)
+		{	
+			//semi-transparent:
+			Composite comp = 
+					AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.15f);
+			
+			//permet de recuperer la composition initiale:
+			Composite restore_composite = g.getComposite();
+			
+			g.setComposite(comp);
+			
+			//on dessine le nav_mesh
+			g.setColor(Color.yellow);
+			g.fill(this);
+
+			//on restaure la composition des graphics2D
+			g.setComposite(restore_composite);
+			
+			//on fait de même pour les contours
+			Stroke restore_stroke = g.getStroke();
+
+			g.setStroke(new BasicStroke(2.0f));
+			g.setColor(Color.orange);
+			g.draw(this);
+			
+			g.setStroke(restore_stroke);
+		}
+		
 	}
 
 }

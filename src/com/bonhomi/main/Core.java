@@ -22,8 +22,8 @@ public final class Core
 	//taux de raffrraichissement max:
 	public static final double WANTED_FPS = 60d;
 	
-	public static final int MAP_WIDTH = 4;
-	public static final int MAP_HEIGHT = 3;
+	public static final int MAP_WIDTH = 8;
+	public static final int MAP_HEIGHT = 8;
 
 	
 	//reglage du gameplay:

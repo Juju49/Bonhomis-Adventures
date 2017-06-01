@@ -213,6 +213,11 @@ abstract class Entity extends Rectangle implements Loopable {
 				0.7*width, hauteur);
 	}
 	
+	public boolean isEnnemy()
+	{
+		return false;
+	}
+	
 	/* (non-Javadoc)
 	 * @see com.npc.main.Loopable#init()
 	 */

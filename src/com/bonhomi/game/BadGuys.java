@@ -46,7 +46,11 @@ public class BadGuys extends Entity {
 		this.speed = ThreadLocalRandom.current().nextInt(1, 1 + (int) Core.DIFFICULTE);
 	}
 
-		
+	public boolean isEnnemy()
+	{
+		return true;
+	}
+	
 	/**
 	 * le perso bouge si il n'a pas atteint sa cible et
 	 *  que cette derniere existe

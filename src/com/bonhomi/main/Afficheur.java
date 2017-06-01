@@ -24,10 +24,6 @@ public class Afficheur extends JPanel implements Runnable
 	private GameManager gameManager;
 	private MainMenu mainMenu;
 	private PauseMenu pauseMenu;
-	
-	private InputManager inputManager;
-	private String debug_keys;
-	private String debug_mouse;
 
 	// Constructeur
 	public Afficheur()
@@ -43,7 +39,7 @@ public class Afficheur extends JPanel implements Runnable
 			return;
 		
 		running = true;
-		thread = new Thread(this);
+		thread = new Thread(this, "Bonhomi main Win");
 		thread.start();
 	}
 	

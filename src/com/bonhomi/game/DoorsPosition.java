@@ -7,6 +7,8 @@ interface DoorsPosition
 	final int LEFT = 1;
 	final int RIGHT = 3;
 	
-	final int OPENED = 1;
-	final int CLOSED = 0;
+	final boolean OPENED = true;
+	final boolean CLOSED = false;
+	
+	final int OFFSET_MURS = 100;
 }

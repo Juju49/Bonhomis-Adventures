@@ -86,6 +86,7 @@ public class SpriteOccurence extends Rectangle
 	public void setAncre(TYPE_ANCRE nvx_ancre)
 	{
 		type_ancre = nvx_ancre;
+		comRect();
 	}
 	
 	/**
@@ -99,6 +100,7 @@ public class SpriteOccurence extends Rectangle
 	{
 		ancre = nvx_ancre;
 		type_ancre = TYPE_ANCRE.CUSTOM;
+		comRect();
 	}
 	
 	
@@ -169,21 +171,8 @@ public class SpriteOccurence extends Rectangle
 		this.flip[1] = (byte) (flip ? -1 : 1);
 	}
 	
-	
-	public void draw(Graphics2D g)
+	private Image flipImage()
 	{
-		if(image == null)
-			return;
-		
-		//fait des trous la ou l'image est transparente:
-		Composite comp = 
-				AlphaComposite.getInstance(AlphaComposite.SRC_OVER);
-		
-		//permet de recuperer la composition initiale:
-		Composite restore_composite = g.getComposite();
-		
-		g.setComposite(comp);
-		
 		//on inverse: fait un mirroir x y sur l'image et on la deplace
 		AffineTransform temptransform = AffineTransform.getScaleInstance(
 				(int) flip[0], 
@@ -196,10 +185,25 @@ public class SpriteOccurence extends Rectangle
 		AffineTransformOp op = new AffineTransformOp(temptransform, 
 				AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
 		//on cree une nouvelle image retournee
-		Image disp_image = op.filter(image, null);
+		return op.filter(image, null);
+	}
+	
+	
+	public void draw(Graphics2D g)
+	{
+		if(image == null)
+			return;
 		
-		//on affiche la nouvelle image
-		g.drawImage(disp_image, transf, null);
+		//fait des trous la ou l'image est transparente:
+		Composite comp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER);
+		
+		//permet de recuperer la composition initiale:
+		Composite restore_composite = g.getComposite();
+		
+		g.setComposite(comp);
+		
+		//on cree une nouvelle image retournee avec flipImage() que l'on affiche
+		g.drawImage(flipImage(), transf, null);
 		
 		//on restaure la composition des graphics2D
 		g.setComposite(restore_composite);
@@ -212,10 +216,12 @@ public class SpriteOccurence extends Rectangle
 	{
 		if(image != null)
 		{
+			Image img = flipImage();
+			
 			setRect(transf.getTranslateX(), 
 					transf.getTranslateY(), 
-					image.getWidth(null)*transf.getScaleX(), 
-					image.getHeight(null)*transf.getScaleY());
+					img.getWidth(null)*transf.getScaleX(), 
+					img.getHeight(null)*transf.getScaleY());
 		}
 		else
 		{
