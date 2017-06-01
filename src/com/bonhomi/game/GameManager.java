@@ -58,19 +58,20 @@ public class GameManager implements Loopable {
 			new Rectangle(Core.WIDTH-offsetMurs, Core.HEIGHT/2 - widthPortes/2, offsetMurs, widthPortes)
 			.getBounds2D(),
 	};
-			
-	private static final Shape[] compo_obstacle = {
+		
+	//test obstacle
+	/*private static final Shape[] compo_obstacle = {
 			//pillier central 0
 			new RoundRectangle2D.Double(
 					Core.WIDTH/2 - widthPortes, Core.HEIGHT/2 - widthPortes, 
 					widthPortes*2, widthPortes*2, 
 					widthPortes*2, widthPortes*2)
-	};
+	};*/
 	
 	// Constructeur
 	public GameManager()
 	{
-		this.GUI = new GameUI();
+		GUI = new GameUI();
 		damageTimer = new Timer("GestionDegats");
 		nav_mesh = new NavMesh();
 		
@@ -121,7 +122,7 @@ public class GameManager implements Loopable {
 
 		//on ajoute le tout au nav_mesh
 		nav_mesh.addNav(compo_navigation);
-		nav_mesh.addObs(compo_obstacle);
+		//nav_mesh.addObs(compo_obstacle);
 		
 		//on selectionne le joueur 1 en tant qu'entité a surveiller avec l'UI
 		GUI.setPlayerFocus(player1);
@@ -184,7 +185,7 @@ public class GameManager implements Loopable {
 		nav_mesh.purge();
 		//on ajoute le tout au nav_mesh et la case obstacle du joueur
 		nav_mesh.addNav(compo_navigation);
-		nav_mesh.addObs(compo_obstacle);
+		//nav_mesh.addObs(compo_obstacle);
 		nav_mesh.addObs(player1.ObsComp());
 		
 		GUI.update();
