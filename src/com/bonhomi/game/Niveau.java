@@ -14,7 +14,7 @@ public class Niveau implements DoorsPosition
 	private boolean finished;
 	private int roomsCount;
 	
-	public Niveau()
+	Niveau()
 	{
 		map = new Room[Core.MAP_HEIGHT][Core.MAP_WIDTH];
 		rooms = new ArrayList<Room>();
@@ -65,14 +65,15 @@ public class Niveau implements DoorsPosition
 			finished = true;
 			return;
 		}
+		assert rooms.size() == roomsCount;
 		
 		Random rand = new Random();
 		
-		int choice = 0;
 		Room room = new Room();
 		
 		if (rooms.size() != 0)
 		{
+			int choice = 0;
 			choice = rand.nextInt(rooms.size());
 			room = rooms.get(choice);
 		}
@@ -205,7 +206,7 @@ public class Niveau implements DoorsPosition
 		}
 		else
 		{
-			System.out.println("erreur");
+			Core.out.println("erreur");
 		}
 		
 		return 0;
