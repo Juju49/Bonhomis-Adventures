@@ -74,6 +74,7 @@ public class GameManager implements Loopable {
 		GUI = new GameUI();
 		damageTimer = new Timer("GestionDegats");
 		nav_mesh = new NavMesh();
+		this.niveau1 = new Niveau();
 		
 		init();
 	}
@@ -119,6 +120,8 @@ public class GameManager implements Loopable {
 		GUI.init();
 		damageTimer.purge();
 		nav_mesh.purge();
+		
+		niveau1.printMap();
 
 		//on ajoute le tout au nav_mesh
 		nav_mesh.addNav(compo_navigation);
