@@ -1,4 +1,3 @@
-/com/
 /GraphicsSrc/
-/Sounds/
-/Sprites/
+/com/
+/.gitignore
