@@ -68,6 +68,8 @@ public class GameManager implements Loopable {
 					widthPortes*2, widthPortes*2)
 	};*/
 	
+	protected Niveau niveau1;
+	
 	// Constructeur
 	public GameManager()
 	{
