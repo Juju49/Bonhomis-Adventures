@@ -108,7 +108,7 @@ public class Niveau implements DoorsPosition, Loopable
 	
 	private void creerSalle()
 	{	
-		boolean ratioSallesFaite = rooms.size() >= roomsCount*0.1;
+		//boolean ratioSallesFaite = rooms.size() >= roomsCount*0.1;
 		
 		if (rooms.size() >= roomsCount)
 		{
@@ -125,32 +125,9 @@ public class Niveau implements DoorsPosition, Loopable
 		
 		if (rooms.size() != 0)
 		{
-			if (!ratioSallesFaite)
-			{
-				int choice = 0;
-				choice = rand.nextInt(rooms.size());
-				
-				Core.out.println("room n°" + choice);
-				room = rooms.get(choice);
-			}
-			else
-			{
-				for(int k = 0; k < rooms.size(); k++)
-				{
-					room = rooms.get(k);
-					
-					if(roomsUsed[k])
-					{
-						continue;
-					}
-					else
-						roomsUsed[k] = true;
-						Core.out.println("room n°" + k);
-						break;
-				}
-				Core.out.println("---------------- EPUISE ----------------");
-				Core.out.println(rooms.size());
-			}
+			int choice = 0;
+			choice = rand.nextInt(rooms.size());
+			room = rooms.get(choice);
 		}
 		else
 		{
@@ -166,12 +143,7 @@ public class Niveau implements DoorsPosition, Loopable
 		
 		while (!canCreate)
 		{
-			if (!ratioSallesFaite)
-				wall = rand.nextInt(4);
-			else if(wall < 4) 
-				wall++;
-			else
-				break;
+			wall = rand.nextInt(4);
 			
 			if (room.isDoorOpened(wall) == CLOSED)
 				canCreate = true;

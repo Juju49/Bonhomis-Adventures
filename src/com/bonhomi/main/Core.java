@@ -23,7 +23,7 @@ public final class Core
 	public static final double WANTED_FPS = 60d;
 	
 	public static final int MAP_WIDTH = 4;
-	public static final int MAP_HEIGHT = 4;
+	public static final int MAP_HEIGHT = 3;
 
 	
 	//reglage du gameplay:
