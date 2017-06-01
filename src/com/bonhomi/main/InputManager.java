@@ -1,5 +1,6 @@
 package com.bonhomi.main;
 
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -61,6 +62,12 @@ public class InputManager implements KeyListener, MouseListener, MouseMotionList
 	public static boolean mouseRightCliked()
 	{
 		return rightClicked;
+	}
+	
+	public static Point getMouseXY()
+	{
+		Point mXY = new Point(mouseX, mouseY);
+		return mXY;
 	}
 	
 	@Override

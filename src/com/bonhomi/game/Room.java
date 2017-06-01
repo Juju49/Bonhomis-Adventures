@@ -76,7 +76,7 @@ public class Room implements DoorsPosition, Loopable
 		//right door
 		doorOccurences[RIGHT].newTransforms(Core.WIDTH - OFFSET_MURS, Core.HEIGHT/2 - widthPortes/2,
 				Math.PI/2, 1.0, 1.0);
-		//doorOccurences[RIGHT].setFlipX(true);
+		doorOccurences[RIGHT].setFlipX(true);
 		
 		//création des ennemis
 		entites.clear();
@@ -109,11 +109,11 @@ public class Room implements DoorsPosition, Loopable
 				.getBounds2D();
 		
 		//navigation portes
-		for (int i=1; i < doors.length; i++)
+		for (int i=0; i < doors.length; i++)
 		{
 			if (doors[i] == OPENED)
 			{
-				compo_navigation[i] = (doorOccurences[i].getBounds2D());
+				compo_navigation[i+1] = (doorOccurences[i].getBounds2D());
 			}
 		}
 		
@@ -130,8 +130,7 @@ public class Room implements DoorsPosition, Loopable
 		//gestion des ennemis et obstacles
 		for (Entity e : entites)
 		{
-			//colisions des entités
-			GameManager.nav_mesh.addObs(e.ObsComp());
+			GameManager.PlayerAttack(e);
 			
 			//poursuite du joueur par des ennemis
 			if(e.isEnnemy())
@@ -143,12 +142,12 @@ public class Room implements DoorsPosition, Loopable
 				else
 					b_g.Cible = posJoueur;
 			}
+			else
+				//colisions des entités
+				GameManager.nav_mesh.addObs(e.ObsComp());
 			
 			e.update();
 		}
-		
-		
-		
 		
 		//passage des portes
 		playerPassDoor(posJoueur);
@@ -163,30 +162,32 @@ public class Room implements DoorsPosition, Loopable
 		switch(door)
 		{
 			case TOP:
-				locJoueur.x -= rectJoueur.height;
+				locJoueur.y += doorOccurences[door].height;
 				break;
 				
 			case BOT:
-				locJoueur.x += rectJoueur.height;
+				locJoueur.y -= rectJoueur.height;
 				break;
 				
 			case LEFT:
-				locJoueur.y -= rectJoueur.width;
+				locJoueur.x += doorOccurences[door].width;
 				break;
 				
 			case RIGHT:
-				locJoueur.y += rectJoueur.width;
+				locJoueur.x -= rectJoueur.width;
 				break;
 				
 			default:
 				break;
 		}
+		
+		player.setLocation(locJoueur);
 	}
 	
 	
 	public void playerPassDoor(Point posJoueur)
 	{
-		for (int i=1; i < doors.length; i++)
+		for (int i=0; i < doors.length; i++)
 		{
 			if (doors[i] == OPENED && doorOccurences[i].contains(posJoueur))
 			{

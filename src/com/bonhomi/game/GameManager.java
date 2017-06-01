@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -13,6 +14,7 @@ import javax.swing.ImageIcon;
 
 import com.bonhomi.main.Afficheur;
 import com.bonhomi.main.Core;
+import com.bonhomi.main.InputManager;
 import com.bonhomi.main.Loopable;
 import com.bonhomi.main.SpriteLoader;
 import com.bonhomi.sounds.SoundSystemMaster;
@@ -84,7 +86,7 @@ public class GameManager implements Loopable {
 						if(!e.isEnnemy())
 							continue;
 							
-						if (player1.intersects(e))
+						if (player1.intersects(e) && e.isEnnemy() && (e.getVie() > 0))
 						{
 							player1.perdreVie();
 							SoundSystemMaster.getInstance().ouille();
@@ -95,6 +97,17 @@ public class GameManager implements Loopable {
 			0,
 			Core.DELAIS_INVULNERABILITE
 		);
+	}
+	
+	public static void PlayerAttack(Entity e)
+	{
+		if(InputManager.mouseLeftCliked())
+		{
+			Point mXY = InputManager.getMouseXY();
+			if( e.contains(mXY) )
+				if( e.getVie() > 0 );
+					e.perdreVie();
+		}
 	}
 	
 	@Override

@@ -16,6 +16,7 @@ public class SpriteOccurence extends Rectangle
 	
 	//transformations matricielles
 	protected AffineTransform transf = new AffineTransform();
+	protected double rotation = 0;
 	
 	/**
 	 * types d'ancre de rotation et de suivi possible parmis:
@@ -56,7 +57,8 @@ public class SpriteOccurence extends Rectangle
 	{
 		this(image, 
 			new AffineTransform(ech_x, 0, 0, ech_y, coord_x, coord_y));
-		this.transf.rotate(-rotation, ancre.getX(), ancre.getY());
+		this.rotation = rotation;
+		comRect();
 	}
 	
 	/**
@@ -132,8 +134,8 @@ public class SpriteOccurence extends Rectangle
 			double ech_x, double ech_y)
 	{
 		transf.setTransform(ech_x, 0, 0, ech_y, coord_x, coord_y);
+		this.rotation = rotation;
 		comRect();
-		transf.rotate(-rotation, ancre.getX(), ancre.getY());
 	}
 	
 	/**
@@ -180,6 +182,7 @@ public class SpriteOccurence extends Rectangle
 		temptransform.translate(
 				(flip[0] < 0 ? -image.getWidth(null)  : 0), 
 				(flip[1] < 0 ? -image.getHeight(null) : 0));
+		rotateAt(temptransform);
 		
 		//on fabrique l'operation a effectuer sur l'image
 		AffineTransformOp op = new AffineTransformOp(temptransform, 
@@ -210,6 +213,14 @@ public class SpriteOccurence extends Rectangle
 		
 		if(MainClass.getDebugLvl() > 2)
 			g.draw(this);
+	}
+	
+	/**
+	 * procédure tournant un affine transform si nécessaire
+	 */
+	private void rotateAt(AffineTransform at)
+	{
+		at.rotate(-rotation, ancre.getX(), ancre.getY());
 	}
 	
 	protected void comRect()

@@ -73,6 +73,12 @@ public class Niveau2 implements DoorsPosition, Loopable
 		return map[p.x][p.y];
 	}
 	
+	public void changementSalle(int x, int y, int appearFrom)
+	{
+		actualRoom = map[x][y].getLocation();
+		map[x][y].setPlayerAtDoor(GameManager.player1, appearFrom);
+	}
+	
 	@Override
 	public void update()
 	{

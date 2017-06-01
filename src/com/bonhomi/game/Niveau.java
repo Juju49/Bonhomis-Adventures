@@ -17,6 +17,8 @@ public class Niveau implements DoorsPosition, Loopable
 	private boolean finished;
 	private int roomsCount;
 	
+	private Random rand = new Random();
+	
 	Niveau()
 	{
 		map = new Room[Core.MAP_HEIGHT][Core.MAP_WIDTH];
@@ -104,6 +106,7 @@ public class Niveau implements DoorsPosition, Loopable
 			creerSalle();
 		}
 		
+		actualRoom = map[rand.nextInt(Core.MAP_HEIGHT-1)][rand.nextInt(Core.MAP_WIDTH-1)];
 	}
 	
 	private void creerSalle()
@@ -119,8 +122,6 @@ public class Niveau implements DoorsPosition, Loopable
 			return;
 		}
 
-		
-		Random rand = new Random();
 		Room room = new Room();
 		
 		if (rooms.size() != 0)
@@ -131,7 +132,7 @@ public class Niveau implements DoorsPosition, Loopable
 		}
 		else
 		{
-			room.setLocation(rand.nextInt(Core.MAP_HEIGHT), rand.nextInt(Core.MAP_WIDTH));
+			room.setLocation(rand.nextInt(Core.MAP_WIDTH), rand.nextInt(Core.MAP_HEIGHT));
 			Core.out.println("room n°0");
 		}
 		
@@ -151,7 +152,7 @@ public class Niveau implements DoorsPosition, Loopable
 		
 		int ni = room.getLocation().y;
 		int nj = room.getLocation().x;
-		Core.out.println("Original room x: " + nj + " y: " + ni);
+		Core.out.println("Original room j: " + nj + " i: " + ni);
 		
 		
 		switch(wall)
@@ -176,14 +177,14 @@ public class Niveau implements DoorsPosition, Loopable
 		if (canCreateRoom(ni, nj))
 		{
 			Room newRoom = new Room();
-			newRoom.setLocation(ni, nj);
+			newRoom.setLocation(nj, ni);
 			
 			room.setDoorOpened(wall, OPENED);
 			newRoom.setDoorOpened(invertWall(wall), OPENED);
 			
 			rooms.add(newRoom);
 			map[ni][nj] = newRoom;
-			Core.out.println("--> Created room x: " + nj + " y: " + ni);
+			Core.out.println("--------------> Created room j: " + nj + " i: " + ni);
 		}
 	}
 	
@@ -243,7 +244,7 @@ public class Niveau implements DoorsPosition, Loopable
 		}
 	}
 	
-	protected static int invertWall(int wall)
+	static int invertWall(int wall)
 	{
 		if (wall == TOP)
 		{
