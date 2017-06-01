@@ -30,7 +30,7 @@ public final class Core
 	 * 
 	 * @see com.bonhomi.main.Core#DIFFICULTE
 	 */
-	public static final int MAX_VIE = 3; //vie du joueur
+	public static final int MAX_VIE = 5; //vie du joueur
 	/**
 	 * Multiplicateur des vies et attaques ennemies.
 	 * C'est un ajustement par rapport aux statistiques du joueur:
@@ -47,7 +47,7 @@ public final class Core
 		PAUSE
 	}
 	
-	public static PrintStream out = DebOut.debugOutputPS;
+	public static PrintStream out = DebugOutput.debugOutputPS;
 	
 	/**
 	 * Prints output following severity settings.
