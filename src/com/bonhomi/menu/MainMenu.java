@@ -6,16 +6,19 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+
 import com.bonhomi.main.Core;
 import com.bonhomi.main.Core.GameState;
 import com.bonhomi.main.InputManager;
 import com.bonhomi.main.Loopable;
+import com.bonhomi.main.SpriteLoader;
 import com.bonhomi.main.SpriteOccurence;
 
 public class MainMenu implements Loopable {
 
 	private boolean initialized = false;
 	private SpriteOccurence mainImg;
+	private SpriteLoader backgroundAnim;
 	
 	public MainMenu() 
 	{
@@ -25,20 +28,13 @@ public class MainMenu implements Loopable {
 	@Override
 	public void init() 
 	{
-		try {
-			mainImg = new SpriteOccurence(
-					(BufferedImage) ImageIO.read(new File("src/Sprites/UI/bonhomiTitle/Title.png")),
-					200, 100,
-					0d,
-					0.5d, 0.5d);
-		} catch (IOException e) {
-			mainImg = new SpriteOccurence(
-					null,
-					200, 100,
-					0d,
-					0.5d, 0.5d);
-			e.printStackTrace();
-		}
+		backgroundAnim = new SpriteLoader("UI/bonhomiTitle/", "background", true, true, 500);
+		backgroundAnim.start();
+		mainImg = new SpriteOccurence(
+				backgroundAnim.getActualImage(),
+				0, 0,
+				0d,
+				1, 1);
 		
 		initialized = true;
 	}
@@ -52,6 +48,7 @@ public class MainMenu implements Loopable {
 			Core.gameState = GameState.GAME;
 		}
 		
+		mainImg.setImage(backgroundAnim.getActualImage());
 	}
 
 	@Override

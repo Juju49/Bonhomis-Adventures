@@ -13,7 +13,7 @@ class Fenetre extends JFrame
 	private Afficheur afficheur;
 	private InputManager inputManager;
 	
-	Fenetre()
+	public Fenetre()
 	{
 		setTitle("Bonhomi's Adventure");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
