@@ -1,5 +1,6 @@
 package com.bonhomi.game;
 
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -34,17 +35,19 @@ public class Niveau implements DoorsPosition
 	
 	public void update()
 	{
+		actualRoom = rooms.get(5);
 		if (actualRoom != null)
 		{
 			actualRoom.update();
 		}
 	}
 	
-	public void draw()
+	public void draw(Graphics2D g)
 	{
+		Core.out.println("actual room: " + actualRoom);
 		if (actualRoom != null)
 		{
-			actualRoom.draw();
+			actualRoom.draw(g);
 		}
 	}
 	
@@ -63,9 +66,10 @@ public class Niveau implements DoorsPosition
 		if (rooms.size() >= roomsCount)
 		{
 			finished = true;
+			assert rooms.size() == roomsCount;
 			return;
 		}
-		assert rooms.size() == roomsCount;
+
 		
 		Random rand = new Random();
 		

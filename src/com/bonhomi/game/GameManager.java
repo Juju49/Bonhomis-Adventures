@@ -152,14 +152,17 @@ public class GameManager implements Loopable {
 	@Override
 	public void draw(Graphics2D g) 
 	{
-		if( MainClass.getDebugLvl() > 2)
+		g.setColor(Color.white);
+		niveau1.draw(g);
+		
+		/*if( MainClass.getDebugLvl() > 2)
 		{
 			g.setColor(Color.yellow);
 			g.fill(nav_mesh);
 			g.setColor(Color.orange);
 			g.draw(nav_mesh);
 
-		}
+		}*/
 		
 		g.setColor(Color.red);
 		for(BadGuys b_g : ennemis)
@@ -170,8 +173,7 @@ public class GameManager implements Loopable {
 		g.setColor(Color.green);
 		player1.draw(g);
 		
-
-		
+			
 		g.setColor(Color.blue);
 		GUI.draw(g);
 	}
@@ -183,6 +185,8 @@ public class GameManager implements Loopable {
 	{
 		if(!initialized) 
 			throw new IllegalStateException("Class Updated before Init!");
+		
+		niveau1.update();
 		
 		player1.update();
 
