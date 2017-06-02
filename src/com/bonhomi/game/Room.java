@@ -79,8 +79,6 @@ public class Room implements DoorsPosition, Loopable
 		doorOccurences[RIGHT].setFlipX(true);
 		
 		//création des ennemis
-		entites.clear();
-		
 		int maxEnnemies = randGen.nextInt(1, (int) (Core.DIFFICULTE) +1 );
 		
 		for (int i = 0; i < maxEnnemies; i++) 

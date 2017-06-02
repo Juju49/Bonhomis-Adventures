@@ -16,6 +16,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 import com.bonhomi.main.Core;
 import com.bonhomi.main.MainClass;
@@ -285,27 +286,37 @@ class NavMesh implements Shape {
 	 */
 	private void comAire()
 	{
+		try 
+		{
 		//vidange de l'aire
 		aire.reset();
 		
-		synchronized (nav_shape) {
+		synchronized (nav_shape) 
+		{
 			//dessin de l'aire
 			for (Shape s : nav_shape)
 			{
 				if (s == null)
 					continue;
-				aire.add(new Area(s));
+				
+					aire.add(new Area(s));
 			}
 		}
 
-		synchronized (obstacle_shape) {
+		synchronized (obstacle_shape) 
+		{
 			//poinconnage des obstacle sur le nav_mesh
 			for (Shape s : obstacle_shape)
 			{
 				if (s == null)
 					continue;
-				aire.subtract(new Area(s));
+					aire.subtract(new Area(s));
+				}
 			}
+		}
+		catch (ConcurrentModificationException e) 
+		{
+				
 		}
 	}
 

@@ -7,13 +7,16 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
+import javax.swing.plaf.SliderUI;
 
 import com.bonhomi.main.Afficheur;
 import com.bonhomi.main.Core;
+import com.bonhomi.main.Core.GameState;
 import com.bonhomi.main.InputManager;
 import com.bonhomi.main.Loopable;
 import com.bonhomi.main.SpriteLoader;
@@ -42,7 +45,8 @@ public class GameManager implements Loopable {
 	static NavMesh nav_mesh;
 	
 	static private Timer damageTimer;
-
+	static ArrayList<VictoryItem> victoryList;
+	
 	
 	static GameUI GUI;
 	
@@ -57,6 +61,7 @@ public class GameManager implements Loopable {
 		damageTimer = new Timer("GestionDegats");
 		nav_mesh = new NavMesh();
 		niveau1 = new Niveau();
+		victoryList = new ArrayList<VictoryItem>();
 		
 		init();
 	}
@@ -80,16 +85,19 @@ public class GameManager implements Loopable {
 					Entity[] eList = niveau1.getActualRoom().getEntityList();
 					for (Entity e : eList)
 					{
+						if(!e.isEnnemy())
+						{
+							continue;
+						}
+							
 						/* on retire des point de vie au joueur si il touche un
 						 * ennmis et qu'il lui reste des vies
 						 */
-						if(!e.isEnnemy())
-							continue;
-							
 						if (player1.intersects(e) && e.isEnnemy() && (e.getVie() > 0))
 						{
 							player1.perdreVie();
 							SoundSystemMaster.getInstance().ouille();
+							continue;
 						}
 					}
 				}
@@ -105,7 +113,7 @@ public class GameManager implements Loopable {
 		{
 			Point mXY = InputManager.getMouseXY();
 			if( e.contains(mXY) )
-				if( e.getVie() > 0 );
+				if( e.getVie() > 0 )
 					e.perdreVie();
 		}
 	}
@@ -171,6 +179,31 @@ public class GameManager implements Loopable {
 			return;
 		}
 		
+		//boucle des gagnants
+		if(victoryList.size() >= VictoryItem.getMaxItems())
+		{
+			try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			g.drawImage(gamefinishedImg, 0, 0, null);
+			return;
+		}
+		
+		if(player1.getVie() == 0)
+		{
+			g.drawImage(gameOverImg, 0, 0, null);
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return;
+		}
+			
 		g.setColor(Color.white);
 		niveau1.draw(g);
 		
@@ -196,9 +229,18 @@ public class GameManager implements Loopable {
 		if (niveau1.isLoaded() && !initialized)
 			init();
 
-		
 		if(!initialized) 
 			throw new IllegalStateException("Class Updated before Init!");
+		
+		//boucle des gagnants et des perdants
+		if((victoryList.size() >= VictoryItem.getMaxItems()) || (player1.getVie() == 0))
+		{
+			//on quitte le jeu au clic gauche
+			if(InputManager.mouseRightCliked())
+				Core.gameState = GameState.MENU;
+			return;
+		}
+		
 		//on nettoie le nav_mesh pour les entités dynamiques
 		nav_mesh.purge();
 		

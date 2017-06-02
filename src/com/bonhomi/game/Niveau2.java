@@ -11,6 +11,12 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.bonhomi.main.Core;
 import com.bonhomi.main.Loopable;
 
+/**
+ * inutilisé pour l'instant
+ * 
+ * @author Julian
+ *
+ */
 public class Niveau2 implements DoorsPosition, Loopable
 {
 	private Room[][] map;

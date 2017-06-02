@@ -11,7 +11,7 @@ import com.bonhomi.sounds.SoundSystemMaster;
  */
 public final class Core 
 {
-	public static DebugOutput DebOut;//sortie des appels a print
+	//public static DebugOutput DebOut;//sortie des appels a print
 	
 	public static double deltaTime = 0d; //temps depuis dernier update
 	public static GameState gameState = GameState.GAME; //phase du jeu en cours
@@ -52,7 +52,7 @@ public final class Core
 		PAUSE
 	}
 	
-	public static PrintStream out = DebugOutput.debugOutputPS;
+	public static PrintStream out = System.out; //DebugOutput.debugOutputPS;
 	
 	/**
 	 * Prints output following severity settings.

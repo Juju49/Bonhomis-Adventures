@@ -3,6 +3,8 @@
  */
 package com.bonhomi.game;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 
 import com.bonhomi.main.Core;
@@ -117,6 +119,26 @@ class GameUI implements Loopable {
 		{
 			coeur.draw(g);
 		}
+		
+		//on enregistre l'ancienne fonte pour la replacer après
+		final Font recup_font = g.getFont();
+		
+		//nouvelle fonte à afficher
+		final int fontSize = 32;
+		final Font font = new Font("Arial", Font.PLAIN, fontSize);
+		g.setFont(font);
+		g.setColor(Color.green);
+
+		//dessin du texte
+		final String afficher = "Gouter: " + GameManager.victoryList.size() + 
+				" / " +  VictoryItem.getMaxItems();
+		g.drawString(afficher, 
+				(int) (Core.WIDTH - fontSize*afficher.length()), 
+				(int) (Core.HEIGHT)
+				);
+		
+		//on remet l'ancienne fonte en place
+		g.setFont(recup_font);
 
 	}
 

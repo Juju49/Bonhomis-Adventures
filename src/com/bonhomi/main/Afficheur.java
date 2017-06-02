@@ -58,11 +58,14 @@ public class Afficheur extends JPanel implements Runnable
 				{
 					mainMenu = new MainMenu();
 				} 
-				else if ((gameManager != null) || (pauseMenu != null)) 
+				else if ((gameManager != null)) 
 				{
 					gameManager.terminate();
-					pauseMenu.terminate();
 					gameManager = null;
+				}
+				if ((pauseMenu != null)) 
+				{
+					pauseMenu.terminate();
 					pauseMenu = null;
 				}
 				// Update mainMenu
@@ -105,14 +108,6 @@ public class Afficheur extends JPanel implements Runnable
 				
 			default:
 				throw new Error("invalid gameState");
-		}
-		//affichage de debug:
-		if((MainClass.getDebugLvl() >= 3) && (Core.DebOut != null)) 
-		{
-			/*Core.DebOut.inputLabel(0, ("FPS   :  " + String.valueOf(1000/frames)));
-			Core.DebOut.inputLabel(1, ("Keys  : [" + InputManager.getKeySetAsString() + "]"));
-			Core.DebOut.inputLabel(2, ("Mouse : [" + InputManager.getMouseSetAsString() + "]"));
-			Core.DebOut.update();*/
 		}
 	}
 	

@@ -1,6 +1,7 @@
 package com.bonhomi.game;
 
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -63,7 +64,7 @@ public class Niveau implements DoorsPosition, Loopable
 	@Override
 	public void draw(Graphics2D g)
 	{
-		Core.out.println("actual room: " + actualRoom);
+		//Core.out.println("actual room: " + actualRoom);
 		if (actualRoom != null)
 		{
 			actualRoom.draw(g);
@@ -85,7 +86,44 @@ public class Niveau implements DoorsPosition, Loopable
 	
 	
 	
-	
+	private void placerItemsVictoire()
+	{
+		int nbItems = 0;
+		
+		final Point roomPos = new Point();
+		ArrayList<Point> nombresExclus = new ArrayList<Point>();
+		Room room;
+		
+		//on exclu la salle de départ
+		nombresExclus.add(actualRoom.getLocation());
+		
+		//on veut placer 4 items
+		while(nbItems < 4)
+		{
+			roomPos.setLocation(rand.nextInt(Core.MAP_HEIGHT-1), rand.nextInt(Core.MAP_WIDTH-1));
+			
+			for(Point i: nombresExclus)
+			{
+				if( i.x == roomPos.x && i.y == roomPos.y)
+					continue;
+			}
+			
+			room = map[roomPos.y][roomPos.x];
+			if(room.getNDoorsOpened() == 1)
+			{
+				final Entity e = new VictoryItem(nbItems);
+				room.newEntity(e);
+				
+				nbItems++;
+				
+				Core.out.println("item de victoire placé: n°" + nbItems);
+				Core.out.println("                 room x: " + roomPos.y + "y: " + roomPos.x);
+			}
+			
+			nombresExclus.add(room.getLocation());
+			
+		}
+	}
 	
 	public Room getActualRoom() {
 		return actualRoom;
@@ -107,6 +145,8 @@ public class Niveau implements DoorsPosition, Loopable
 		}
 		
 		actualRoom = map[rand.nextInt(Core.MAP_HEIGHT-1)][rand.nextInt(Core.MAP_WIDTH-1)];
+		
+		placerItemsVictoire();
 	}
 	
 	private void creerSalle()

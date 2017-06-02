@@ -35,12 +35,15 @@ public final class DebugOutput extends JPanel
 	private static Thread thread;
 	private static boolean running = false;
 	private static PrintStream stdout = System.out;
+	
+	//inutilisé pour l'instant
 
 	public static boolean isRunning()
 	{
 		return running;
 	}
 	
+
  	public DebugOutput(int num_isolated_displays) 
 	{
 		//debugPipeIn = new PipedInputStream();
@@ -156,5 +159,6 @@ public final class DebugOutput extends JPanel
 				e.printStackTrace(stdout);
 			};
 	}
+
 }
 

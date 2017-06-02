@@ -1,5 +1,6 @@
 package com.bonhomi.main;
 
+import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -42,6 +43,8 @@ class Fenetre extends JFrame
 		afficheur.addMouseListener(inputManager);
 		
 		setContentPane(afficheur);
+		
+		
 		
 		pack();
 		ImageIcon img = new ImageIcon("src/Sprites/Icons/winIcon_0.png");
