@@ -135,6 +135,7 @@ public class Niveau implements DoorsPosition, Loopable
 		map[i][j].setPlayerAtDoor(GameManager.player1, appearFrom);
 	}
 	
+	
 	private void creerNiveau()
 	{
 		finished = false;

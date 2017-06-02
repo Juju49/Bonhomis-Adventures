@@ -4,6 +4,13 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import com.bonhomi.main.Loopable;
 
+/**
+ * Menu factice. servira plus tard...
+ * 
+ * 
+ * @author Julian
+ *
+ */
 public class PauseMenu implements Loopable {
 	
 	private boolean initialized = false;

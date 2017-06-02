@@ -15,6 +15,7 @@ import com.bonhomi.main.InputManager;
 import com.bonhomi.main.Loopable;
 import com.bonhomi.main.SpriteLoader;
 import com.bonhomi.main.SpriteOccurence;
+import com.bonhomi.sounds.SoundSystemMaster;
 
 /**
  * @author Julian
@@ -101,6 +102,13 @@ public class BadGuys extends Entity {
 		anims.put("gauche", new SpriteLoader("Characters/badguys/", "gauche", 
 				true, true, 100));
 		anims.put("mort", new SpriteLoader("Characters/badguys/", "mort"));
+	}
+	
+	@Override
+	protected void perdreVie() {
+		super.perdreVie();
+		/*if(life > 0)
+			SoundSystemMaster.getInstance().ennemyHit();*/
 	}
 	
 }

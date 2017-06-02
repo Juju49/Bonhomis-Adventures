@@ -67,6 +67,14 @@ public class SoundSystemMaster  {
 		loaded_sounds.get(son[nombre_aleat]).play();
 	}
 	
+	public void ennemyHit()
+	{
+		//sons a utiliser
+		int son = addSound("sfx/ennemyHit_0");
+		
+		loaded_sounds.get(son).play();
+	}
+	
 	public void terminate() {
 
 	}
