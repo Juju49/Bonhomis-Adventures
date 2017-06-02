@@ -2,7 +2,6 @@ package com.bonhomi.menu;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-
 import com.bonhomi.main.Loopable;
 
 /**

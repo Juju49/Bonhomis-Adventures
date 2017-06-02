@@ -1,86 +1,63 @@
 room n°0
-Original room j: 1 i: 2
---------------> Created room j: 0 i: 2
-Original room j: 0 i: 2
-Original room j: 0 i: 2
+Original room j: 0 i: 0
 --------------> Created room j: 0 i: 1
+Original room j: 0 i: 1
+--------------> Created room j: 0 i: 2
+Original room j: 0 i: 1
+Original room j: 0 i: 2
+Original room j: 0 i: 1
+Original room j: 0 i: 2
+Original room j: 0 i: 2
+--------------> Created room j: 1 i: 2
+Original room j: 1 i: 2
+Original room j: 0 i: 1
 Original room j: 0 i: 1
 --------------> Created room j: 1 i: 1
 Original room j: 0 i: 1
---------------> Created room j: 0 i: 0
-Original room j: 1 i: 1
---------------> Created room j: 1 i: 2
+Original room j: 1 i: 2
+Original room j: 0 i: 2
 Original room j: 0 i: 2
 Original room j: 1 i: 2
-Original room j: 0 i: 0
+Original room j: 1 i: 2
+Original room j: 1 i: 2
+Original room j: 1 i: 2
+Original room j: 0 i: 1
+Original room j: 0 i: 2
+Original room j: 0 i: 2
+Original room j: 1 i: 2
+Original room j: 1 i: 1
 --------------> Created room j: 1 i: 0
 Original room j: 0 i: 1
-Original room j: 0 i: 0
-Original room j: 1 i: 2
-Original room j: 0 i: 1
-Original room j: 1 i: 1
-Original room j: 1 i: 0
-Original room j: 0 i: 2
-Original room j: 1 i: 1
-Original room j: 0 i: 1
-Original room j: 1 i: 0
-Original room j: 1 i: 2
-Original room j: 0 i: 2
-Original room j: 0 i: 2
-Original room j: 0 i: 2
-Original room j: 1 i: 1
-Original room j: 0 i: 1
-Original room j: 1 i: 2
-Original room j: 1 i: 1
 Original room j: 0 i: 1
 Original room j: 1 i: 1
 --------------> Created room j: 2 i: 1
-Original room j: 1 i: 0
-Original room j: 1 i: 2
+Original room j: 1 i: 1
 Original room j: 0 i: 1
-Original room j: 2 i: 1
---------------> Created room j: 2 i: 2
-Original room j: 0 i: 1
-Original room j: 1 i: 2
-Original room j: 1 i: 1
-Original room j: 1 i: 1
-Original room j: 1 i: 1
-Original room j: 0 i: 0
 Original room j: 2 i: 1
 --------------> Created room j: 3 i: 1
-Original room j: 0 i: 0
-Original room j: 1 i: 2
-Original room j: 0 i: 1
-Original room j: 3 i: 1
---------------> Created room j: 3 i: 2
-Original room j: 0 i: 0
-Original room j: 2 i: 2
-Original room j: 3 i: 1
-Original room j: 0 i: 0
-Original room j: 3 i: 1
-Original room j: 0 i: 0
-Original room j: 1 i: 0
-Original room j: 0 i: 0
+Original room j: 0 i: 2
 Original room j: 3 i: 1
 --------------> Created room j: 3 i: 0
-Original room j: 0 i: 1
-Original room j: 2 i: 2
-Original room j: 3 i: 2
-Original room j: 3 i: 2
-Original room j: 0 i: 0
-Original room j: 0 i: 2
-Original room j: 3 i: 2
-Original room j: 0 i: 2
-Original room j: 3 i: 0
+Original room j: 3 i: 1
+Original room j: 1 i: 0
 --------------> Created room j: 2 i: 0
+Original room j: 1 i: 0
+Original room j: 1 i: 0
+--------------> Created room j: 0 i: 0
+Original room j: 3 i: 1
+Original room j: 3 i: 1
+Original room j: 1 i: 2
+--------------> Created room j: 2 i: 2
+Original room j: 1 i: 1
+Original room j: 3 i: 1
+Original room j: 3 i: 1
+--------------> Created room j: 3 i: 2
 ---------------- FINISHED ----------------
 item de victoire placé: n°1
-                 room x: 2y: 1
+                 room x: 0y: 0
 item de victoire placé: n°2
-                 room x: 2y: 1
+                 room x: 0y: 0
 item de victoire placé: n°3
-                 room x: 2y: 1
+                 room x: 0y: 0
 item de victoire placé: n°4
-                 room x: 0y: 1
-Bonhomi est mort!
-Bonhomi est mort!
+                 room x: 0y: 0
