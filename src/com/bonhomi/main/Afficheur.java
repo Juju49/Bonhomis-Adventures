@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+
 import javax.swing.JPanel;
+
 import com.bonhomi.game.GameManager;
 import com.bonhomi.menu.MainMenu;
 import com.bonhomi.menu.PauseMenu;

@@ -1,13 +1,10 @@
 package com.bonhomi.main;
 
-import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-
-import com.bonhomi.sounds.SoundSystemMaster;
 
 class Fenetre extends JFrame
 {

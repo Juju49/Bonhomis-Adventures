@@ -5,16 +5,11 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.ImageIcon;
-import javax.swing.plaf.SliderUI;
-
-import com.bonhomi.main.Afficheur;
 import com.bonhomi.main.Core;
 import com.bonhomi.main.Core.GameState;
 import com.bonhomi.main.InputManager;
