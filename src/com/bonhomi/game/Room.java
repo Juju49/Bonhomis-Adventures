@@ -62,21 +62,21 @@ public class Room implements DoorsPosition, Loopable
 		final int heightPortes = (int) doorSprite.getActualImage().getHeight();
 		
 		//top door
-		doorOccurences[TOP].newTransforms(Core.WIDTH/2 - widthPortes/2, OFFSET_MURS - heightPortes,
+		doorOccurences[DoorSide.TOP.ordinal()].newTransforms(Core.WIDTH/2 - widthPortes/2, OFFSET_MURS - heightPortes,
 				0, 1.0, 1.0);
 		//left door
-		doorOccurences[LEFT].newTransforms(OFFSET_MURS - heightPortes, Core.HEIGHT/2 - widthPortes/2,
+		doorOccurences[DoorSide.LEFT.ordinal()].newTransforms(OFFSET_MURS - heightPortes, Core.HEIGHT/2 - widthPortes/2,
 				Math.PI/2, 1.0, 1.0);
 		
 		//bottom door
-		doorOccurences[BOT].newTransforms(Core.WIDTH/2 - widthPortes/2, Core.HEIGHT - OFFSET_MURS,
+		doorOccurences[DoorSide.BOT.ordinal()].newTransforms(Core.WIDTH/2 - widthPortes/2, Core.HEIGHT - OFFSET_MURS,
 				0, 1.0, 1.0);
-		doorOccurences[BOT].setFlipY(true);
+		doorOccurences[DoorSide.BOT.ordinal()].setFlipY(true);
 		
 		//right door
-		doorOccurences[RIGHT].newTransforms(Core.WIDTH - OFFSET_MURS, Core.HEIGHT/2 - widthPortes/2,
+		doorOccurences[DoorSide.RIGHT.ordinal()].newTransforms(Core.WIDTH - OFFSET_MURS, Core.HEIGHT/2 - widthPortes/2,
 				Math.PI/2, 1.0, 1.0);
-		doorOccurences[RIGHT].setFlipX(true);
+		doorOccurences[DoorSide.RIGHT.ordinal()].setFlipX(true);
 		
 		//création des ennemis
 		int maxEnnemies = randGen.nextInt(1, (int) (Core.DIFFICULTE) +1 );
@@ -130,6 +130,9 @@ public class Room implements DoorsPosition, Loopable
 		{
 			GameManager.PlayerAttack(e);
 			
+			//on ajoute les ponts ou autres navigations supplémentaires
+			GameManager.nav_mesh.addNav(e.NavComp());
+			
 			//poursuite du joueur par des ennemis
 			if(e.isEnnemy())
 			{
@@ -152,15 +155,15 @@ public class Room implements DoorsPosition, Loopable
 		
 	}
 
-	public void setPlayerAtDoor(Player player, int door)
+	public void setPlayerAtDoor(Player player, DoorSide door)
 	{
-		Point locJoueur = doorOccurences[door].getLocation();
+		Point locJoueur = doorOccurences[door.ordinal()].getLocation();
 		Rectangle rectJoueur = player.getBounds();
 		
 		switch(door)
 		{
 			case TOP:
-				locJoueur.y += doorOccurences[door].height;
+				locJoueur.y += doorOccurences[door.ordinal()].height;
 				break;
 				
 			case BOT:
@@ -168,7 +171,7 @@ public class Room implements DoorsPosition, Loopable
 				break;
 				
 			case LEFT:
-				locJoueur.x += doorOccurences[door].width;
+				locJoueur.x += doorOccurences[door.ordinal()].width;
 				break;
 				
 			case RIGHT:
@@ -176,7 +179,7 @@ public class Room implements DoorsPosition, Loopable
 				break;
 				
 			default:
-				break;
+				throw new IllegalArgumentException("setPlayerAtDoor: Invalid door index!");
 		}
 		
 		player.setLocation(locJoueur);
@@ -192,7 +195,7 @@ public class Room implements DoorsPosition, Loopable
 				int new_x = location.x;
 				int new_y = location.y;
 				
-				switch(i)
+				switch(DoorSide.values()[i])
 				{
 					case TOP:
 						new_y--;
@@ -214,7 +217,8 @@ public class Room implements DoorsPosition, Loopable
 						break;
 				}
 				
-				GameManager.niveau1.changementSalle(new_x, new_y, Niveau.invertWall(i));
+				GameManager.niveau1.setActualRoom(new_x, new_y, 
+						Niveau.invertWall(DoorSide.values()[i]));
 			}
 		}
 	}
@@ -223,7 +227,7 @@ public class Room implements DoorsPosition, Loopable
 	@Override
 	public void draw(Graphics2D g) 
 	{
-
+		g.setColor(Color.white);
 		salleOccurence.draw(g);
 		
 		g.setColor(Color.white);
@@ -236,7 +240,6 @@ public class Room implements DoorsPosition, Loopable
 		g.setColor(Color.red);
 		for (Entity e : entites)
 		{
-			
 			e.draw(g);
 		}
 	}
@@ -245,15 +248,15 @@ public class Room implements DoorsPosition, Loopable
 	
 	synchronized void setDoorsOpened(boolean top, boolean bot, boolean left, boolean right)
 	{
-		doors[TOP] = top;
-		doors[BOT] = bot;
-		doors[LEFT] = left;
-		doors[RIGHT] = right;
+		doors[DoorSide.TOP.ordinal()] = top;
+		doors[DoorSide.BOT.ordinal()] = bot;
+		doors[DoorSide.LEFT.ordinal()] = left;
+		doors[DoorSide.RIGHT.ordinal()] = right;
 	}
 	
-	boolean isDoorOpened(int door)
+	boolean isDoorOpened(DoorSide door)
 	{
-		return doors[door];
+		return doors[door.ordinal()];
 	}
 	
 	public boolean[] getDoorsOpened()
@@ -261,9 +264,9 @@ public class Room implements DoorsPosition, Loopable
 		return doors;
 	}
 	
-	void setDoorOpened(int door, boolean value)
+	synchronized void setDoorOpened(DoorSide door, boolean value)
 	{
-		doors[door] = value;
+		doors[door.ordinal()] = value;
 	}
 	
 	Point getLocation()

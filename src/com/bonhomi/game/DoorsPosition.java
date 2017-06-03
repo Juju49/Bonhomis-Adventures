@@ -2,13 +2,16 @@ package com.bonhomi.game;
 
 interface DoorsPosition 
 {
-	final int TOP = 0;
-	final int BOT = 2;
-	final int LEFT = 1;
-	final int RIGHT = 3;
+	static enum DoorSide
+	{
+		TOP,
+		LEFT,
+		BOT,
+		RIGHT;
+	}
 	
-	final boolean OPENED = true;
-	final boolean CLOSED = false;
+	static final boolean OPENED = true;
+	static final boolean CLOSED = false;
 	
-	final int OFFSET_MURS = 100;
+	static final int OFFSET_MURS = 100;
 }

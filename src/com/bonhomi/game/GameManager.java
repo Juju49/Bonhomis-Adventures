@@ -32,14 +32,16 @@ public class GameManager implements Loopable {
 	static private boolean initialized = false;
 	static final Rectangle window = new Rectangle(0, 0, Core.WIDTH, Core.HEIGHT);
 	
-	static private final BufferedImage loadingImg = (new SpriteLoader("UI/game/", "Loading")
-	).getActualImage();
-	static private final BufferedImage gamefinishedImg = (new SpriteLoader("UI/game/", "gameFinished")
-			).getActualImage();
-	static private final BufferedImage gameOverImg = (new SpriteLoader("UI/game/", "gameOver")
-			).getActualImage();
+	//écrans fixes
+	static private final BufferedImage loadingImg = (new SpriteLoader("UI/game/", "Loading"))
+			.getActualImage();
+	static private final BufferedImage gamefinishedImg = (new SpriteLoader("UI/game/", "gameFinished"))
+			.getActualImage();
+	static private final BufferedImage gameOverImg = (new SpriteLoader("UI/game/", "gameOver"))
+			.getActualImage();
 	
 
+	
 	static Player player1;
 	static BadGuys[] ennemis;
 	static NavMesh nav_mesh;
@@ -51,6 +53,7 @@ public class GameManager implements Loopable {
 	static GameUI GUI;
 	
 	static protected Niveau niveau1;
+	static protected GameMode gameMode = GameMode.RUN;
 	
 	private float time;
 	
@@ -150,7 +153,7 @@ public class GameManager implements Loopable {
 	@Override
 	public void draw(Graphics2D g) 
 	{
-		//on dessine tout!!
+		//on dessine l'écran de chargement lorsque le niveau n'est pas chargé
 		if (!niveau1.isLoaded())
 		{
 			//dessin de l'ecran de chargement
@@ -226,7 +229,7 @@ public class GameManager implements Loopable {
 	{
 		if (!niveau1.isLoaded())
 			return;
-		if (niveau1.isLoaded() && !initialized)
+		else if (!initialized)
 			init();
 
 		if(!initialized) 
@@ -235,6 +238,9 @@ public class GameManager implements Loopable {
 		//boucle des gagnants et des perdants
 		if((victoryList.size() >= VictoryItem.getMaxItems()) || (player1.getVie() == 0))
 		{
+			//on arrete la gestion des degats
+			damageTimer.cancel();
+			
 			//on quitte le jeu au clic gauche
 			if(InputManager.mouseRightCliked())
 				Core.gameState = GameState.MENU;
@@ -247,7 +253,7 @@ public class GameManager implements Loopable {
 		//le niveau régénère le nav_mesh par la methode statique
 		niveau1.update();
 		
-		
+		//mise 
 		player1.update();
 		nav_mesh.addObs(player1.ObsComp());
 		

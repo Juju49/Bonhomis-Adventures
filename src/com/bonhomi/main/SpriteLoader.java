@@ -71,33 +71,26 @@ public class SpriteLoader
 			String spritePath, 
 			String name)
 	{
-		this.spritePath = "src/Sprites/" + spritePath; //tous les sprites sont dans src/sprites/
-		this.name = name;
-		this.animated = false;
-		this.repeat = false;
-		this.delay = 1;
-		this.actualIndex = 0;
-		
-		images = new ArrayList<BufferedImage>();
-		
-		load();
+		this(spritePath, name, false, false, 1);
 	}
 	
 	
 	protected void load()
 	{
-		if (animated == true)
+		BufferedImage img = null;
+		
+		if (animated)
 		{
 			ArrayList<String> files = 
 					searchAnimation(name, this.findFiles(spritePath));
 			
 			for (int i = 0; i < files.size(); i++)
 			{
-				BufferedImage img = null;
+				
 				try 
 				{
 					img = ImageIO.read(new File(files.get(i)));
-				} 
+				}
 				catch (IOException e) 
 				{
 					e.printStackTrace();
@@ -105,18 +98,17 @@ public class SpriteLoader
 				images.add(img);
 			}
 		}
-		else
+		else //cas sans animation
 		{
-			BufferedImage image = null;
 			try 
 			{
-				image = ImageIO.read(new File(spritePath + name + ".png"));
+				img = ImageIO.read(new File(spritePath + name + ".png"));
 			} 
 			catch (IOException e) 
 			{
 				e.printStackTrace();
 			}
-			images.add(image);
+			images.add(img);
 		}
 	}
 	

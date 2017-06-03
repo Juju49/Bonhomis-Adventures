@@ -132,14 +132,16 @@ class GameUI implements Loopable {
 		//dessin du texte
 		final String afficher = "Gouter: " + GameManager.victoryList.size() + 
 				" / " +  VictoryItem.getMaxItems();
+		
+		//on obtient la largeur du texte afin de le positionner dans la fenetre
+		final int textWidth = g.getFontMetrics().stringWidth(afficher);
+		
 		g.drawString(afficher, 
-				(int) (Core.WIDTH - fontSize*afficher.length()), 
-				(int) (Core.HEIGHT)
-				);
+				(Core.WIDTH - (textWidth + 5)), 
+				(Core.HEIGHT));
 		
 		//on remet l'ancienne fonte en place
 		g.setFont(recup_font);
-
 	}
 
 	/* (non-Javadoc)

@@ -1,63 +1,80 @@
 room n°0
-Original room j: 0 i: 0
---------------> Created room j: 0 i: 1
-Original room j: 0 i: 1
---------------> Created room j: 0 i: 2
-Original room j: 0 i: 1
-Original room j: 0 i: 2
-Original room j: 0 i: 1
-Original room j: 0 i: 2
-Original room j: 0 i: 2
---------------> Created room j: 1 i: 2
-Original room j: 1 i: 2
-Original room j: 0 i: 1
-Original room j: 0 i: 1
---------------> Created room j: 1 i: 1
-Original room j: 0 i: 1
-Original room j: 1 i: 2
-Original room j: 0 i: 2
-Original room j: 0 i: 2
-Original room j: 1 i: 2
-Original room j: 1 i: 2
-Original room j: 1 i: 2
-Original room j: 1 i: 2
-Original room j: 0 i: 1
-Original room j: 0 i: 2
-Original room j: 0 i: 2
-Original room j: 1 i: 2
-Original room j: 1 i: 1
---------------> Created room j: 1 i: 0
-Original room j: 0 i: 1
-Original room j: 0 i: 1
-Original room j: 1 i: 1
---------------> Created room j: 2 i: 1
-Original room j: 1 i: 1
-Original room j: 0 i: 1
-Original room j: 2 i: 1
---------------> Created room j: 3 i: 1
-Original room j: 0 i: 2
-Original room j: 3 i: 1
---------------> Created room j: 3 i: 0
-Original room j: 3 i: 1
-Original room j: 1 i: 0
---------------> Created room j: 2 i: 0
-Original room j: 1 i: 0
-Original room j: 1 i: 0
---------------> Created room j: 0 i: 0
-Original room j: 3 i: 1
-Original room j: 3 i: 1
-Original room j: 1 i: 2
---------------> Created room j: 2 i: 2
-Original room j: 1 i: 1
-Original room j: 3 i: 1
-Original room j: 3 i: 1
---------------> Created room j: 3 i: 2
----------------- FINISHED ----------------
+Original room y: 3  x: 1
+Original room y: 3  x: 1
+--------------> Created room x: 2  y: 1
+Original room y: 3  x: 1
+--------------> Created room x: 3  y: 2
+Original room y: 3  x: 1
+Original room y: 3  x: 1
+--------------> Created room x: 3  y: 0
+Original room y: 3  x: 0
+Original room y: 2  x: 1
+--------------> Created room x: 2  y: 0
+Original room y: 3  x: 1
+Original room y: 3  x: 2
+Original room y: 3  x: 2
+Original room y: 3  x: 0
+Original room y: 2  x: 1
+--------------> Created room x: 1  y: 1
+Original room y: 3  x: 0
+Original room y: 3  x: 0
+Original room y: 3  x: 1
+Original room y: 2  x: 1
+--------------> Created room x: 2  y: 2
+Original room y: 3  x: 1
+Original room y: 3  x: 2
+Original room y: 1  x: 1
+--------------> Created room x: 1  y: 2
+Original room y: 2  x: 2
+Original room y: 2  x: 0
+Original room y: 3  x: 2
+Original room y: 3  x: 1
+Original room y: 2  x: 2
+Original room y: 3  x: 2
+Original room y: 2  x: 0
+--------------> Created room x: 1  y: 0
+Original room y: 2  x: 2
+Original room y: 2  x: 2
+Original room y: 1  x: 1
+Original room y: 1  x: 0
+Original room y: 2  x: 2
+Original room y: 1  x: 0
+--------------> Created room x: 0  y: 0
+Original room y: 1  x: 2
+Original room y: 3  x: 0
+Original room y: 1  x: 0
+Original room y: 2  x: 0
+Original room y: 0  x: 0
+Original room y: 3  x: 0
+Original room y: 3  x: 2
+Original room y: 1  x: 0
+Original room y: 1  x: 2
+--------------> Created room x: 0  y: 2
+Original room y: 2  x: 2
+Original room y: 0  x: 2
+Original room y: 2  x: 0
+Original room y: 1  x: 1
+Original room y: 0  x: 0
+Original room y: 1  x: 1
+Original room y: 2  x: 2
+Original room y: 0  x: 0
+Original room y: 0  x: 2
+Original room y: 1  x: 0
+Original room y: 3  x: 2
+Original room y: 1  x: 1
+--------------> Created room x: 0  y: 1
+map ------------ FINISHED ----------------
+
+items victoire: rooms w 1door: 6
 item de victoire placé: n°1
-                 room x: 0y: 0
+                 room x: 1  y: 1
 item de victoire placé: n°2
-                 room x: 0y: 0
+                 room x: 3  y: 2
 item de victoire placé: n°3
-                 room x: 0y: 0
+                 room x: 3  y: 0
 item de victoire placé: n°4
-                 room x: 0y: 0
+                 room x: 2  y: 2
+item de victoire - FINISHED ---------------- 
+
+----------------< MAP LOADED >----------------
+
