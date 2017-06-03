@@ -83,6 +83,7 @@ public class VictoryItem extends Entity {
 		if(GameManager.player1.intersects(entity_sprite) && (life > 0))
 		{
 			GameManager.victoryList.add(this);
+			GameManager.player1.extraVie();
 			life = 0;
 		}
 	}

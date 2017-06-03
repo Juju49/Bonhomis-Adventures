@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
+import com.bonhomi.main.Core;
 import com.bonhomi.main.Loopable;
  
 
@@ -35,12 +36,19 @@ public class SoundSystemMaster  {
 	private int addSound(String name)
 	{
 		
-		URI uri = new File("src/Sounds/" + name + ".wav").toURI();
-		URL url = null;
-		try {
-			url = uri.toURL();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
+		
+		URL url = getClass().getResource("/sfx/" + name + ".wav" );
+		if( url == null )
+		{
+			Core.out.println("url is null");
+			try {
+				final URI uri = new File("src/Sounds/" + name + ".wav").toURI();
+				url = uri.toURL();
+			} 
+			catch (MalformedURLException e) 
+			{
+				e.printStackTrace();
+			}
 		}
 		
 		AudioClip ac = Applet.newAudioClip(url);

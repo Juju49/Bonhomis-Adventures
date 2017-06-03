@@ -155,37 +155,53 @@ public class Room implements DoorsPosition, Loopable
 		
 	}
 
-	public void setPlayerAtDoor(Player player, DoorSide door)
+	/**
+	 * place le joueur devant une porte de la salle
+	 * 
+	 * @param entityToMove
+	 * @param door
+	 */
+	public void setEntityAtDoor(Entity entityToMove, DoorSide door)
 	{
-		Point locJoueur = doorOccurences[door.ordinal()].getLocation();
-		Rectangle rectJoueur = player.getBounds();
+		if(door == null || entityToMove == null)
+			return;
 		
+		
+		Rectangle rectEntity = entityToMove.getBounds();
+		Point locEntity = new Point(rectEntity.getLocation());
+	
+		locEntity = doorOccurences[door.ordinal()].getLocation();
+
 		switch(door)
 		{
 			case TOP:
-				locJoueur.y += doorOccurences[door.ordinal()].height;
+				locEntity.y += doorOccurences[door.ordinal()].height;
 				break;
 				
 			case BOT:
-				locJoueur.y -= rectJoueur.height;
+				locEntity.y -= rectEntity.height;
 				break;
 				
 			case LEFT:
-				locJoueur.x += doorOccurences[door.ordinal()].width;
+				locEntity.x += doorOccurences[door.ordinal()].width;
 				break;
 				
 			case RIGHT:
-				locJoueur.x -= rectJoueur.width;
+				locEntity.x -= rectEntity.width;
 				break;
 				
 			default:
 				throw new IllegalArgumentException("setPlayerAtDoor: Invalid door index!");
 		}
-		
-		player.setLocation(locJoueur);
+		entityToMove.setLocation(locEntity);
 	}
 	
-	
+	/**
+	 * Détection du passage d'une porte par une entité se trouvant en <code>posJour</code>.
+	 * 
+	 * 
+	 * @param posJoueur
+	 */
 	public void playerPassDoor(Point posJoueur)
 	{
 		for (int i=0; i < doors.length; i++)
@@ -245,7 +261,14 @@ public class Room implements DoorsPosition, Loopable
 	}
 	
 	
-	
+	/**
+	 * Définition des portes ouvertes de la salle d'après leurs positions.
+	 * 
+	 * @param top
+	 * @param bot
+	 * @param left
+	 * @param right
+	 */
 	synchronized void setDoorsOpened(boolean top, boolean bot, boolean left, boolean right)
 	{
 		doors[DoorSide.TOP.ordinal()] = top;
@@ -259,16 +282,33 @@ public class Room implements DoorsPosition, Loopable
 		return doors[door.ordinal()];
 	}
 	
+	/**
+	 * retourne la liste des portes ouvertesde : TOP à RIGHT
+	 * 
+	 * 
+	 * @return liste booléenne
+	 */
 	public boolean[] getDoorsOpened()
 	{
 		return doors;
 	}
 	
+	/**
+	 * Ouverture / fermeture d'une porte
+	 * 
+	 * @param door
+	 * @param value
+	 */
 	synchronized void setDoorOpened(DoorSide door, boolean value)
 	{
 		doors[door.ordinal()] = value;
 	}
 	
+	/**
+	 * Obtention de la localisation x y de la salle dans la map
+	 * 
+	 * @return
+	 */
 	Point getLocation()
 	{
 		return location;

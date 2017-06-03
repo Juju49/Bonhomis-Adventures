@@ -253,7 +253,7 @@ public class GameManager implements Loopable {
 		//le niveau régénère le nav_mesh par la methode statique
 		niveau1.update();
 		
-		//mise 
+		//mise à journ du joueur
 		player1.update();
 		nav_mesh.addObs(player1.ObsComp());
 		

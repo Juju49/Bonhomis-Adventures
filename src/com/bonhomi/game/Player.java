@@ -42,6 +42,12 @@ public final class Player extends Entity {
 
 	}
 	
+	@Override
+	protected void extraVie() {
+		super.extraVie();
+		life = Core.MAX_VIE;
+	}
+	
 
 	/* (non-Javadoc)
 	 * @see com.bonhomi.main.Loopable#init()
