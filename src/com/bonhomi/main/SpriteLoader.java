@@ -103,7 +103,6 @@ public class SpriteLoader
 			
 			for (String fileName : files)
 			{
-				
 				try 
 				{
 					img = ImageIO.read(getClass().getResourceAsStream(fileName));

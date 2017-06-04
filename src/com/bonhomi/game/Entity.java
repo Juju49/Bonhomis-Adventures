@@ -221,11 +221,11 @@ abstract class Entity extends Rectangle implements Loopable {
 		//on charge le sprite utilises pour le joueur par défaut
 		anims.clear();
 		
-		anims.put(null, new SpriteLoader("Icons/", "winIcon_0"));
+		anims.put(null, new SpriteLoader("", "empty"));
 		
 		//on charge un gestionnaire d'affichage pour les sprites
 		entity_sprite = new SpriteOccurence(anims.get(null).getActualImage(), x, y, 0, scale, scale);
-		this.setBounds(this.entity_sprite); //colecte des dimensions et coordonnees
+		setBounds(entity_sprite); //colecte des dimensions et coordonnees
 		
 		//recalcul du rectangle au sol
 		comGroundCollide();

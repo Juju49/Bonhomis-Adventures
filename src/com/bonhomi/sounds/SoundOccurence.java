@@ -5,6 +5,8 @@ package com.bonhomi.sounds;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import com.bonhomi.main.MainClass;
+
 /**
  * @author BORDECIEL
  *
@@ -15,6 +17,9 @@ public class SoundOccurence {
 	
 	public SoundOccurence(String... strings)
 	{
+		if(!MainClass.getHasSound())
+			return;
+		
 		//sons a utiliser
 		son = new int[strings.length];
 		
@@ -27,6 +32,9 @@ public class SoundOccurence {
 	 * @param args
 	 */
 	public void Play(boolean looped) {
+		if(!MainClass.getHasSound())
+			return;
+		
 		//nombre possibles 0 et nbr sons
 		int nombre_aleat = ThreadLocalRandom.current().nextInt(son.length);
 		//jouer le son
@@ -36,7 +44,11 @@ public class SoundOccurence {
 			SoundSystemMaster.loaded_sounds.get(son[nombre_aleat]).play();
 	}
 	
-	public void Stop() {
+	public void Stop()
+	{
+		if(!MainClass.getHasSound())
+			return;
+		
 		for (int i : son)
 			SoundSystemMaster.loaded_sounds.get(i).stop();
 	}

@@ -28,13 +28,12 @@ class Fenetre extends JFrame
 			}
 		});
 	    
-	    getContentPane().setLayout(null);
-	    
 	    inputManager = new InputManager();
 	    addKeyListener(inputManager);
 		
 		afficheur = new Afficheur();
 		afficheur.start();
+		afficheur.setLayout(null);
 		afficheur.setIgnoreRepaint(true);
 		afficheur.setFocusable(true);
 		afficheur.addMouseMotionListener(inputManager);
@@ -45,7 +44,7 @@ class Fenetre extends JFrame
 		
 		
 		pack();
-		ImageIcon img = new ImageIcon("src/Sprites/Icons/winIcon_0.png");
+		ImageIcon img = new ImageIcon(getClass().getResource("/Sprites/Icons/winIcon_0.png"));
 		setIconImage(img.getImage());
 		setLocationRelativeTo(null);
 		setResizable(false);

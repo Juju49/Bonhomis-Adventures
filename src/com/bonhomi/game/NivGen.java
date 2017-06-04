@@ -206,8 +206,8 @@ class NivGen implements Runnable, DoorsPosition
 						
 						nbItems++;
 						
-						Core.out.println("item de victoire placé: n°" + nbItems);
-						Core.out.println("                 room x: " + x + "  y: " + y);
+						Core.out.println("item de victoire placé: n°" + nbItems+ "\n" 
+								+ "                 room x: " + x + "  y: " + y);
 					}
 				}
 			}
@@ -220,8 +220,6 @@ class NivGen implements Runnable, DoorsPosition
 				/* On prend une salle au pif de celles intéressantes dans la
 				 * limite ou il reste assez de salles pour placer les items restants.
 				 */
-				Core.out.println("item de victoire k/salles: "+ k + "/" + oneDoorRoomCoords.size());
-				
 				if(rand.nextBoolean() 
 						&& ((oneDoorRoomCoords.size() - k) > (VictoryItem.getMaxItems() - nbItems)))
 					continue;
@@ -235,9 +233,9 @@ class NivGen implements Runnable, DoorsPosition
 				
 				nbItems++;
 				
-				Core.out.println("item de victoire placé: n°" + nbItems);
-				Core.out.println("                 room x: " + 
-						room.getLocation().x + "  y: " + room.getLocation().y);
+				Core.out.println("item de victoire placé: n°" + nbItems + "\n" 
+						+ "                 room x: "
+						+ room.getLocation().x + "  y: " + room.getLocation().y);
 			}
 		}
 		

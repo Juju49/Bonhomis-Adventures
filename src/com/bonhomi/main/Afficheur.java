@@ -48,7 +48,7 @@ public class Afficheur extends JPanel implements Runnable
 
 	/**
 	 * Updates game according to states.
-	 * Fired at each frame, he updates his children too.
+	 * Fired at each frame, it updates children too.
 	 */
 	public void update()
 	{
@@ -137,6 +137,7 @@ public class Afficheur extends JPanel implements Runnable
 	}
 	
 	// Permet de "dessiner" sur le JPanel
+	@Override
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
@@ -145,10 +146,11 @@ public class Afficheur extends JPanel implements Runnable
 		if(MainClass.getDebugLvl() >= 3) 
 		{
 			g.setColor(Color.blue);
-			g.drawString("FPS  : " + String.valueOf(1000/frames), 4, 10);
 			g.drawString(("Keys : [" + InputManager.getKeySetAsString() + "]"), 4, 20);
 			g.drawString(("Mouse : [" + InputManager.getMouseSetAsString() + "]"), 4, 30);
 		}
+		if( MainClass.getDisplayFps())
+			g.drawString("FPS  : " + String.valueOf(1000/frames), 4, 10);
 	}
 
 	// Boucle de jeu
