@@ -12,6 +12,8 @@ import java.awt.image.BufferedImage;
 
 public class SpriteOccurence extends Rectangle
 {
+	private static final long serialVersionUID = 4097364124390311395L;
+
 	protected BufferedImage image = null;
 	
 	//transformations matricielles

@@ -2,8 +2,6 @@ package com.bonhomi.main;
 
 import java.io.PrintStream;
 
-import com.bonhomi.sounds.SoundSystemMaster;
-
 /**
  * Cette classe possede des fonctions
  * et variables statiques utilisables

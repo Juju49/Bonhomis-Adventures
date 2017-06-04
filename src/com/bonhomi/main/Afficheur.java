@@ -15,6 +15,8 @@ import com.bonhomi.menu.PauseMenu;
  */
 public class Afficheur extends JPanel implements Runnable 
 {
+	private static final long serialVersionUID = 11109134671002595L;
+	
 	private Graphics2D graphics;
 	private boolean running = false;
 	private Thread thread;

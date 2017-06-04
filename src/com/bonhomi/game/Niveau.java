@@ -1,11 +1,6 @@
 package com.bonhomi.game;
 
 import java.awt.Graphics2D;
-import java.awt.Point;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.bonhomi.main.Core;
 import com.bonhomi.main.Loopable;
 

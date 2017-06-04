@@ -3,16 +3,12 @@
  */
 package com.bonhomi.game;
 
-import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
 import com.bonhomi.main.Core;
 import com.bonhomi.main.InputManager;
-import com.bonhomi.main.Loopable;
 import com.bonhomi.main.SpriteLoader;
-import com.bonhomi.main.SpriteOccurence;
 
 /**
  * @author Julian
@@ -21,8 +17,6 @@ import com.bonhomi.main.SpriteOccurence;
 public final class Player extends Entity {
 	private static final long serialVersionUID = 1L;
 
-	private boolean initialized = false;
-	
 	Player(int x, int y, double scale)
 	{
 		super(x, y, scale);

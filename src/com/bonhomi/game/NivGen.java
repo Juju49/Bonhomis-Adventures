@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-import com.bonhomi.game.DoorsPosition.DoorSide;
 import com.bonhomi.main.Core;
 
 /**
@@ -47,7 +46,6 @@ class NivGen implements Runnable, DoorsPosition
 	private void setMap() {
 		Niveau.map = genMap;
 		
-		boolean[] b;
 		for(Room r : rooms)
 		{
 			//on fait apparaitre le joueur dans une salle contenant au moins 2 portes

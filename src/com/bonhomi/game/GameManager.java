@@ -5,22 +5,17 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.ImageIcon;
-import javax.swing.plaf.SliderUI;
-
-import com.bonhomi.main.Afficheur;
 import com.bonhomi.main.Core;
 import com.bonhomi.main.Core.GameState;
 import com.bonhomi.main.InputManager;
 import com.bonhomi.main.Loopable;
 import com.bonhomi.main.SpriteLoader;
-import com.bonhomi.sounds.SoundSystemMaster;
+import com.bonhomi.sounds.SoundOccurence;
 
 
 /**
@@ -43,7 +38,6 @@ public class GameManager implements Loopable {
 
 	
 	static Player player1;
-	static BadGuys[] ennemis;
 	static NavMesh nav_mesh;
 	
 	static private Timer damageTimer;
@@ -75,6 +69,7 @@ public class GameManager implements Loopable {
 	 */
 	private void playerDamage()
 	{
+		SoundOccurence ouille = new SoundOccurence("sfx/ouille_0","sfx/ouille_1");
 		//gestion des degats avec un chronometre qui inflige toutes les 0.3s
 		damageTimer.scheduleAtFixedRate(
 			new TimerTask()
@@ -88,19 +83,13 @@ public class GameManager implements Loopable {
 					Entity[] eList = niveau1.getActualRoom().getEntityList();
 					for (Entity e : eList)
 					{
-						if(!e.isEnnemy())
-						{
-							continue;
-						}
-							
 						/* on retire des point de vie au joueur si il touche un
 						 * ennmis et qu'il lui reste des vies
 						 */
 						if (player1.intersects(e) && e.isEnnemy() && (e.getVie() > 0))
 						{
 							player1.perdreVie();
-							SoundSystemMaster.getInstance().ouille();
-							continue;
+							ouille.Play(false);
 						}
 					}
 				}
@@ -175,7 +164,9 @@ public class GameManager implements Loopable {
 				time += Math.PI/75;
 			
 			//dessin du texte
-			g.drawString("Chargement", (int) (Core.WIDTH/2 - fontSize*3.11), Core.HEIGHT/2);
+			g.drawString("Chargement",
+					(int) (Core.WIDTH/2 - g.getFontMetrics().stringWidth("Chargement")/2),
+					Core.HEIGHT/2);
 			
 			g.setFont(recup_font);
 			

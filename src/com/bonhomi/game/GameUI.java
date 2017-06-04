@@ -151,21 +151,6 @@ class GameUI implements Loopable {
 	public void terminate() {
 		face_display = null;
 		
-		for(SpriteOccurence s : sante_display)
-		{
-			s = null;
-		}
-		
-		for(SpriteLoader s : sante_sprites)
-		{
-			s = null;
-		}
-		
-		for(SpriteLoader s : face_sprites)
-		{
-			s = null;
-		}
-		
 		initialized = false;
 	}
 

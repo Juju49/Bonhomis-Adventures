@@ -18,7 +18,6 @@ import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
-import com.bonhomi.main.Core;
 import com.bonhomi.main.MainClass;
 
 class NavMesh implements Shape {
