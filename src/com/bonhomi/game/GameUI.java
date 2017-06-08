@@ -29,6 +29,8 @@ class GameUI implements Loopable {
 	private SpriteOccurence[] sante_display = new SpriteOccurence[Core.MAX_VIE];
 	private SpriteOccurence face_display;
 	
+	private MiniMap minimap;
+	
 	/* (non-Javadoc)
 	 * @see com.bonhomi.main.Loopable#init()
 	 */
@@ -41,6 +43,7 @@ class GameUI implements Loopable {
 				true, true, 90);//dernier coeur clignotant
 		face_sprites[0] = new SpriteLoader("UI/game/", "faceOk_0");//visage souriant
 		
+		minimap = new MiniMap();
 		
 		//on dispose les coeurs sur l'ecran
 		int coord_x_coeurs = 830; int coord_y_coeurs = 20;
@@ -64,6 +67,9 @@ class GameUI implements Loopable {
 		//on demarre les animations
 		for(SpriteLoader sprites : sante_sprites) sprites.start();
 		for(SpriteLoader sprites : face_sprites)  sprites.start();
+		
+		//on initialise la minimap
+		minimap.init();
 		
 		initialized = true;
 	}
@@ -105,6 +111,8 @@ class GameUI implements Loopable {
 			else 
 				sante_display[i].setImage(sante_sprites[0].getActualImage());
 		}
+		
+		minimap.update();
 	}
 
 	/* (non-Javadoc)
@@ -114,6 +122,7 @@ class GameUI implements Loopable {
 	public void draw(Graphics2D g) {
 		//on dessine les occurences
 		face_display.draw(g);
+		minimap.draw(g);
 		
 		for(SpriteOccurence coeur : sante_display)
 		{
@@ -150,6 +159,9 @@ class GameUI implements Loopable {
 	@Override
 	public void terminate() {
 		face_display = null;
+		
+		minimap.terminate();
+		minimap = null;
 		
 		initialized = false;
 	}
