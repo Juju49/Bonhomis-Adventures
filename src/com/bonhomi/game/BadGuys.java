@@ -8,6 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.bonhomi.main.Core;
 import com.bonhomi.main.SpriteLoader;
+import com.bonhomi.sounds.SoundOccurence;
 
 /**
  * @author Julian
@@ -15,7 +16,7 @@ import com.bonhomi.main.SpriteLoader;
  */
 public class BadGuys extends Entity {
 	private static final long serialVersionUID = 1L;
-	
+	private SoundOccurence ouille;
 	/**
 	 * le centre du npc va se deplacer jusqu'a ce point de l'ecran si il le peut
 	 */
@@ -37,6 +38,7 @@ public class BadGuys extends Entity {
 		 * fonction de la difficulte. Entre 1 et 1+DIFFICULTE
 		 */
 		this.speed = ThreadLocalRandom.current().nextInt(1, 1 + (int) Core.DIFFICULTE);
+		ouille = new SoundOccurence("sfx/ennemyHit_0");
 	}
 
 	public boolean isEnnemy()
@@ -99,8 +101,8 @@ public class BadGuys extends Entity {
 	@Override
 	protected void perdreVie() {
 		super.perdreVie();
-		/*if(life > 0)
-			SoundSystemMaster.getInstance().ennemyHit();*/
+		if(life > 0)
+			ouille.Play(false);
 	}
 	
 }

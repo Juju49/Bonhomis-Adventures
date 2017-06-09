@@ -40,7 +40,7 @@ public final class Core
 	 * avec difficulte de 2.0 , les ennemis sont x2 plus forts que le joueur
 	 * en terme de degats et de vie.
 	 */
-	public static final double DIFFICULTE = 1.5; //
+	public static final double DIFFICULTE = 2.7;//1.5; // plus grand que 1
 	public static final int DELAIS_INVULNERABILITE = 600; //en millisecondes
 	
 	public enum GameState
